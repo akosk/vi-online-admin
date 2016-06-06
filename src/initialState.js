@@ -1,6 +1,6 @@
 const initialState = {
-  auth: {
-  }
+  auth: {},
+  users: [],
 };
 
 export default initialState;

@@ -1,32 +1,19 @@
 import initialState from '../initialState';
+import * as types from '../actions/actionTypes';
 
 export default function auth(state = initialState.auth, action) {
   switch (action.type) {
-    case 'OPEN_LOGIN_POPUP':
+
+    case types.LOGIN_SUCCESS:
       return {
-        ...state,
-        popupOpened: true,
+        user:action.authData.user
       };
 
-    case 'LOGIN_ERROR':
-      return {
-        ...state,
-        popupOpened: false,
-        error: action.error,
-      };
-
-    case 'LOGIN_SUCCEED':
-      return {
-        ...state,
-        user: action.user,
-        token: action.token,
-        popupOpened: false,
-      };
-
-    case 'LOGOUT_SUCCEED':
+    case types.LOGOUT_SUCCESS:
       return {
         ...initialState,
       };
+
 
     default:
       return state;

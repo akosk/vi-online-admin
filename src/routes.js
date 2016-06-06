@@ -5,6 +5,8 @@ import _ from 'lodash';
 import LayoutContainer from './components/LayoutContainer';
 import HomePage from './components/home/HomePage';
 import LoginPage from './components/auth/LoginPage';
+import RegistrationPage from './components/auth/RegistrationPage';
+import DashboardPage from './components/dashboard/DashboardPage';
 
 const createRoutes = (store)=> {
 
@@ -12,7 +14,7 @@ const createRoutes = (store)=> {
     const state = store.getState();
     const isAuthenticated = _.has(state, 'auth.user.uid');
     if (!isAuthenticated) {
-      replace('/');
+      replace('/login');
     }
   };
 
@@ -20,10 +22,11 @@ const createRoutes = (store)=> {
     <Route path="/" component={LayoutContainer}>
       <IndexRoute component={HomePage}/>
       <Route path="login" component={LoginPage} />
+      <Route path="registration" component={RegistrationPage} />
+      <Route path="dashboard" component={DashboardPage} onEnter={requireAuthentication}/>
     </Route>
   );
 };
 
 export default createRoutes;
 
-//<Route path="login" component={LoginPage} onEnter={requireAuthentication}/>

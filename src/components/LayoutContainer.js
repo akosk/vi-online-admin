@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router';
 import _ from 'lodash';
 
-import { Nav, Navbar, NavItem, Button, Label } from 'react-bootstrap';
-import * as actionCreators from '../action_creators';
+import { Nav, Navbar, NavItem, Button, Label, Breadcrumb } from 'react-bootstrap';
+import * as authActions from '../actions/authActions';
 
 export class LayoutContainer extends Component {
 
@@ -23,7 +24,7 @@ export class LayoutContainer extends Component {
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#"> Online Admin</a>
+              <Link to="/"> Online Admin</Link>
             </Navbar.Brand>
           </Navbar.Header>
           {isLoggedIn &&
@@ -37,6 +38,7 @@ export class LayoutContainer extends Component {
 
         </Navbar>
         <div style={{backgroundColor:'white',paddingTop:28}} className="container">
+
           {this.props.children}
         </div>
       </div>
@@ -49,8 +51,8 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: _.has(state, 'auth.user.uid'),
     avatarUrl: _.get(state, 'auth.user.photoURL', defaultAvatarUrl),
-    displayName: _.get(state, 'auth.user.displayName', 'Unknown'),
+    displayName: _.get(state, 'auth.user.name', 'Unknown'),
   };
 };
 
-export default connect(mapStateToProps, actionCreators)(LayoutContainer);
+export default connect(mapStateToProps, authActions)(LayoutContainer);
