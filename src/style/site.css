@@ -1,0 +1,14 @@
+
+.navbar {
+  height:60px;
+  margin-bottom: 0px;
+}
+.navbar-brand {
+  line-height: 30px;
+}
+.navbar-nav > li > a {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 60px;
+}
+
