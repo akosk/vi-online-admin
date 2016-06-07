@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Link} from 'react-router';
 import _ from 'lodash';
 
-import { Nav, Navbar, NavItem, Button, Label, Breadcrumb } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, NavItem, MenuItem, Button, Label, Breadcrumb } from 'react-bootstrap';
 import * as authActions from '../actions/authActions';
 
 export class LayoutContainer extends Component {
@@ -29,14 +29,27 @@ export class LayoutContainer extends Component {
           </Navbar.Header>
           {isLoggedIn &&
           <Nav pullRight style={{marginRight:30}}>
-            <NavItem>&nbsp;<strong>{displayName}</strong> &nbsp;<img src={avatarUrl} style={{height:'45px'}} className="img-circle"/></NavItem>
+            <NavItem>&nbsp;<strong>{displayName}</strong> &nbsp;<img src={avatarUrl} style={{height:'45px'}}
+                                                                     className="img-circle"/></NavItem>
           </Nav>
           }
+
+
           <Nav pullRight>
-            {isLoggedIn && <NavItem componentClass={Link} href="/users" to="/users" eventKey={2} >
-              <span className="glyphicon glyphicon-user"></span> FELHASZNÁLÓK</NavItem>}
-            {isLoggedIn && <NavItem eventKey={1} onClick={logout}>
-              <span className="glyphicon glyphicon-log-out"></span> KIJELENTKEZÉS</NavItem>}
+            {isLoggedIn &&
+            <NavDropdown eventKey={4} title="ADMINISZTRÁCIÓ" id="nav-dropdown">
+              <MenuItem eventKey="4.1" componentClass={Link} href="/users" to="/users"><span
+                className="glyphicon glyphicon-user"></span> FELHASZNÁLÓK</MenuItem>
+              <MenuItem eventKey="4.2" componentClass={Link} href="/turns" to="/turns"><span
+                className="glyphicon glyphicon-list-alt"></span> TURNUSOK</MenuItem>
+            </NavDropdown>
+            }
+
+            {isLoggedIn &&
+            <NavItem eventKey={1} onClick={logout}>
+              <span className="glyphicon glyphicon-log-out"></span> KIJELENTKEZÉS
+            </NavItem>
+            }
           </Nav>
 
         </Navbar>

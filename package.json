@@ -29,6 +29,7 @@
     "lodash": "^4.9.0",
     "react": "15.0.2",
     "react-bootstrap": "^0.29.4",
+    "react-bootstrap-daterangepicker": "^3.1.0",
     "react-bootstrap-table": "^2.3.3",
     "react-dom": "15.0.2",
     "react-redux": "4.4.5",

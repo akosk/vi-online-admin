@@ -39,13 +39,6 @@ export function loadUsersSuccess(users) {
 }
 
 
-export function logout() {
-  return (dispatch, getState) => {
-    dispatch({
-      type: types.LOGOUT_SUCCESS
-    });
-  };
-}
 
 export function loadUsers() {
   return function(dispatch) {

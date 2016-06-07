@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
 
-import * as actions from '../../actions/userActions';
+import {slugify} from '../../utils/textUtils';
+import * as actions from '../../actions/turnActions';
 import {validateEmail} from '../../utils/validationHelper';
-import UserForm from './UserForm';
+import TurnForm from './TurnForm';
 
-class ManageUserPage extends Component {
+class ManageTurnPage extends Component {
 
   static propTypes = {
-    user: PropTypes.object.isRequired,
-    saveUser: PropTypes.func.isRequired,
+    turn: PropTypes.object.isRequired,
+    saveTurn: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -22,34 +23,34 @@ class ManageUserPage extends Component {
     super(props, context);
 
     this.state = {
-      user: { ...props.user },
+      turn: { ...props.turn },
       errors: {},
       saving: false
     };
 
-    this.updateUserState = this.updateUserState.bind(this);
-    this.saveUser = this.saveUser.bind(this);
+    this.updateTurnState = this.updateTurnState.bind(this);
+    this.saveTurn = this.saveTurn.bind(this);
     this.cancel = this.cancel.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
 
   componentDidMount() {
-    this.props.loadUsers();
+    this.props.loadTurns();
   }
 
 
-  userFormIsValid() {
-    const user = this.state.user;
+  turnFormIsValid() {
+    const turn = this.state.turn;
     let formIsValid = true;
     let errors = {};
 
-    if (user.name.length < 5) {
+    if (turn.name.length < 5) {
       errors.name = 'A névnek legalább 5 karakternek kell lennie.';
       formIsValid = false;
     }
 
-    if (!validateEmail(user.email)) {
+    if (!validateEmail(turn.email)) {
       errors.email = 'Érvénytelen email cím.';
       formIsValid = false;
     }
@@ -60,29 +61,32 @@ class ManageUserPage extends Component {
   }
 
 
-  updateUserState(event) {
+  updateTurnState(event) {
     const field = event.target.name;
-    let user = this.state.user;
-    user[field] = event.target.checked;
+    let turn = this.state.turn;
     if (event.target.type==='checkbox') {
-      user[field] = event.target.checked;
+      turn[field] = event.target.checked;
     } else {
-      user[field] = event.target.value;
+      turn[field] = event.target.value;
     }
-    return this.setState({ user: user });
+
+    if (field==='name') {
+      turn.slug=slugify(turn.name);
+    }
+    return this.setState({ turn: turn });
   }
 
 
-  saveUser(event) {
+  saveTurn(event) {
     event.preventDefault();
 
-    if (!this.userFormIsValid()) {
+    if (!this.turnFormIsValid()) {
       return;
     }
 
     this.setState({ saving: true });
 
-    this.props.saveUser(this.state.user)
+    this.props.saveTurn(this.state.turn)
         .then(() => this.redirect())
         .catch(error => {
           toastr.error(error);
@@ -92,13 +96,13 @@ class ManageUserPage extends Component {
 
   cancel(event) {
     event.preventDefault();
-    this.context.router.push('/users');
+    this.context.router.push('/turns');
   }
 
   redirect() {
     this.setState({ saving: false });
     toastr.success('A módosítás sikeresen megtörtént');
-    this.context.router.push('/users');
+    this.context.router.push('/turns');
   }
 
   render() {
@@ -108,11 +112,11 @@ class ManageUserPage extends Component {
         Felhasználó szerkesztése
         </span>
         )}>
-        <UserForm
-          onChange={this.updateUserState}
-          onSave={this.saveUser}
+        <TurnForm
+          onChange={this.updateTurnState}
+          onSave={this.saveTurn}
           onCancel={this.cancel}
-          user={this.state.user}
+          turn={this.state.turn}
           errors={this.state.errors}
           saving={this.state.saving}
         />
@@ -123,17 +127,17 @@ class ManageUserPage extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  const userId = ownProps.params.id;
-  let user = { id: '', name: '', email: '', password: '' };
+  const turnId = ownProps.params.id;
+  let turn = { id: '', name: '', email: '', password: '' };
 
-  if (userId && state.users.length > 0) {
-    user = _.find(state.users, { id: userId });
+  if (turnId && state.turns.length > 0) {
+    turn = _.find(state.turns, { id: turnId });
   }
 
   return {
-    user
+    turn
   };
 }
 
 
-export default connect(mapStateToProps, actions)(ManageUserPage);
+export default connect(mapStateToProps, actions)(ManageTurnPage);

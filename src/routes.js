@@ -10,6 +10,9 @@ import DashboardPage from './components/dashboard/DashboardPage';
 import UsersPage from './components/users/UsersPage';
 import UsersListPage from './components/users/UsersListPage';
 import ManageUserPage from './components/users/ManageUserPage';
+import TurnsPage from './components/turns/TurnsPage';
+import TurnsListPage from './components/turns/TurnsListPage';
+import ManageTurnPage from './components/turns/ManageTurnPage';
 
 const createRoutes = (store)=> {
 
@@ -30,6 +33,10 @@ const createRoutes = (store)=> {
       <Route path="users" component={UsersPage} onEnter={requireAuthentication}>
         <IndexRoute component={UsersListPage}/>
         <Route path=":id" component={ManageUserPage} />
+      </Route>
+      <Route path="turns" component={TurnsPage} onEnter={requireAuthentication}>
+        <IndexRoute component={TurnsListPage}/>
+        <Route path=":id" component={ManageTurnPage} />
       </Route>
     </Route>
   );
