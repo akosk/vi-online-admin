@@ -1,30 +1,30 @@
 import React from 'react';
 import TextInput from '../common/TextInput';
+import Checkbox from '../common/Checkbox';
 
-const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
+const UserForm = ({user, onSave, onChange, onCancel, saving, errors}) => {
   return (
     <form>
       <TextInput
         name="name"
         label="Név"
-        value={registration.name}
+        value={user.name}
         onChange={onChange}
         error={errors.name}/>
 
       <TextInput
         name="email"
         label="Email"
-        value={registration.email}
+        value={user.email}
         onChange={onChange}
         error={errors.email}/>
 
-      <TextInput
-        name="password"
-        type="password"
-        label="Jelszó"
-        value={registration.password}
+      <Checkbox
+        name="blocked"
+        label="Tiltva"
+        checked={user.blocked}
         onChange={onChange}
-        error={errors.password}/>
+        error={errors.blocked}/>
 
 
 
@@ -34,16 +34,23 @@ const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
         value={saving ? 'Mentés...' : 'Mentés'}
         className="btn btn-primary"
         onClick={onSave}/>
+      <input
+        type="submit"
+        disabled={saving}
+        value='Mégsem'
+        className="btn"
+        onClick={onCancel}/>
     </form>
   );
 };
 
-RegistrationForm.propTypes = {
-  registration: React.PropTypes.object.isRequired,
+UserForm.propTypes = {
+  user: React.PropTypes.object.isRequired,
   onSave: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func.isRequired,
   onChange: React.PropTypes.func.isRequired,
   saving: React.PropTypes.bool,
   errors: React.PropTypes.object
 };
 
-export default RegistrationForm;
+export default UserForm;

@@ -1,18 +1,25 @@
 import React, { Component, PropTypes } from 'react';
-import { Jumbotron, Button } from 'react-bootstrap'
-import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
+import * as actions from '../../actions/userActions';
 
 class UsersPage extends Component {
 
+  static propTypes = {
+    children: React.PropTypes.element.isRequired,
+  };
+
+  componentDidMount() {
+    this.props.loadUsers();
+  }
 
   render() {
     return (
       <div>
-Users...
+        {this.props.children}
       </div>
     );
   }
 }
 
-export default UsersPage;
+
+export default connect(null, actions)(UsersPage);

@@ -36,16 +36,19 @@ class UserApi {
           return;
         }
 
-        const emailAlreadyExist=_.find(users, (o)=> o.email==user.email)!==undefined;
-        if (emailAlreadyExist) {
-          console.log('Reject..');
-          reject(`A <strong>${user.email}</strong> email címen már korábban regisztrált valaki.`);
-          return;
+        if (user.id) {
+          const existingUserIndex = users.findIndex(a => a.id == user.id);
+          users.splice(existingUserIndex, 1, user);
+        } else {
+          const emailAlreadyExist = _.find(users, (o)=> o.email == user.email) !== undefined;
+          if (emailAlreadyExist) {
+            console.log('Reject..');
+            reject(`A <strong>${user.email}</strong> email címen már korábban regisztrált valaki.`);
+            return;
+          }
+          user.id = generateId(user);
+          users.push(user);
         }
-
-        user.id = generateId(user);
-        users.push(user);
-
         resolve(Object.assign({}, user));
       }, delay);
     });

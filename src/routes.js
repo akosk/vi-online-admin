@@ -8,6 +8,8 @@ import LoginPage from './components/auth/LoginPage';
 import RegistrationPage from './components/auth/RegistrationPage';
 import DashboardPage from './components/dashboard/DashboardPage';
 import UsersPage from './components/users/UsersPage';
+import UsersListPage from './components/users/UsersListPage';
+import ManageUserPage from './components/users/ManageUserPage';
 
 const createRoutes = (store)=> {
 
@@ -22,10 +24,13 @@ const createRoutes = (store)=> {
   return (
     <Route path="/" component={LayoutContainer}>
       <IndexRoute component={HomePage}/>
-      <Route path="login" component={LoginPage} />
-      <Route path="registration" component={RegistrationPage} />
+      <Route path="login" component={LoginPage}/>
+      <Route path="registration" component={RegistrationPage}/>
       <Route path="dashboard" component={DashboardPage} onEnter={requireAuthentication}/>
-      <Route path="users" component={UsersPage} onEnter={requireAuthentication}/>
+      <Route path="users" component={UsersPage} onEnter={requireAuthentication}>
+        <IndexRoute component={UsersListPage}/>
+        <Route path=":id" component={ManageUserPage} />
+      </Route>
     </Route>
   );
 };

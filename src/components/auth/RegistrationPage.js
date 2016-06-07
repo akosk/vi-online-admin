@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 import {HelpBlock, Form, Panel, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import toastr from 'toastr';
 
+import {validateEmail} from '../../utils/validationHelper';
 import RegistrationForm from './RegistrationForm';
 import * as actions from '../../actions/userActions';
 
@@ -110,9 +111,6 @@ class RegistrationPage extends Component {
   }
 }
 
-function validateEmail(email) {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-}
+
 
 export default connect(null, actions)(RegistrationPage);
