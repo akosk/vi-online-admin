@@ -7,6 +7,7 @@ import HomePage from './components/home/HomePage';
 import LoginPage from './components/auth/LoginPage';
 import RegistrationPage from './components/auth/RegistrationPage';
 import DashboardPage from './components/dashboard/DashboardPage';
+import UsersPage from './components/users/UsersPage';
 
 const createRoutes = (store)=> {
 
@@ -24,6 +25,7 @@ const createRoutes = (store)=> {
       <Route path="login" component={LoginPage} />
       <Route path="registration" component={RegistrationPage} />
       <Route path="dashboard" component={DashboardPage} onEnter={requireAuthentication}/>
+      <Route path="users" component={UsersPage} onEnter={requireAuthentication}/>
     </Route>
   );
 };

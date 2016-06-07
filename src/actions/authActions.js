@@ -1,3 +1,4 @@
+import {browserHistory} from 'react-router';
 import * as types from './actionTypes';
 import authApi from '../api/mockAuthApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
@@ -5,7 +6,7 @@ import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function login(loginData) {
 
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return authApi.login(loginData).then(authData => {
       dispatch(loginSuccess(authData));
@@ -23,6 +24,10 @@ export function loginSuccess(authData) {
 
 
 export function logout() {
-  return { type: types.LOGOUT_SUCCESS, users };
+  return (dispatch, getState) => {
+    browserHistory.push('/');
+    dispatch({
+      type: 'LOGOUT_SUCCESS'
+    });
+  };
 }
-

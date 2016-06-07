@@ -11,7 +11,7 @@ export default function auth(state = initialState.auth, action) {
 
     case types.LOGOUT_SUCCESS:
       return {
-        ...initialState,
+        ...initialState.auth,
       };
 
 

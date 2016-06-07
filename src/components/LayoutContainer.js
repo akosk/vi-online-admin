@@ -33,6 +33,7 @@ export class LayoutContainer extends Component {
           </Nav>
           }
           <Nav pullRight>
+            {isLoggedIn && <NavItem eventKey={2}><Link to="/users"> <span className="glyphicon glyphicon-user"></span> FELHASZNÁLÓK</Link></NavItem>}
             {isLoggedIn && <NavItem eventKey={1} onClick={logout}><span className="glyphicon glyphicon-log-out"></span> KIJELENTKEZÉS</NavItem>}
           </Nav>
 
