@@ -6,7 +6,7 @@ const turns = [
     active: true,
     start_at: Date.now(),
     competency_test: {
-      id: 1,
+      id: '1',
       start_at: Date.now(),
       end_at: Date.now(),
     }

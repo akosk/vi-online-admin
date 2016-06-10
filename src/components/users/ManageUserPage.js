@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
+import _ from 'lodash';
 
 import * as actions from '../../actions/userActions';
 import {validateEmail} from '../../utils/validationHelper';

@@ -1,9 +1,16 @@
 import React, {PropTypes} from 'react';
 
-const SelectInput = ({name, label, onChange, defaultOption, value, error, options}) => {
+const SelectInput = ({name, label, onChange, defaultOption, value, error, helpText, options}) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name}>{label}
+        {helpText &&
+        <p className="text-muted">
+          <span className="glyphicon glyphicon-info-sign"></span>
+          <small>{helpText}</small>
+        </p>
+        }
+      </label>
       <div className="field">
         {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
         <select
@@ -17,6 +24,7 @@ const SelectInput = ({name, label, onChange, defaultOption, value, error, option
           })
           }
         </select>
+
         {error && <div className="alert alert-danger">{error}</div>}
       </div>
     </div>
@@ -29,6 +37,7 @@ SelectInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   defaultOption: PropTypes.string,
   value: PropTypes.string,
+  helpText: PropTypes.string,
   error: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object)
 };

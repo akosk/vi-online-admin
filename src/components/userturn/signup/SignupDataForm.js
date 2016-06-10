@@ -1,0 +1,249 @@
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+
+import TextInput from '../../common/TextInput';
+import SelectInput from '../../common/SelectInput';
+import DateRangePickerInput from '../../common/DateRangePickerInput';
+import * as inputHelper from '../../../utils/SelectInputHelper'
+
+class SignupDataForm extends Component {
+
+  static propTypes = {
+    signupData: React.PropTypes.object.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    saving: React.PropTypes.bool,
+    errors: React.PropTypes.object
+  };
+
+  buildForm() {
+    const {signupData,onChange, errors}=this.props;
+
+    let form = [];
+    form.push(<div key="1">
+        <SelectInput
+
+          name="vallalkozas_szekhelye"
+          label="Melyik megyében lesz a leendő vállalkozásának székhelye?"
+          value={signupData.vallalkozas_szekhelye}
+          defaultOption="Válasszon megyét..."
+          options={[]}
+          onChange={onChange} error={errors['vallalkozas_szekhelye']}
+        />
+        <SelectInput
+          name="tobbsegi_tulajdon_mas_vallalkozasban"
+          label="Más vállalkozásban többségi tulajdonnal rendelkezik-e? "
+          value={signupData.tobbsegi_tulajdon_mas_vallalkozasban}
+          defaultOption="Válasszon..."
+          helpText="Van olyan vállalkozás a családban vagy ismeretségi körben,
+    amelyben 50 %-nál nagyobb részesedése van a pályázónak.  Az 50%-os tulajdonrész nem kizáró ok."
+          options={inputHelper.yesnoOptions()}
+          onChange={onChange} error={errors['tobbsegi_tulajdon_mas_vallalkozasban']}/>
+      </div>
+    );
+
+    if (signupData.tobbsegi_tulajdon_mas_vallalkozasban === '1') {
+      form.push((
+        <div key="2" className="alert alert-danger" role="alert">
+          <span className="glyphicon glyphicon-exclamation-sign"></span>
+          Amennyiben többségi tulajdonos más vállalkozásban,
+          akkor a programban nem vehet részt.
+        </div>
+      ));
+      return form;
+    }
+    if (signupData.tobbsegi_tulajdon_mas_vallalkozasban !== '0') return form;
+
+    form.push((
+      <div key="3">
+        <TextInput
+          name="name"
+          label="Jelentkező neve"
+          disabled
+          value={signupData.name}
+          onChange={onChange}
+          error={errors.name}/>
+        <TextInput
+          name="birth_name"
+          label="Születési név"
+          value={signupData.birth_name}
+          helpText="Akkor kell kitölteni ha eltérő."
+          onChange={onChange}
+          error={errors.birth_name}/>
+        <DateRangePickerInput
+          name="birth_date"
+          onChange={onChange}
+          label="Születési idő"
+          value={signupData.birth_date}
+          singleDatePicker>
+        </DateRangePickerInput>
+      </div>
+    ));
+
+    let birthDateError = '';
+    let form18to25 = false;
+    let form25to30 = false;
+
+    if (moment("1999-03-01") <= moment(signupData.birth_date)) {
+      birthDateError = 'Sajnos ebbe a programba nem jelentkezhet, ' +
+        'mert nem töltötte be a 18. életévét.'
+    }
+    if (moment("1998-09-01") <= moment(signupData.birth_date)) {
+      birthDateError = 'Felhívjuk a figyelmét, hogy programunkban akkor vehet ' +
+        'részt, ha betölti a 18. életévét.';
+    }
+    if (moment("1991-09-01") <= moment(signupData.birth_date)) {
+      form18to25 = true;
+    } else {
+      if (moment("1986-09-01") <= moment(signupData.birth_date)) {
+        form25to30 = true;
+      } else {
+        birthDateError = 'Sajnos ebbe a programba nem jelentkezhet, mivel a program ' +
+          'kezdetére betölti a 30. életévét';
+      }
+    }
+
+    if (birthDateError) {
+      form.push((
+        <div key="2" className="alert alert-danger" role="alert">
+          <span className="glyphicon glyphicon-exclamation-sign"></span>
+          {birthDateError}
+        </div>
+      ));
+      return form;
+    }
+    if (!signupData.birth_date) return form;
+    console.log(signupData.birth_date);
+    form.push((
+      <div key="4">
+        <TextInput
+          name="birth_place"
+          label="Születés helye"
+          value={signupData.birth_place}
+          onChange={onChange}
+          error={errors.birth_place}/>
+        <TextInput
+          name="mothers_name"
+          label="Anyja neve"
+          value={signupData.mothers_name}
+          onChange={onChange}
+          error={errors.mothers_name}/>
+        <TextInput
+          name="permanent_address"
+          label="Állandó lakcím"
+          value={signupData.permanent_address}
+          onChange={onChange}
+          error={errors.permanent_address}/>
+        <TextInput
+          name="temporary_address"
+          label="Tartókodási hely"
+          value={signupData.temporary_address}
+          onChange={onChange}
+          helptText="Ha eltér az állandó lakcímtől."
+          error={errors.temporary_address}/>
+        <TextInput
+          name="postal_address"
+          label="Postázási cím"
+          value={signupData.postal_address}
+          onChange={onChange}
+          error={errors.postal_address}/>
+        <TextInput
+          name="phone"
+          label="Elérhetőségek (telefonszám)"
+          value={signupData.phone}
+          onChange={onChange}
+          error={errors.phone}/>
+        <TextInput
+          name="email"
+          label="Elérhetőségek (e-mail cím)"
+          value={signupData.email}
+          disabled
+          onChange={onChange}
+          error={errors.email}/>
+        <SelectInput
+          name="legmagasabb_iskolai_vegzettseg"
+          label="Legmagasabb iskolai végzettsége"
+          value={signupData.legmagasabb_iskolai_vegzettseg}
+          defaultOption="Válasszon..."
+          options={inputHelper.eduLevelOptions()}
+          onChange={onChange} error={errors['legmagasabb_iskolai_vegzettseg']}
+        />
+      </div>
+    ));
+
+    if (signupData.legmagasabb_iskolai_vegzettseg === inputHelper.FOISKOLA
+      || signupData.legmagasabb_iskolai_vegzettseg === inputHelper.EGYETEM) {
+      let txt = signupData.legmagasabb_iskolai_vegzettseg === inputHelper.EGYETEM
+        ? 'Egyetemi diploma megszerzésének éve'
+        : 'Főiskolai oklevél megszerzésének éve';
+      form.push(<div key="4.5">
+
+          <TextInput
+            name="legmagasabb_iskolai_vegzettseg_eve"
+            label={txt}
+            value={signupData.legmagasabb_iskolai_vegzettseg_eve}
+            onChange={onChange}
+            error={errors.legmagasabb_iskolai_vegzettseg_eve}/>
+        </div>
+      );
+
+    }
+
+    if (form18to25) {
+      form.push(<div key="5">
+          <SelectInput
+            name="allaskeresokent_regisztralt"
+            label="Álláskeresőként regisztrált-e?"
+            value={signupData.allaskeresokent_regisztralt}
+            defaultOption="Válasszon..."
+            helpText="A programba elsősorban a tartós (min. 6 hónapja) álláskeresők vonhatók be
+             vagy a min. 1 hónapja álláskeresőként regisztrált fiatal.
+            Felhívjuk figyelmét, hogy amennyiben még nem
+            regisztrált álláskereső, keresse fel a lakcíme szerint illetékes Kormányhivatal Foglalkoztatási Osztályát
+            (volt Munkaügyi Központ kirendeltsége)."
+            options={inputHelper.yesnoOptions()}
+            onChange={onChange} error={errors['allaskeresokent_regisztralt']}/>
+        </div>
+      );
+
+      if (signupData.allaskeresokent_regisztralt === '1') {
+        form.push(<div key="5.1">
+
+            <DateRangePickerInput
+              name="allaskeresokent_regisztralt_datuma"
+              onChange={onChange}
+              label="Álláskeresőként regisztrált dátuma"
+              value={signupData.allaskeresokent_regisztralt_datuma}
+              singleDatePicker>
+            </DateRangePickerInput>
+          </div>
+        );
+      }
+
+      if (form25to30) {
+
+      }
+
+    }
+
+    return form;
+  }
+
+  render() {
+    const {saving,onSave}=this.props;
+    return (
+      <form >
+        {this.buildForm()}
+        <input
+          type="submit"
+          disabled={saving}
+          value={saving ? 'Mentés...' : 'Mentés'}
+          className="btn btn-primary"
+          onClick={onSave}/>
+      </form>
+    );
+  }
+}
+
+
+export default SignupDataForm;

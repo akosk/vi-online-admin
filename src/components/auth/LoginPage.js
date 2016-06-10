@@ -5,7 +5,7 @@ import { Panel } from 'react-bootstrap';
 import toastr from 'toastr';
 
 import LoginForm from './LoginForm';
-import * as actions from '../../actions/authActions';
+import * as actions from '../../actions';
 
 class LoginPage extends Component {
 
@@ -33,8 +33,6 @@ class LoginPage extends Component {
     this.onLogin = this.onLogin.bind(this);
   }
 
-
-
   updateLoginState(event) {
     const field = event.target.name;
     let login = this.state.login;
@@ -42,10 +40,8 @@ class LoginPage extends Component {
     return this.setState({ login: login });
   }
 
-
   onLogin(event) {
     event.preventDefault();
-
 
     this.setState({ saving: true });
 
@@ -54,8 +50,8 @@ class LoginPage extends Component {
         .catch(error => {
           toastr.error(error);
           this.setState({
-            email:'',
-            password:'',
+            email: '',
+            password: '',
             saving: false
           });
         });
@@ -64,9 +60,21 @@ class LoginPage extends Component {
   redirect() {
     this.setState({ saving: false });
     toastr.success('Sikeres bejelentkezés');
-    this.context.router.push('/dashboard');
+    if (this.props.user.role === 'admin') {
+      this.context.router.push('/admin');
+    }
+    if (this.props.user.role === 'user') {
+      this.props.getCurrentTurn(this.props.user.id)
+          .then(()=> {
+              if (this.props.currentTurn) {
+                this.context.router.push(`/user/${this.props.currentTurn.slug}`);
+              } else {
+                this.context.router.push('/user/select-turn');
+              }
+            }
+          )
+    }
   }
-
 
 
   render() {
@@ -88,6 +96,11 @@ class LoginPage extends Component {
   }
 }
 
-export default connect(null, actions)(LoginPage);
+const mapStateToProps = (state)=>({
+  user: state.auth.user,
+  currentTurn: state.userturns.currentTurn
+});
+
+export default connect(mapStateToProps, actions)(LoginPage);
 
 

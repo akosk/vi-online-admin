@@ -33,6 +33,7 @@ export default function users(state = initialState.users, action) {
         selected: action.isSelected,
       }));
 
+
     default:
       return state;
   }

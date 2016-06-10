@@ -17,6 +17,17 @@ const generateId = (turn) => {
 };
 
 class TurnApi {
+
+  static getTurnById(turn_id) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const turn=_.find(turns, (item)=>item.id===turn_id);
+        resolve(turn);
+      }, delay);
+    });
+
+  }
+
   static getAllTurns() {
     console.log('TurnAPI', 'getAllTurns');
     return new Promise((resolve, reject) => {

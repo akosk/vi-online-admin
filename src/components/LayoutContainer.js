@@ -17,7 +17,7 @@ export class LayoutContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn, logout, displayName, avatarUrl,  } = this.props;
+    const { isLoggedIn, isAdmin, logout, displayName, avatarUrl,  } = this.props;
 
     return (
       <div  >
@@ -36,11 +36,11 @@ export class LayoutContainer extends Component {
 
 
           <Nav pullRight>
-            {isLoggedIn &&
+            {isAdmin &&
             <NavDropdown eventKey={4} title="ADMINISZTRÁCIÓ" id="nav-dropdown">
-              <MenuItem eventKey="4.1" componentClass={Link} href="/users" to="/users"><span
+              <MenuItem eventKey="4.1" componentClass={Link} href="/admin/users" to="/admin/users"><span
                 className="glyphicon glyphicon-user"></span> FELHASZNÁLÓK</MenuItem>
-              <MenuItem eventKey="4.2" componentClass={Link} href="/turns" to="/turns"><span
+              <MenuItem eventKey="4.2" componentClass={Link} href="/admin/turns" to="/admin/turns"><span
                 className="glyphicon glyphicon-list-alt"></span> TURNUSOK</MenuItem>
             </NavDropdown>
             }
@@ -65,7 +65,8 @@ export class LayoutContainer extends Component {
 const mapStateToProps = (state) => {
   const defaultAvatarUrl = 'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yL/r/HsTZSDw4avx.gif';
   return {
-    isLoggedIn: _.has(state, 'auth.user.uid'),
+    isLoggedIn: _.has(state, 'auth.user.id'),
+    isAdmin: _.get(state, 'auth.user.role') === 'admin',
     avatarUrl: _.get(state, 'auth.user.photoURL', defaultAvatarUrl),
     displayName: _.get(state, 'auth.user.name', 'Unknown'),
   };

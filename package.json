@@ -27,6 +27,7 @@
     "firebase": "^3.0.2",
     "jquery": "2.2.3",
     "lodash": "^4.9.0",
+    "moment": "^2.13.0",
     "react": "15.0.2",
     "react-bootstrap": "^0.29.4",
     "react-bootstrap-daterangepicker": "^3.1.0",

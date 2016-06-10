@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
+import _ from 'lodash';
 
 import {slugify} from '../../utils/textUtils';
-import * as actions from '../../actions/turnActions';
+import * as actions from '../../actions/';
 import {validateEmail} from '../../utils/validationHelper';
 import TurnForm from './TurnForm';
 
@@ -37,6 +38,13 @@ class ManageTurnPage extends Component {
 
   componentDidMount() {
     this.props.loadTurns();
+    this.props.loadTests();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.turn.id != nextProps.turn.id) {
+      this.setState({turn: Object.assign({}, nextProps.turn)});
+    }
   }
 
 
@@ -50,8 +58,8 @@ class ManageTurnPage extends Component {
       formIsValid = false;
     }
 
-    if (!validateEmail(turn.email)) {
-      errors.email = 'Érvénytelen email cím.';
+    if (turn.slug.length < 5) {
+      errors.slug = 'A slug-nak legalább 5 karakternek kell lennie.';
       formIsValid = false;
     }
 
@@ -61,17 +69,29 @@ class ManageTurnPage extends Component {
   }
 
 
-  updateTurnState(event) {
-    const field = event.target.name;
+  updateTurnState(event, component) {
     let turn = this.state.turn;
-    if (event.target.type==='checkbox') {
-      turn[field] = event.target.checked;
+    if (component) {
+      // If component is daterangepicker
+      const field =event.target.attributes.name.value;
+      if (component.singleDatePicker) {
+        turn[field] = component.startDate.valueOf();
+      } else {
+        turn[field].start_at = component.startDate.valueOf();
+        turn[field].end_at = component.endDate.valueOf();
+      }
     } else {
-      turn[field] = event.target.value;
-    }
+      // If component is input
+      const field = event.target.name;
+      if (event.target.type === 'checkbox') {
+        turn[field] = event.target.checked;
+      } else {
+        turn[field] = event.target.value;
+      }
 
-    if (field==='name') {
-      turn.slug=slugify(turn.name);
+      if (field === 'name') {
+        turn.slug = slugify(turn.name);
+      }
     }
     return this.setState({ turn: turn });
   }
@@ -79,8 +99,8 @@ class ManageTurnPage extends Component {
 
   saveTurn(event) {
     event.preventDefault();
-
     if (!this.turnFormIsValid()) {
+
       return;
     }
 
@@ -109,7 +129,7 @@ class ManageTurnPage extends Component {
     return (
       <Panel className="panel-primary" header={(
         <span>
-        Felhasználó szerkesztése
+        Turnus szerkesztése
         </span>
         )}>
         <TurnForm
@@ -117,6 +137,7 @@ class ManageTurnPage extends Component {
           onSave={this.saveTurn}
           onCancel={this.cancel}
           turn={this.state.turn}
+          tests={this.props.tests}
           errors={this.state.errors}
           saving={this.state.saving}
         />
@@ -128,14 +149,21 @@ class ManageTurnPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   const turnId = ownProps.params.id;
-  let turn = { id: '', name: '', email: '', password: '' };
+  let turn = {
+    id: '',
+    name: '', slug: '', active: false,
+    start_at:Date.now(),
+    competency_test:{
+    }
+  };
 
   if (turnId && state.turns.length > 0) {
     turn = _.find(state.turns, { id: turnId });
   }
 
   return {
-    turn
+    turn:_.cloneDeep(turn),
+    tests:state.tests.map(item=>({value:item.id, text:item.name}))
   };
 }
 

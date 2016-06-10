@@ -1,8 +1,12 @@
 import React from 'react';
 import TextInput from '../common/TextInput';
 import Checkbox from '../common/Checkbox';
+import SelectInput from '../common/SelectInput';
+import DateRangePickerInput from '../common/DateRangePickerInput'
 
-const TurnForm = ({turn, onSave, onChange, onCancel, saving, errors}) => {
+import 'react-bootstrap-daterangepicker/css/daterangepicker.css';
+
+const TurnForm = ({turn, onSave, onChange, onCancel, saving, tests, errors}) => {
   return (
     <form>
       <TextInput
@@ -27,6 +31,30 @@ const TurnForm = ({turn, onSave, onChange, onCancel, saving, errors}) => {
         error={errors.active}/>
 
 
+      <DateRangePickerInput
+        name="start_at"
+        onChange={onChange}
+        label="Kezdés dátuma"
+        value={turn.start_at}
+        singleDatePicker>
+      </DateRangePickerInput>
+
+
+      <SelectInput
+        name="competency_test.id"
+        label="Kompetencia teszt"
+        value={turn.competency_test.id}
+        defaultOption="Válasszon kompetencia tesztet..."
+        options={tests}
+        onChange={onChange} error={errors['competency_test.id']}/>
+
+
+      <DateRangePickerInput
+        name="competency_test"
+        onChange={onChange}
+        label="Kompetencia teszt időablak"
+        value={turn.competency_test}>
+      </DateRangePickerInput>
 
       <input
         type="submit"
@@ -50,6 +78,7 @@ TurnForm.propTypes = {
   onCancel: React.PropTypes.func.isRequired,
   onChange: React.PropTypes.func.isRequired,
   saving: React.PropTypes.bool,
+  tests: React.PropTypes.array,
   errors: React.PropTypes.object
 };
 

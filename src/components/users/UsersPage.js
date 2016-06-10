@@ -6,6 +6,7 @@ class UsersPage extends Component {
 
   static propTypes = {
     children: React.PropTypes.element.isRequired,
+    loadUsers: React.PropTypes.func.isRequired,
   };
 
   componentDidMount() {

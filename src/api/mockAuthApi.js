@@ -11,10 +11,10 @@ class AuthApi {
         resolve({
           type: types.LOGIN_SUCCESS,
           user: {
-            uid:'123',
+            id:'123',
             name: 'Budapesti Boglárka',
             email: loginData.email,
-            role: 'admin',
+            role: 'user',
             token: '123456789ABCD'
           }
         });

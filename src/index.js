@@ -4,7 +4,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
-import Firebase from 'firebase';
+
+import moment from 'moment';
+moment.locale('hu');
 
 import createRoutes from './routes';
 import config from './config';

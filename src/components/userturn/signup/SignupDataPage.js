@@ -1,0 +1,112 @@
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Panel, Button } from 'react-bootstrap'
+import { Link } from 'react-router';
+
+import SignupDataForm from './SignupDataForm';
+import * as actions from '../../../actions';
+
+class SignupDataPage extends Component {
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      signupData: {
+        name: this.props.user.name,
+        vallalkozas_szekhelye: '',
+        tobbsegi_tulajdon_mas_vallalkozasban: '0',
+        birth_name: '',
+        birth_date: 740354400000,
+        birth_place: 'Miskolc',
+        mothers_name: '',
+        permanent_address: '',
+        temporary_address: '',
+        postal_address: '',
+        phone: '',
+        email: this.props.user.email,
+        legmagasabb_iskolai_vegzettseg: '',
+        legmagasabb_iskolai_vegzettseg_eve: '',
+        allaskeresokent_regisztralt:'',
+        allaskeresokent_regisztralt_datuma:'',
+
+      },
+      errors: {},
+      saving: false
+    };
+
+    this.updateSignupDataState = this.updateSignupDataState.bind(this);
+    this.saveSignupData = this.saveSignupData.bind(this);
+  }
+
+  updateSignupDataState(event, component) {
+
+    let signupData = this.state.signupData;
+
+    if (component) {
+      // If component is daterangepicker
+      const field = event.target.attributes.name.value;
+      if (component.singleDatePicker) {
+        signupData[field] = component.startDate.valueOf();
+      } else {
+        signupData[field].start_at = component.startDate.valueOf();
+        signupData[field].end_at = component.endDate.valueOf();
+      }
+    } else {
+
+      const field = event.target.name;
+      switch (event.target.type) {
+        case 'checkbox':
+          signupData[field] = event.target.checked;
+          break;
+        case 'select-one':
+          signupData[field] = event.target.value;
+          break;
+        default:
+          signupData[field] = event.target.value;
+      }
+    }
+    return this.setState({ signupData: signupData });
+  }
+
+
+  saveSignupData(event) {
+    event.preventDefault();
+    //if (!this.signupDataFormIsValid()) {
+    //
+    //  return;
+    //}
+    //
+    //this.setState({ saving: true });
+    //
+    //this.props.saveTurn(this.state.signupData)
+    //    .then(() => this.redirect())
+    //    .catch(error => {
+    //      toastr.error(error);
+    //      this.setState({ saving: false });
+    //    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Panel className="panel-primary" header="Jelentkezési lap">
+          <SignupDataForm
+            onChange={this.updateSignupDataState}
+            onSave={this.saveSignupData}
+            signupData={this.state.signupData}
+            errors={this.state.errors}
+            saving={this.state.saving}
+          />
+
+        </Panel>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state)=>({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps, actions)(SignupDataPage);
