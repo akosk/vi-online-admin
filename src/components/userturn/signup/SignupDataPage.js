@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Panel, Button } from 'react-bootstrap'
 import { Link } from 'react-router';
+import toastr from 'toastr';
 
 import SignupDataForm from './SignupDataForm';
 import * as actions from '../../../actions';
@@ -17,7 +18,7 @@ class SignupDataPage extends Component {
         vallalkozas_szekhelye: '',
         tobbsegi_tulajdon_mas_vallalkozasban: '0',
         birth_name: '',
-        birth_date: 740354400000,
+        birth_date: 644796000000,
         birth_place: 'Miskolc',
         mothers_name: '',
         permanent_address: '',
@@ -27,16 +28,29 @@ class SignupDataPage extends Component {
         email: this.props.user.email,
         legmagasabb_iskolai_vegzettseg: '',
         legmagasabb_iskolai_vegzettseg_eve: '',
-        allaskeresokent_regisztralt:'',
-        allaskeresokent_regisztralt_datuma:'',
+        allaskeresokent_regisztralt: '',
+        allaskeresokent_regisztralt_datuma: '',
 
       },
       errors: {},
       saving: false
     };
-
     this.updateSignupDataState = this.updateSignupDataState.bind(this);
     this.saveSignupData = this.saveSignupData.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getSignupDataByUserId(this.props.user.id).then(()=> {
+
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.signupData.id !== _.get(nextProps, 'signupData.id')) {
+      this.setState({
+        signupData: _.cloneDeep(nextProps.signupData)
+      });
+    }
   }
 
   updateSignupDataState(event, component) {
@@ -72,19 +86,17 @@ class SignupDataPage extends Component {
 
   saveSignupData(event) {
     event.preventDefault();
-    //if (!this.signupDataFormIsValid()) {
-    //
-    //  return;
-    //}
-    //
-    //this.setState({ saving: true });
-    //
-    //this.props.saveTurn(this.state.signupData)
-    //    .then(() => this.redirect())
-    //    .catch(error => {
-    //      toastr.error(error);
-    //      this.setState({ saving: false });
-    //    });
+
+    this.setState({ saving: true });
+
+    this.props.saveSignupData(this.state.signupData)
+        .then(() => {
+          toastr.success('A jelentkezési lap elmentve');
+        })
+        .catch(error => {
+          toastr.error(error);
+          this.setState({ saving: false });
+        });
   }
 
   render() {
@@ -106,7 +118,8 @@ class SignupDataPage extends Component {
 }
 
 const mapStateToProps = (state)=>({
-  user: state.auth.user
+  user: state.auth.user,
+  signupData: _.get(state, 'userturns.signupData', {})
 });
 
 export default connect(mapStateToProps, actions)(SignupDataPage);

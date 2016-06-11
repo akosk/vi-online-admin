@@ -83,7 +83,6 @@ class SignupDataForm extends Component {
     let birthDateError = '';
     let form18to25 = false;
     let form25to30 = false;
-
     if (moment("1999-03-01") <= moment(signupData.birth_date)) {
       birthDateError = 'Sajnos ebbe a programba nem jelentkezhet, ' +
         'mert nem töltötte be a 18. életévét.'
@@ -102,7 +101,6 @@ class SignupDataForm extends Component {
           'kezdetére betölti a 30. életévét';
       }
     }
-
     if (birthDateError) {
       form.push((
         <div key="2" className="alert alert-danger" role="alert">
@@ -220,11 +218,66 @@ class SignupDataForm extends Component {
         );
       }
 
-      if (form25to30) {
-
-      }
-
     }
+
+    if (form25to30) {
+      form.push(<div key="5.1">
+          <SelectInput
+            name="palyakezdo_allaskereso"
+            label="Pályakezdő álláskereső-e?"
+            value={signupData.palyakezdo_allaskereso}
+            defaultOption="Válasszon..."
+            helpText="A felsőfokú végzettség megszerzése óta kevesebb,
+              mint 360 napot dolgozott. Amennyiben bizonytalan a kérdésben,
+              keresse fel a lakcíme szerint illetékes Kormányhivatal Foglalkoztatási Osztályát
+              (volt Munkaügyi Központ kirendeltsége)"
+            options={inputHelper.yesnoOptions()}
+            onChange={onChange} error={errors['palyakezdo_allaskereso']}/>
+        </div>
+      );
+      if (signupData.palyakezdo_allaskereso=='0') {
+        form.push((
+          <div key="2" className="alert alert-danger" role="alert">
+            <span className="glyphicon glyphicon-exclamation-sign"></span>
+            Amennyiben nem pályakezdő álláskereső, nem vehet részt a programban.
+          </div>
+        ));
+        return form;
+      }
+    }
+
+    form.push(<div key="6">
+
+        <TextInput
+          name="adoazonosito_jel"
+          label="Adóazonosító jel"
+          value={signupData.adoazonosito_jel}
+          onChange={onChange}
+          error={errors.adoazonosito_jel}/>
+        <TextInput
+          name="taj"
+          label="Tajszám"
+          value={signupData.taj}
+          onChange={onChange}
+          error={errors.taj}/>
+      <SelectInput
+        name="kisebbsegi_vagy_hatranyos"
+        label="Kisebbségi, vagy hátrányos helyzetbe tartozás"
+        value={signupData.kisebbsegi_vagy_hatranyos}
+        defaultOption="Válasszon..."
+        options={inputHelper.yesnoOptions()}
+        onChange={onChange} error={errors['kisebbsegi_vagy_hatranyos']}/>
+
+      <SelectInput
+        name="kepzesi_helyszin"
+        label="Preferált képzési helyszín"
+        value={signupData.kepzesi_helyszin}
+        defaultOption="Válasszon..."
+        options={inputHelper.kepzesiHelyszinOptions()}
+        onChange={onChange} error={errors['kepzesi_helyszin']}/>
+
+      </div>
+    );
 
     return form;
   }

@@ -19,6 +19,23 @@ export function yesnoOptions() {
   ]
 }
 
+export function kepzesiHelyszinOptions() {
+  return [
+    {
+      value: 'Szekszárd',
+      text: 'Szekszárd'
+    },
+    {
+      value: 'Kaposvár',
+      text: 'Kaposvár'
+    },
+    {
+      value: 'Pécs',
+      text: 'Pécs'
+    }
+  ]
+}
+
 export function eduLevelOptions() {
   return [
     {
