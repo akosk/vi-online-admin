@@ -9,8 +9,17 @@ import tests from './mockTests';
 
 
 class TestApi {
+
+  static getTestById(id) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const test = _.find(tests, t=>t.id == id);
+        resolve(Object.assign({}, test));
+      }, delay);
+    });
+  }
+
   static getAllTests() {
-    console.log('TestAPI', 'getAllTests');
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Object.assign([], tests));

@@ -27,7 +27,7 @@ class SignupDataForm extends Component {
           label="Melyik megyében lesz a leendő vállalkozásának székhelye?"
           value={signupData.vallalkozas_szekhelye}
           defaultOption="Válasszon megyét..."
-          options={[]}
+          options={inputHelper.megyekOptions()}
           onChange={onChange} error={errors['vallalkozas_szekhelye']}
         />
         <SelectInput

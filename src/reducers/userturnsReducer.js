@@ -17,6 +17,12 @@ export default function userturns(state = initialState.userturns, action) {
         signupData:_.cloneDeep(action.signupData)
       };
 
+    case types.LOAD_USER_SIGNUP_TEST_SUCCESS:
+      return {
+        ...state,
+        signupTest:_.cloneDeep(action.test)
+      };
+
 
     default:
       return state;

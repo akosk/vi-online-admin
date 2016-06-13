@@ -2,10 +2,14 @@ import delay from './delay';
 import _ from 'lodash';
 import turnApi from './mockTurnApi'
 
-const userturns = [];
+const userturns = [
+  {
+    user_id:'123',
+    turn_id:'1'
+  }
+];
 
 class UserturnApi {
-
 
   static getUsersActiveTurnId(user_id) {
     return new Promise((resolve, reject) => {

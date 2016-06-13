@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Panel, Button } from 'react-bootstrap'
 import { Link } from 'react-router';
 import toastr from 'toastr';
+import _ from 'lodash';
 
 import SignupDataForm from './SignupDataForm';
 import * as actions from '../../../actions';

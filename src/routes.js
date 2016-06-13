@@ -17,6 +17,11 @@ import NotFoundRoutePage from './components/NotFoundRoutePage';
 import SelectTurnPage from './components/userturn/SelectTurnPage';
 import UserTurnContainer from './components/userturn/UserTurnContainer';
 import SignupDataPage from './components/userturn/signup/SignupDataPage';
+import SignupTestPage from './components/userturn/signup/SignupTestPage';
+import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
+import UserTurnHomePage from './components/userturn/UserTurnHomePage';
+
+import * as actions from './actions/';
 
 import toastr from 'toastr';
 
@@ -40,6 +45,12 @@ const createRoutes = (store)=> {
 
   };
 
+  const getCurrentTurn = (nextState, replace)=> {
+    const state = store.getState();
+    console.log('router getCurrentTurn');
+    store.dispatch(actions.getCurrentTurn(state.auth.user.id));
+  };
+
 
   return (
     <Route path="/" component={LayoutContainer}>
@@ -48,8 +59,11 @@ const createRoutes = (store)=> {
       <Route path="registration" component={RegistrationPage}/>
       <Route path="user" onEnter={(n,r)=>requireRole(n,r,'user')}>
         <Route path="select-turn" component={SelectTurnPage}/>
-        <Route path=":slug" component={UserTurnContainer}>
+        <Route path=":slug" component={UserTurnContainer} onEnter={getCurrentTurn}>
+          <IndexRoute component={UserTurnHomePage}/>
           <Route path="signup-data" component={SignupDataPage}/>
+          <Route path="signup-test" component={SignupTestPage}/>
+          <Route path="signup-statement" component={SignupTestPage}/>
         </Route>
       </Route>
       <Route path="admin" onEnter={(n,r)=>requireRole(n,r,'admin')}>
