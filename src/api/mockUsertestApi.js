@@ -1,8 +1,7 @@
 import delay from './delay';
 import _ from 'lodash';
 
-const usertests = [
-];
+const usertests = [];
 
 class UsertestApi {
 
@@ -18,6 +17,20 @@ class UsertestApi {
         const test_id = usertest ? usertest.test_id : undefined;
         console.log('getUsersActiveTestId', test_id);
         resolve(test_id);
+      }, delay);
+    })
+  }
+
+  static saveUserTest(test) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+
+
+        const existingIndex = usertests.findIndex(
+          a => a.user_id == test.user_id && a.test_id == test.test_id);
+        usertests.splice(existingIndex, 1, test);
+
+        resolve(_.cloneDeep(test));
       }, delay);
     })
   }

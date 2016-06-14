@@ -29,9 +29,12 @@ export function loadUserSignupTest(user_id, test_id) {
                .then((test)=> {
                  test.test_id = test.id;
                  test.user_id = user_id;
-                 test.id = undefined;
-                 const usertest = _.cloneDeep(test);
-                 dispatch(loadUserSignupTestSuccess(usertest));
+                 delete(test.id);
+                 test.questions.forEach(
+                   (item)=> item.value='d'
+                 );
+
+                 dispatch(loadUserSignupTestSuccess(test));
                })
       }
 
@@ -43,8 +46,24 @@ export function loadUserSignupTest(user_id, test_id) {
 
 }
 
+export function saveUserTest(test) {
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return usertestApi.saveUserTest(test).then(test => {
+      dispatch(updateUserTestSuccess(test));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+
+}
+
 function getUserTestSuccess(test) {
   return { type: types.GET_USER_TEST_SUCCESS, test };
+}
+function updateUserTestSuccess(test) {
+  return { type: types.UPDATE_USER_TEST_SUCCESS, test };
 }
 function loadUserSignupTestSuccess(test) {
   return { type: types.LOAD_USER_SIGNUP_TEST_SUCCESS, test };

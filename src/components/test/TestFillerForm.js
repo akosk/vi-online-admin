@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+import _ from 'lodash';
 
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
@@ -16,13 +17,47 @@ class TestFillerForm extends Component {
     errors: React.PropTypes.object
   };
 
+
+  getFormItem(q, i) {
+    let item = [];
+
+    switch (q.type || 'text') {
+      case 'text':
+        item.push(
+          <TextInput
+            name={q.id}
+            label={q.question}
+            value={q.value}
+            helpText={q.helptext}
+            onChange={this.props.onChange}
+            error={_.get(this.props.errors,[q.id])}
+          />
+        );
+        break;
+      case 'select':
+        item.push(
+          <SelectInput
+            name={q.id}
+            label={q.question}
+            value={q.value}
+            defaultOption="Válasszon..."
+            options={q.answers}
+            onChange={this.props.onChange}
+            error={_.get(this.props.errors,[q.id])}
+          />);
+        break;
+      default:
+
+    }
+    return item;
+  }
+
   buildForm() {
     const {test,onChange, errors}=this.props;
-
     let form = [];
     if (test && test.questions) {
-      return test.questions.map((q)=> {
-        return <div>{q.question}</div>
+      return test.questions.map((q, i)=> {
+        return this.getFormItem(q, i);
       });
     }
 

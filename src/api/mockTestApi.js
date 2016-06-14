@@ -14,7 +14,7 @@ class TestApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const test = _.find(tests, t=>t.id == id);
-        resolve(Object.assign({}, test));
+        resolve(_.cloneDeep(test));
       }, delay);
     });
   }
