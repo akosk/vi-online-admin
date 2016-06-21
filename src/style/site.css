@@ -1,6 +1,6 @@
 
 .navbar {
-  height:60px;
+  height:95px;
   margin-bottom: 0px;
 }
 .navbar-brand {
@@ -9,6 +9,24 @@
 .navbar-nav > li > a {
   padding-top: 0px;
   padding-bottom: 0px;
-  line-height: 60px;
+  line-height: 95px;
 }
 
+
+.layout-enter {
+  opacity: 0.01;
+  transition: opacity 1s ease-in;
+}
+
+.layout-enter-active {
+  opacity: 1;
+}
+
+.layout-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.layout-leave-active {
+  opacity: 0;
+}

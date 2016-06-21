@@ -1,0 +1,1 @@
+export const SIGNUP_COMPLETED = 'SIGNUP_COMPLETED';

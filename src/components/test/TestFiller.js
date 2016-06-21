@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import toastr from 'toastr'
+import toastr from 'toastr';
 
 import TestFillerForm from './TestFillerForm';
 import * as actions from '../../actions/';
@@ -27,15 +27,19 @@ class TestFiller extends Component {
     this.onSave = this.onSave.bind(this);
   }
 
+  componentWillMount() {
+    this.state.test = _.cloneDeep(this.props.test);
+  }
 
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', this.props.currentTurn, nextProps.currentTurn);
     if (this.props.currentTurn.id != nextProps.currentTurn.id) {
       if (nextProps.currentTurn.competency_test) {
         this.props.loadUserSignupTest(this.props.user.id, nextProps.currentTurn.competency_test.id);
       }
     }
     if (this.props.test.test_id != nextProps.test.test_id) {
-      this.state.test = _.cloneDeep(nextProps.test)
+      this.state.test = _.cloneDeep(nextProps.test);
     }
   }
 

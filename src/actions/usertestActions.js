@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import usertestApi from '../api/mockUsertestApi';
+import usertestApi from '../api/usertestApi';
 import testApi from '../api/mockTestApi';
 import _ from 'lodash';
 
@@ -20,24 +20,10 @@ export function getUserTestByIds(user_id, test_id) {
 
 export function loadUserSignupTest(user_id, test_id) {
   return function (dispatch, getState) {
+    console.log('Actions loadUserSignupTest', user_id, test_id);
     dispatch(beginAjaxCall());
-    return usertestApi.getUserTestByIds(user_id, test_id).then(test => {
-      if (test) {
-        dispatch(loadUserSignupTestSuccess(test));
-      } else {
-        testApi.getTestById(test_id)
-               .then((test)=> {
-                 test.test_id = test.id;
-                 test.user_id = user_id;
-                 delete(test.id);
-                 test.questions.forEach(
-                   (item)=> item.value='d'
-                 );
-
-                 dispatch(loadUserSignupTestSuccess(test));
-               })
-      }
-
+    return usertestApi.getUserTest(user_id, test_id).then(result => {
+      dispatch(loadUserSignupTestSuccess(result.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -49,8 +35,8 @@ export function loadUserSignupTest(user_id, test_id) {
 export function saveUserTest(test) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
-    return usertestApi.saveUserTest(test).then(test => {
-      dispatch(updateUserTestSuccess(test));
+    return usertestApi.saveUserTest(test).then(result => {
+      dispatch(updateUserTestSuccess(result.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);

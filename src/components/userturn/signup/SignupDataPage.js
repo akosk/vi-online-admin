@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Panel, Button } from 'react-bootstrap'
+import { Panel, Button } from 'react-bootstrap';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 import _ from 'lodash';
@@ -93,6 +93,7 @@ class SignupDataPage extends Component {
     this.props.saveSignupData(this.state.signupData)
         .then(() => {
           toastr.success('A jelentkezési lap elmentve');
+          this.setState({saving: false});
         })
         .catch(error => {
           toastr.error(error);

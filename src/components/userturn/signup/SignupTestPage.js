@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {Panel} from'react-bootstrap';
 import _ from 'lodash';
 
 import TestFiller from '../../test/TestFiller';
@@ -14,12 +15,13 @@ class SignupTestPage extends Component {
   render() {
     const {competency_test, user}=this.props;
     return (
-      <div>
+      <Panel className="panel-primary" header="Kérdőív">
+
         <TestFiller
           test_id={competency_test.id}
           user={user}
         />
-      </div>
+      </Panel>
     );
   }
 }

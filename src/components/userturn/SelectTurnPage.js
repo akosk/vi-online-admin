@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import {Panel} from 'react-bootstrap'
+import {Panel} from 'react-bootstrap';
 import moment from 'moment';
 import toastr from 'toastr';
 import _ from 'lodash';
@@ -65,7 +65,7 @@ class SelectTurnPage extends Component {
           </div>
         </div>
 
-        { turn.id &&
+        {turn.id &&
 
         <div className="row">
           <div className="col-sm-8 col-sm-offset-2">
@@ -82,14 +82,16 @@ class SelectTurnPage extends Component {
                 </tr>
                 </tbody>
               </table>
+
+              <div className="text-center">
+                <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezek a képzésre</button>
+              </div>
             </Panel>
           </div>
         </div>
         }
 
-        <div className="text-center">
-          <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezek a képzésre</button>
-        </div>
+
 
 
       </div>

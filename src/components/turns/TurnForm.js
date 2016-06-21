@@ -2,7 +2,7 @@ import React from 'react';
 import TextInput from '../common/TextInput';
 import Checkbox from '../common/Checkbox';
 import SelectInput from '../common/SelectInput';
-import DateRangePickerInput from '../common/DateRangePickerInput'
+import DateRangePickerInput from '../common/DateRangePickerInput';
 
 import 'react-bootstrap-daterangepicker/css/daterangepicker.css';
 
@@ -65,7 +65,7 @@ const TurnForm = ({turn, onSave, onChange, onCancel, saving, tests, errors}) => 
       <input
         type="submit"
         disabled={saving}
-        value='Mégsem'
+        value="Mégsem"
         className="btn"
         onClick={onCancel}/>
     </form>

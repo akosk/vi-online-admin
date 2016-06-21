@@ -45,10 +45,22 @@ const createRoutes = (store)=> {
 
   };
 
-  const getCurrentTurn = (nextState, replace)=> {
+  const initUserTurns = (nextState, replace)=> {
     const state = store.getState();
-    console.log('router getCurrentTurn');
-    store.dispatch(actions.getCurrentTurn(state.auth.user.id));
+    store.dispatch(actions.getCurrentTurn(state.auth.user.id)).then((x)=> {
+      let turn_id = store.getState().userturns.currentTurn.id;
+      store.dispatch(actions.getUserTurn(state.auth.user.id, turn_id));
+    });
+  };
+
+  const getSignupTest = (nextState, replace)=> {
+    const state = store.getState();
+    store.dispatch(actions.loadUserSignupTest(state.auth.user.id, state.userturns.currentTurn.competency_test.id));
+  };
+
+  const getSignupStatement = (nextState, replace)=> {
+    const state = store.getState();
+    store.dispatch(actions.getSignupStatement(state.auth.user.id, state.userturns.currentTurn.id));
   };
 
 
@@ -59,11 +71,11 @@ const createRoutes = (store)=> {
       <Route path="registration" component={RegistrationPage}/>
       <Route path="user" onEnter={(n,r)=>requireRole(n,r,'user')}>
         <Route path="select-turn" component={SelectTurnPage}/>
-        <Route path=":slug" component={UserTurnContainer} onEnter={getCurrentTurn}>
-          <IndexRoute component={UserTurnHomePage}/>
+        <Route path=":slug" component={UserTurnContainer} onEnter={initUserTurns}>
+          <Route path="dashboard" component={UserTurnHomePage}/>
           <Route path="signup-data" component={SignupDataPage}/>
-          <Route path="signup-test" component={SignupTestPage}/>
-          <Route path="signup-statement" component={SignupTestPage}/>
+          <Route path="signup-test" component={SignupTestPage} onEnter={getSignupTest}/>
+          <Route path="signup-statement" component={SignupStatementPage} onEnter={getSignupStatement}/>
         </Route>
       </Route>
       <Route path="admin" onEnter={(n,r)=>requireRole(n,r,'admin')}>

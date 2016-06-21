@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import turnApi from '../api/mockTurnApi';
+import turnApi from '../api/turnApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 
@@ -30,7 +30,7 @@ export function loadTurns() {
   return function(dispatch) {
     dispatch(beginAjaxCall());
     return turnApi.getAllTurns().then(turns => {
-      dispatch(loadTurnsSuccess(turns));
+      dispatch(loadTurnsSuccess(turns.data));
     }).catch(error => {
       throw(error);
     });

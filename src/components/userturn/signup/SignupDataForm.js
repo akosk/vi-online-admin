@@ -4,7 +4,7 @@ import moment from 'moment';
 import TextInput from '../../common/TextInput';
 import SelectInput from '../../common/SelectInput';
 import DateRangePickerInput from '../../common/DateRangePickerInput';
-import * as inputHelper from '../../../utils/SelectInputHelper'
+import * as inputHelper from '../../../utils/SelectInputHelper';
 
 class SignupDataForm extends Component {
 
@@ -85,7 +85,7 @@ class SignupDataForm extends Component {
     let form25to30 = false;
     if (moment("1999-03-01") <= moment(signupData.birth_date)) {
       birthDateError = 'Sajnos ebbe a programba nem jelentkezhet, ' +
-        'mert nem töltötte be a 18. életévét.'
+        'mert nem töltötte be a 18. életévét.';
     }
     if (moment("1998-09-01") <= moment(signupData.birth_date)) {
       birthDateError = 'Felhívjuk a figyelmét, hogy programunkban akkor vehet ' +
@@ -111,7 +111,7 @@ class SignupDataForm extends Component {
       return form;
     }
     if (!signupData.birth_date) return form;
-    console.log(signupData.birth_date);
+
     form.push((
       <div key="4">
         <TextInput

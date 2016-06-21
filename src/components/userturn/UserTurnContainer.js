@@ -14,12 +14,15 @@ class UserTurnContainer extends Component {
   render() {
     const router = this.context.router;
     const turnRootUrl = `/user/${this.props.params.slug}`;
-    console.log(turnRootUrl);
     return (
       <div>
         <div className="row">
           <div className="col-sm-3">
             <Nav bsStyle="pills" stacked>
+              <LinkContainer to={`${turnRootUrl}/dashboard`}>
+                <NavItem eventKey={1}>Irányítópult</NavItem>
+              </LinkContainer>
+              <hr/>
               <LinkContainer to={`${turnRootUrl}/signup-data`}>
                 <NavItem eventKey={1}>Jelentkezési lap</NavItem>
               </LinkContainer>

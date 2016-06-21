@@ -6,7 +6,8 @@ export default function auth(state = initialState.auth, action) {
 
     case types.LOGIN_SUCCESS:
       return {
-        user:action.authData.user
+        user: action.authData.user,
+        token: action.authData.token
       };
 
     case types.LOGOUT_SUCCESS:

@@ -37,7 +37,7 @@ const UserForm = ({user, onSave, onChange, onCancel, saving, errors}) => {
       <input
         type="submit"
         disabled={saving}
-        value='Mégsem'
+        value="Mégsem"
         className="btn"
         onClick={onCancel}/>
     </form>

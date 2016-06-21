@@ -31,7 +31,7 @@ const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
       <input
         type="submit"
         disabled={saving}
-        value={saving ? 'Mentés...' : 'Mentés'}
+        value={saving ? 'Regisztráció...' : 'Regisztráció'}
         className="btn btn-primary"
         onClick={onSave}/>
     </form>

@@ -1,6 +1,5 @@
 const tests = [
   {
-    id: "1",
     name: "Kompetencia teszt 1.",
     questions: [
       {

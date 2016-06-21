@@ -1,6 +1,6 @@
 const turns = [
   {
-    id: "1",
+    id: "12724bc9-9874-41c4-8d5e-7aaf6f642df",
     name: 'Teszt turnus 1.',
     slug: 'teszt-turnus-1',
     active: true,

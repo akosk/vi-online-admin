@@ -22,8 +22,8 @@ class LoginPage extends Component {
 
     this.state = {
       login: {
-        name: '',
-        password: ''
+        email: 'akos.kiszely@gmail.com',
+        password: 'start123'
       },
       errors: {},
       saving: false
@@ -67,12 +67,12 @@ class LoginPage extends Component {
       this.props.getCurrentTurn(this.props.user.id)
           .then(()=> {
               if (this.props.currentTurn) {
-                this.context.router.push(`/user/${this.props.currentTurn.slug}`);
+                this.context.router.push(`/user/${this.props.currentTurn.slug}/dashboard`);
               } else {
                 this.context.router.push('/user/select-turn');
               }
             }
-          )
+          );
     }
   }
 
@@ -80,7 +80,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="col-sm-6 col-sm-offset-3">
-        <Panel className="panel-primary" header='Bejelentkezés'>
+        <Panel className="panel-primary" header="Bejelentkezés">
           <LoginForm
             onChange={this.updateLoginState}
             onLogin={this.onLogin}

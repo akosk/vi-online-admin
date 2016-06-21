@@ -24,9 +24,9 @@ class RegistrationPage extends Component {
 
     this.state = {
       user: {
-        name: 'Teszt Ernő',
-        email: 'erno@gmail.hu',
-        password: '123456'
+        name: '',
+        email: '',
+        password: ''
       },
       errors: {},
       saving: false
@@ -95,7 +95,7 @@ class RegistrationPage extends Component {
   render() {
     return (
       <div>
-        <Panel className="panel-primary" header='Regisztráció'>
+        <Panel className="panel-primary" header="Regisztráció">
           <RegistrationForm
             onChange={this.updateRegistrationState}
             onSave={this.saveRegistration}

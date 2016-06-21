@@ -18,7 +18,7 @@ class UsertestApi {
         console.log('getUsersActiveTestId', test_id);
         resolve(test_id);
       }, delay);
-    })
+    });
   }
 
   static saveUserTest(test) {
@@ -32,7 +32,7 @@ class UsertestApi {
 
         resolve(_.cloneDeep(test));
       }, delay);
-    })
+    });
   }
 
 

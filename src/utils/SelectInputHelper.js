@@ -16,7 +16,7 @@ export function yesnoOptions() {
       value: '1',
       text: 'Igen'
     }
-  ]
+  ];
 }
 
 export function kepzesiHelyszinOptions() {
@@ -33,7 +33,7 @@ export function kepzesiHelyszinOptions() {
       value: 'Pécs',
       text: 'Pécs'
     }
-  ]
+  ];
 }
 
 
@@ -60,7 +60,7 @@ export function megyekOptions() {
     { value: 'VE', text: 'Veszprém' },
     { value: 'ZA', text: 'Zala' },
 
-  ]
+  ];
 }
 
   export function eduLevelOptions() {
@@ -93,5 +93,5 @@ export function megyekOptions() {
         value: EGYETEM,
         text: 'Egyetem'
       }
-    ]
+    ];
   }

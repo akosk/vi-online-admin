@@ -1,6 +1,6 @@
 import delay from './delay';
 import _ from 'lodash';
-import turnApi from './mockTurnApi'
+import turnApi from './mockTurnApi';
 
 const userturns = [
   {
@@ -22,7 +22,7 @@ class UserturnApi {
         console.log('getUsersActiveTurnId', turn_id);
         resolve(turn_id);
       }, delay);
-    })
+    });
   }
 
 

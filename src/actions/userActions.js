@@ -1,11 +1,12 @@
 import * as types from './actionTypes';
-import userApi from '../api/mockUserApi';
+import userApi from '../api/userApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function saveRegistration(user) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
-    return userApi.saveUser(user).then(user => {
+    return userApi.saveUser(user).then(response => {
+      console.log(response);
       dispatch(registrationSuccess(user));
     }).catch(error => {
       dispatch(ajaxCallError(error));
