@@ -13,17 +13,13 @@ class UsersController {
       return res.send('Bad request.');
     }
 
-    const {id,name,email,password}=req.body;
+    const {user}=req.body;
 
-    if (id === undefined) {
+    if (user.id === undefined) {
       try {
-        const hash = await hash_password(password);
-        const connection = await rdb.connect(config.db);
-        const result = await rdb.table('users')
-                                .insert({ name, email, password: hash, role: 'user' })
-                                .run(connection);
+        const hash = await hash_password(user.password);
+        const result=model.insertUser({ ...user, password: hash, role: 'user' });
         return res.send(result.generated_keys);
-
       } catch (err) {
         console.log(err);
         res.status(500);
@@ -32,8 +28,8 @@ class UsersController {
 
     } else {
       console.log('Módosítás');
-      const result=await model.updateUser(req.body);
-      return res.send({user:req.body});
+      const result=await model.updateUser(user);
+      return res.send({user});
     }
 
   }

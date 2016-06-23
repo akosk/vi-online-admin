@@ -57,4 +57,15 @@ export async function updateUser(user) {
   return result;
 }
 
+export async function insertUser(user) {
+  console.log(`insertUser`,user);
+  const connection = await rdb.connect(config.db);
+  const result = await rdb.table('users')
+                          .get(user.id)
+                          .insert(user)
+                          .run(connection);
+  connection.close();
+  return result.generated_keys;
+}
+
 

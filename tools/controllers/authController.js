@@ -23,6 +23,10 @@ class AuthController {
 
       const user = await model.getUserByEmail(data.user.email);
 
+      if (user.blocked) {
+        throw new Error('A fiókja jelenleg le van tiltva.');
+      }
+
       res.send({ user, token });
     } catch (err) {
       return res.send({ error: err.message });
@@ -47,6 +51,10 @@ class AuthController {
 
       if (!user) {
         throw new Error('Az email cím vagy jelszó nem megfelelő');
+      }
+
+      if (user.blocked) {
+        throw new Error('A fiókja jelenleg le van tiltva.');
       }
 
       const authenticated = await authenticate(password, user.password);

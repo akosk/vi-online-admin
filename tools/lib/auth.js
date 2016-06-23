@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import {verify} from './token';
 
+import * as model from '../models/userModel'
+
 export function hash_password(password) {
   return new Promise(function (resolve, reject) {
     bcrypt.genSalt(10, function (error, salt) {
@@ -29,4 +31,17 @@ export function authorize (request, response, next) {
   const data=verify(apiToken, next);
   request.token=data;
   next();
+}
+
+export function blocked(request, response, next) {
+  const {email}=request.token.user;
+  model.getUserByEmail(email).then((user)=>{
+    if (user.blocked) {
+      var expiredError = new Error('A fiókja jelenleg le van tiltva');
+      expiredError.status = 401;
+      return next(expiredError);
+    }
+    next();
+  });
+
 }

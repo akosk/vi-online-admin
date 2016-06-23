@@ -103,6 +103,7 @@ class ManageUserPage extends Component {
   }
 
   render() {
+    console.log(this.state.user);
     return (
       <Panel className="panel-primary" header={(
         <span>

@@ -2,8 +2,8 @@ import axios from 'axios';
 
 class UserApi {
 
-  static saveUser({id, name,email,password}) {
-    return axios.post(`/users`, { id, name, email, password });
+  static saveUser(user) {
+    return axios.post(`/users`, { user });
   }
 
   static getAllUsers() {
