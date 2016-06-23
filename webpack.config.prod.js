@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production')
@@ -21,6 +22,11 @@ export default {
     contentBase: './dist'
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      inject: 'body',
+      filename: 'index.html',
+      template: 'src/index.html'
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin(GLOBALS),
     new ExtractTextPlugin('styles.css'),
