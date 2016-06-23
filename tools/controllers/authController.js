@@ -24,7 +24,7 @@ class AuthController {
       const user = await model.getUserByEmail(data.user.email);
 
       if (user.blocked) {
-        throw new Error('A fiókja jelenleg le van tiltva.');
+        throw('')
       }
 
       res.send({ user, token });

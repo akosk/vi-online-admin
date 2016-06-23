@@ -43,17 +43,18 @@ class SignupDataController {
     }
 
     const signupData = req.body;
-    signupData.user_id = req.token.user.id;
+
 
     try {
       const connection = await rdb.connect(config.db);
       if (signupData.id) {
         const result = await updateSignupData(signupData);
       } else {
-        const result = await insertSignupData(signupData);
+        signupData.user_id = req.token.user.id;
+        const signupData = await insertSignupData(signupData);
       }
 
-      return res.send('Ok');
+      return res.send(signupData);
 
     } catch (err) {
       console.log(err);

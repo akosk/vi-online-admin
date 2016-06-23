@@ -17,7 +17,7 @@ export async function getUserByEmail(email) {
   console.log(`getUserByEmail ${email}`);
   const connection = await rdb.connect(config.db);
   const result = await rdb.table('users')
-                          .filter({ email: email })
+                          .filter({ email })
                           .run(connection);
   const userArray=await result.toArray();
   connection.close();

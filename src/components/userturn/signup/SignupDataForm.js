@@ -87,12 +87,10 @@ class SignupDataForm extends Component {
     if (moment("1999-03-01") <= moment(signupData.birth_date)) {
       birthDateError = 'Sajnos ebbe a programba nem jelentkezhet, ' +
         'mert nem töltötte be a 18. életévét.';
-    }
-    if (moment("1998-09-01") <= moment(signupData.birth_date)) {
+    } else if (moment("1998-09-01") <= moment(signupData.birth_date)) {
       birthDateError = 'Felhívjuk a figyelmét, hogy programunkban akkor vehet ' +
         'részt, ha betölti a 18. életévét.';
-    }
-    if (moment("1991-09-01") <= moment(signupData.birth_date)) {
+    } else if (moment("1991-09-01") <= moment(signupData.birth_date)) {
       form18to25 = true;
     } else {
       if (moment("1986-09-01") <= moment(signupData.birth_date)) {
@@ -191,6 +189,33 @@ class SignupDataForm extends Component {
     }
 
     if (form18to25) {
+      if (signupData.legmagasabb_iskolai_vegzettseg === inputHelper.ALTALANOSNAL_KEVESEBB) {
+        form.push((
+          <div key="2" className="alert alert-danger" role="alert">
+            <span className="glyphicon glyphicon-exclamation-sign"></span>
+            Sajnos a végzettsége nem elég a programban való részvételre.
+          </div>
+        ));
+        return form;
+      }
+    }
+    if (form25to30) {
+      if (signupData.legmagasabb_iskolai_vegzettseg === inputHelper.ALTALANOSNAL_KEVESEBB
+        || signupData.legmagasabb_iskolai_vegzettseg === inputHelper.ALTALANOS
+        || signupData.legmagasabb_iskolai_vegzettseg === inputHelper.ALTALANOS_OKJ
+        || signupData.legmagasabb_iskolai_vegzettseg === inputHelper.FELSOFOKU_SZAKKEPZES) {
+        form.push((
+          <div key="2" className="alert alert-danger" role="alert">
+            <span className="glyphicon glyphicon-exclamation-sign"></span>
+            Sajnos a végzettsége nem elég a programban való részvételre.
+          </div>
+        ));
+        return form;
+      }
+    }
+
+
+    if (form18to25) {
       form.push(<div key="5">
           <SelectInput
             name="allaskeresokent_regisztralt"
@@ -207,12 +232,24 @@ class SignupDataForm extends Component {
         </div>
       );
 
+      if (signupData.allaskeresokent_regisztralt ==='0') {
+        form.push((
+          <div key="2" className="alert alert-danger" role="alert">
+            <span className="glyphicon glyphicon-exclamation-sign"></span>
+            Felhívjuk figyelmét, hogy amennyiben még nem regisztrált álláskereső, keresse fel lakcíme szerint illetékes
+            Kormányhivatal Foglalkoztatási Osztályát (volt munkaügyi központ kirendeltsége)
+          </div>
+        ));
+        return form;
+      }
+
       if (signupData.allaskeresokent_regisztralt === '1') {
         form.push(<div key="5.1">
 
             <DateRangePickerInput
               name="allaskeresokent_regisztralt_datuma"
               onChange={onChange}
+              helpText="A progaramba akkor kerülhet be, ha meglévő regisztrációja fennmarad 2016.09.01-ig."
               label="Álláskeresőként regisztrált dátuma"
               value={signupData.allaskeresokent_regisztralt_datuma || ''}
               singleDatePicker>
@@ -290,7 +327,7 @@ class SignupDataForm extends Component {
     return (
       <form >
         {this.buildForm()}
-        {finalized &&
+        {!finalized &&
         <input
           type="submit"
           disabled={saving}

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment';
 
-const DateRangePickerInput = ({name, label, onChange, singleDatePicker,value, error}) => {
+const DateRangePickerInput = ({name, label, onChange, singleDatePicker,value, helpText, error}) => {
   let wrapperClass = 'form-group';
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
@@ -23,6 +23,12 @@ const DateRangePickerInput = ({name, label, onChange, singleDatePicker,value, er
   return (
     <div className={wrapperClass}>
       <label htmlFor={name}>{label}</label>
+      {helpText &&
+      <p className="text-muted">
+        <span className="glyphicon glyphicon-info-sign"></span>
+        <small>{helpText}</small>
+      </p>
+      }
       <div className="field">
 
         <DateRangePicker
@@ -51,6 +57,7 @@ DateRangePickerInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  helpText: PropTypes.string,
   error: PropTypes.string,
   singleDatePicker: PropTypes.bool
 };
