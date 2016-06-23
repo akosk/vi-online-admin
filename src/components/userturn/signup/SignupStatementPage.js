@@ -58,27 +58,33 @@ class SignupStatementPage extends Component {
           <a href={`/statements/${this.props.file}`}> A feltöltött nyilatkozat letöltéséhez kattintson ide.</a>
         </Panel>
         }
-        <Panel className="panel-primary text-center" header="Kitöltendő nyilatkozat letöltése">
-          <a href="/files/nyilatkozat.pdf"> Kattintson ide a nyilatkozat letöltéséhez.</a>
-        </Panel>
-        <Panel className="panel-primary text-center" header="Nyilatkozat feltöltése">
-          <div className="row">
-            <div className="col-sm-6">
-              <Dropzone onDrop={this.onDrop}>
-                <div style={{margin:10}}>Húzd ide a feltölteni kívánt fájlt, vagy klikkelj ide a fájl kiválasztásához.
-                </div>
-              </Dropzone>
 
-            </div>
-            <div className="col-sm-6">
-              {filePreview}
-            </div>
-          </div>
-          {filePreview &&
-          <div><Button onClick={this.upload} className="btn btn-primary">Feltölt</Button></div>
-          }
+        { this.props.progress.SIGNUP_COMPLETED === undefined &&
+        <div>
+          <Panel className="panel-primary text-center" header="Kitöltendő nyilatkozat letöltése">
+            <a href="/files/nyilatkozat.pdf"> Kattintson ide a nyilatkozat letöltéséhez.</a>
+          </Panel>
 
-        </Panel>
+
+          <Panel className="panel-primary text-center" header="Nyilatkozat feltöltése">
+            <div className="row">
+              <div className="col-sm-6">
+                <Dropzone onDrop={this.onDrop}>
+                  <div style={{margin:10}}>Húzd ide a feltölteni kívánt fájlt, vagy klikkelj ide a fájl kiválasztásához.
+                  </div>
+                </Dropzone>
+
+              </div>
+              <div className="col-sm-6">
+                {filePreview}
+              </div>
+            </div>
+            {filePreview &&
+            <div><Button onClick={this.upload} className="btn btn-primary">Feltölt</Button></div>
+            }
+          </Panel>
+        </div>
+        }
       </div>
     );
   }
@@ -86,7 +92,8 @@ class SignupStatementPage extends Component {
 
 const mapStateToProps = (state)=>({
   user: state.auth.user,
-  file: _.get(state, 'userturns.userturn.signupStatementFileName', null)
+  file: _.get(state, 'userturns.userturn.signupStatementFileName', null),
+  progress: _.get(state, 'userturns.userturn.progress', {})
 });
 
 export default connect(mapStateToProps, actions)(SignupStatementPage);

@@ -3,6 +3,21 @@ import turnApi from '../api/turnApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 
+
+export function deleteSelectedTurns(ids) {
+  console.log('deleteSelectedTurns ',ids);
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return turnApi.deleteTurns(ids).then(() => {
+      dispatch(deleteTurnsSuccess(ids));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+
+}
+
 export function saveTurn(turn) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
@@ -15,6 +30,10 @@ export function saveTurn(turn) {
   };
 }
 
+
+function deleteTurnsSuccess(ids){
+  return {type: types.DELETE_TURNS_SUCCESS, ids};
+}
 
 function updateTurnSuccess(turn){
   return {type: types.UPDATE_TURN_SUCCESS, turn};

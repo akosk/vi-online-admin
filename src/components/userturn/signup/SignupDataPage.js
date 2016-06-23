@@ -31,6 +31,8 @@ class SignupDataPage extends Component {
         legmagasabb_iskolai_vegzettseg_eve: '',
         allaskeresokent_regisztralt: '',
         allaskeresokent_regisztralt_datuma: '',
+        palyakezdo_allaskereso:'',
+        adoazonosito_jel:'',
 
       },
       errors: {},
@@ -55,7 +57,7 @@ class SignupDataPage extends Component {
   }
 
   updateSignupDataState(event, component) {
-
+    if (this.props.finalized) return;
     let signupData = this.state.signupData;
 
     if (component) {
@@ -109,6 +111,7 @@ class SignupDataPage extends Component {
             onChange={this.updateSignupDataState}
             onSave={this.saveSignupData}
             signupData={this.state.signupData}
+            finalized={this.state.finalized}
             errors={this.state.errors}
             saving={this.state.saving}
           />
@@ -121,7 +124,8 @@ class SignupDataPage extends Component {
 
 const mapStateToProps = (state)=>({
   user: state.auth.user,
-  signupData: _.get(state, 'userturns.signupData', {})
+  signupData: _.get(state, 'userturns.signupData', {}),
+  finalized:_.get(state,'userturns.userturn.progress.SIGNUP_COMPLETED', false)
 });
 
 export default connect(mapStateToProps, actions)(SignupDataPage);

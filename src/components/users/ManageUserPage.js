@@ -93,13 +93,13 @@ class ManageUserPage extends Component {
 
   cancel(event) {
     event.preventDefault();
-    this.context.router.push('/users');
+    this.context.router.push('/admin/users');
   }
 
   redirect() {
     this.setState({ saving: false });
     toastr.success('A módosítás sikeresen megtörtént');
-    this.context.router.push('/users');
+    this.context.router.push('/admin/users');
   }
 
   render() {

@@ -28,6 +28,12 @@ export default function turns(state = initialState.turns, action) {
         selected: action.isSelected,
       }));
 
+    case types.DELETE_TURNS_SUCCESS:
+      return state.filter((turn, index) => {
+        return action.ids.indexOf(turn.id)===-1
+      });
+
+
     default:
       return state;
   }

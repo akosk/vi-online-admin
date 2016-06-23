@@ -36,7 +36,7 @@ class UsersListPage extends Component {
   }
 
   editIcon(id) {
-    return (<Link to={`/users/${id}`} onClick={(e)=>e.stopPropagation()}>
+    return (<Link to={`/admin/users/${id}`} onClick={(e)=>e.stopPropagation()}>
       <span className="glyphicon glyphicon-pencil"></span>
     </Link>);
   }

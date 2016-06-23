@@ -10,8 +10,8 @@ class AdminHomePage extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Helló Admin!</h2>
+      <div className="text-center">
+        <h3>Adminisztrációs felület</h3>
 
       </div>
     );

@@ -27,6 +27,24 @@ export function saveUser(user) {
   };
 }
 
+export function deleteSelectedUsers(ids) {
+  console.log('deleteSelectedUsers ',ids);
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return userApi.deleteUsers(ids).then(() => {
+      dispatch(deleteUsersSuccess(ids));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+
+}
+
+function deleteUsersSuccess(ids){
+  return {type: types.DELETE_USERS_SUCCESS, ids};
+}
+
 function registrationSuccess(user){
   return {type: types.REGISTRATION_SUCCESS, user};
 }
@@ -44,8 +62,8 @@ export function loadUsersSuccess(users) {
 export function loadUsers() {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    return userApi.getAllUsers().then(users => {
-      dispatch(loadUsersSuccess(users));
+    return userApi.getAllUsers().then(result => {
+      dispatch(loadUsersSuccess(result.data));
     }).catch(error => {
       throw(error);
     });

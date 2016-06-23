@@ -11,7 +11,8 @@ class TestFiller extends Component {
   static propTypes = {
     test: PropTypes.object.isRequired,
     currentTurn: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    disabled: PropTypes.bool
   };
 
   constructor(props, context) {
@@ -44,6 +45,8 @@ class TestFiller extends Component {
   }
 
   onChange(event) {
+    if (this.props.disabled) return;
+
     const field = event.target.name;
     let test = this.state.test;
 
@@ -85,6 +88,7 @@ class TestFiller extends Component {
           test={this.state.test}
           onChange={this.onChange}
           onSave={this.onSave}
+          disabled={this.props.disabled}
         />
       </div>
     );

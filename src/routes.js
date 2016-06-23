@@ -86,6 +86,7 @@ const createRoutes = (store)=> {
         </Route>
         <Route path="turns" component={TurnsPage}>
           <IndexRoute component={TurnsListPage}/>
+          <Route path="new" component={ManageTurnPage}/>
           <Route path=":id" component={ManageTurnPage}/>
         </Route>
       </Route>

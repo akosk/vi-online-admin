@@ -11,7 +11,20 @@ class TurnApi {
 
   static getAllTurns() {
     return axios.get(`/turns`,
-      {},
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
+  static saveTurn(turn) {
+    return axios.post(`/turns`,
+      {turn},
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
+  static deleteTurns(ids) {
+    return axios.post('/delete-turns',
+      {ids},
       { headers: { 'x-api-token': localStorage.getItem('token') } }
     );
   }

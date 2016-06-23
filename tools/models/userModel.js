@@ -24,4 +24,37 @@ export async function getUserByEmail(email) {
   return userArray.length>0?userArray[0]:null;
 }
 
+export async function getAllUsers() {
+  console.log(`getAllUsers`);
+  const connection = await rdb.connect(config.db);
+  const result = await rdb.table('users')
+                          .run(connection);
+  const usersArray=await result.toArray();
+  connection.close();
+  return usersArray;
+}
+
+export async function deleteUser(user_id) {
+  console.log(`deleteUser`);
+  const connection = await rdb.connect(config.db);
+  const result = await rdb.table('users')
+                          .get(user_id)
+                          .delete()
+                          .run(connection);
+  connection.close();
+  return result;
+}
+
+
+export async function updateUser(user) {
+  console.log(`updateUser`,user);
+  const connection = await rdb.connect(config.db);
+  const result = await rdb.table('users')
+                          .get(user.id)
+                          .update(user)
+                          .run(connection);
+  connection.close();
+  return result;
+}
+
 

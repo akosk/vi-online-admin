@@ -116,13 +116,13 @@ class ManageTurnPage extends Component {
 
   cancel(event) {
     event.preventDefault();
-    this.context.router.push('/turns');
+    this.context.router.push('/admin/turns');
   }
 
   redirect() {
     this.setState({ saving: false });
     toastr.success('A módosítás sikeresen megtörtént');
-    this.context.router.push('/turns');
+    this.context.router.push('/admin/turns');
   }
 
   render() {
@@ -150,7 +150,6 @@ class ManageTurnPage extends Component {
 function mapStateToProps(state, ownProps) {
   const turnId = ownProps.params.id;
   let turn = {
-    id: '',
     name: '', slug: '', active: false,
     start_at:Date.now(),
     competency_test:{

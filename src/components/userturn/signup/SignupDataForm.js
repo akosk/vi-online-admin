@@ -12,28 +12,29 @@ class SignupDataForm extends Component {
     signupData: React.PropTypes.object.isRequired,
     onSave: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    finalized: React.PropTypes.bool,
     saving: React.PropTypes.bool,
     errors: React.PropTypes.object
   };
 
   buildForm() {
-    const {signupData,onChange, errors}=this.props;
+    const {signupData,onChange, errors,finalized}=this.props;
 
     let form = [];
     form.push(<div key="1">
         <SelectInput
-
           name="vallalkozas_szekhelye"
           label="Melyik megyében lesz a leendő vállalkozásának székhelye?"
-          value={signupData.vallalkozas_szekhelye}
+          value={signupData.vallalkozas_szekhelye || ''}
           defaultOption="Válasszon megyét..."
           options={inputHelper.megyekOptions()}
           onChange={onChange} error={errors['vallalkozas_szekhelye']}
+
         />
         <SelectInput
           name="tobbsegi_tulajdon_mas_vallalkozasban"
           label="Más vállalkozásban többségi tulajdonnal rendelkezik-e? "
-          value={signupData.tobbsegi_tulajdon_mas_vallalkozasban}
+          value={signupData.tobbsegi_tulajdon_mas_vallalkozasban || ''}
           defaultOption="Válasszon..."
           helpText="Van olyan vállalkozás a családban vagy ismeretségi körben,
     amelyben 50 %-nál nagyobb részesedése van a pályázónak.  Az 50%-os tulajdonrész nem kizáró ok."
@@ -60,13 +61,13 @@ class SignupDataForm extends Component {
           name="name"
           label="Jelentkező neve"
           disabled
-          value={signupData.name}
+          value={signupData.name || ''}
           onChange={onChange}
           error={errors.name}/>
         <TextInput
           name="birth_name"
           label="Születési név"
-          value={signupData.birth_name}
+          value={signupData.birth_name || ''}
           helpText="Akkor kell kitölteni ha eltérő."
           onChange={onChange}
           error={errors.birth_name}/>
@@ -74,7 +75,7 @@ class SignupDataForm extends Component {
           name="birth_date"
           onChange={onChange}
           label="Születési idő"
-          value={signupData.birth_date}
+          value={signupData.birth_date || ''}
           singleDatePicker>
         </DateRangePickerInput>
       </div>
@@ -115,53 +116,55 @@ class SignupDataForm extends Component {
     form.push((
       <div key="4">
         <TextInput
+
           name="birth_place"
           label="Születés helye"
-          value={signupData.birth_place}
+          value={signupData.birth_place || ''}
           onChange={onChange}
           error={errors.birth_place}/>
         <TextInput
+
           name="mothers_name"
           label="Anyja neve"
-          value={signupData.mothers_name}
+          value={signupData.mothers_name || ''}
           onChange={onChange}
           error={errors.mothers_name}/>
         <TextInput
           name="permanent_address"
           label="Állandó lakcím"
-          value={signupData.permanent_address}
+          value={signupData.permanent_address || ''}
           onChange={onChange}
           error={errors.permanent_address}/>
         <TextInput
           name="temporary_address"
           label="Tartókodási hely"
-          value={signupData.temporary_address}
+          value={signupData.temporary_address || ''}
           onChange={onChange}
           helptText="Ha eltér az állandó lakcímtől."
           error={errors.temporary_address}/>
         <TextInput
           name="postal_address"
           label="Postázási cím"
-          value={signupData.postal_address}
+          value={signupData.postal_address || ''}
           onChange={onChange}
           error={errors.postal_address}/>
         <TextInput
           name="phone"
           label="Elérhetőségek (telefonszám)"
-          value={signupData.phone}
+          value={signupData.phone || ''}
           onChange={onChange}
           error={errors.phone}/>
         <TextInput
           name="email"
           label="Elérhetőségek (e-mail cím)"
-          value={signupData.email}
+          value={signupData.email || ''}
           disabled
           onChange={onChange}
           error={errors.email}/>
         <SelectInput
           name="legmagasabb_iskolai_vegzettseg"
           label="Legmagasabb iskolai végzettsége"
-          value={signupData.legmagasabb_iskolai_vegzettseg}
+          value={signupData.legmagasabb_iskolai_vegzettseg || ''}
           defaultOption="Válasszon..."
           options={inputHelper.eduLevelOptions()}
           onChange={onChange} error={errors['legmagasabb_iskolai_vegzettseg']}
@@ -179,7 +182,7 @@ class SignupDataForm extends Component {
           <TextInput
             name="legmagasabb_iskolai_vegzettseg_eve"
             label={txt}
-            value={signupData.legmagasabb_iskolai_vegzettseg_eve}
+            value={signupData.legmagasabb_iskolai_vegzettseg_eve || ''}
             onChange={onChange}
             error={errors.legmagasabb_iskolai_vegzettseg_eve}/>
         </div>
@@ -192,7 +195,7 @@ class SignupDataForm extends Component {
           <SelectInput
             name="allaskeresokent_regisztralt"
             label="Álláskeresőként regisztrált-e?"
-            value={signupData.allaskeresokent_regisztralt}
+            value={signupData.allaskeresokent_regisztralt || ''}
             defaultOption="Válasszon..."
             helpText="A programba elsősorban a tartós (min. 6 hónapja) álláskeresők vonhatók be
              vagy a min. 1 hónapja álláskeresőként regisztrált fiatal.
@@ -211,7 +214,7 @@ class SignupDataForm extends Component {
               name="allaskeresokent_regisztralt_datuma"
               onChange={onChange}
               label="Álláskeresőként regisztrált dátuma"
-              value={signupData.allaskeresokent_regisztralt_datuma}
+              value={signupData.allaskeresokent_regisztralt_datuma || ''}
               singleDatePicker>
             </DateRangePickerInput>
           </div>
@@ -225,7 +228,7 @@ class SignupDataForm extends Component {
           <SelectInput
             name="palyakezdo_allaskereso"
             label="Pályakezdő álláskereső-e?"
-            value={signupData.palyakezdo_allaskereso}
+            value={signupData.palyakezdo_allaskereso || ''}
             defaultOption="Válasszon..."
             helpText="A felsőfokú végzettség megszerzése óta kevesebb,
               mint 360 napot dolgozott. Amennyiben bizonytalan a kérdésben,
@@ -235,7 +238,7 @@ class SignupDataForm extends Component {
             onChange={onChange} error={errors['palyakezdo_allaskereso']}/>
         </div>
       );
-      if (signupData.palyakezdo_allaskereso=='0') {
+      if (signupData.palyakezdo_allaskereso == '0') {
         form.push((
           <div key="2" className="alert alert-danger" role="alert">
             <span className="glyphicon glyphicon-exclamation-sign"></span>
@@ -251,30 +254,30 @@ class SignupDataForm extends Component {
         <TextInput
           name="adoazonosito_jel"
           label="Adóazonosító jel"
-          value={signupData.adoazonosito_jel}
+          value={signupData.adoazonosito_jel || ''}
           onChange={onChange}
           error={errors.adoazonosito_jel}/>
         <TextInput
           name="taj"
           label="Tajszám"
-          value={signupData.taj}
+          value={signupData.taj  || ''}
           onChange={onChange}
           error={errors.taj}/>
-      <SelectInput
-        name="kisebbsegi_vagy_hatranyos"
-        label="Kisebbségi, vagy hátrányos helyzetbe tartozás"
-        value={signupData.kisebbsegi_vagy_hatranyos}
-        defaultOption="Válasszon..."
-        options={inputHelper.yesnoOptions()}
-        onChange={onChange} error={errors['kisebbsegi_vagy_hatranyos']}/>
+        <SelectInput
+          name="kisebbsegi_vagy_hatranyos"
+          label="Kisebbségi, vagy hátrányos helyzetbe tartozás"
+          value={signupData.kisebbsegi_vagy_hatranyos  || ''}
+          defaultOption="Válasszon..."
+          options={inputHelper.yesnoOptions()}
+          onChange={onChange} error={errors['kisebbsegi_vagy_hatranyos']}/>
 
-      <SelectInput
-        name="kepzesi_helyszin"
-        label="Preferált képzési helyszín"
-        value={signupData.kepzesi_helyszin}
-        defaultOption="Válasszon..."
-        options={inputHelper.kepzesiHelyszinOptions()}
-        onChange={onChange} error={errors['kepzesi_helyszin']}/>
+        <SelectInput
+          name="kepzesi_helyszin"
+          label="Preferált képzési helyszín"
+          value={signupData.kepzesi_helyszin  || ''}
+          defaultOption="Válasszon..."
+          options={inputHelper.kepzesiHelyszinOptions()}
+          onChange={onChange} error={errors['kepzesi_helyszin']}/>
 
       </div>
     );
@@ -283,16 +286,18 @@ class SignupDataForm extends Component {
   }
 
   render() {
-    const {saving,onSave}=this.props;
+    const {finalized,saving,onSave}=this.props;
     return (
       <form >
         {this.buildForm()}
+        {finalized &&
         <input
           type="submit"
           disabled={saving}
           value={saving ? 'Mentés...' : 'Mentés'}
           className="btn btn-primary"
           onClick={onSave}/>
+        }
       </form>
     );
   }

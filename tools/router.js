@@ -23,6 +23,9 @@ const router = (app)=> {
   app.use('/upload', multipartMiddleware, authorize, UploadController.uploadSignupStatement);
 
   app.post('/users', UsersController.saveUser);
+  app.get('/users', authorize, UsersController.getAllUsers);
+  app.post('/delete-users', authorize, UsersController.deleteUsers);
+  app.post('/delete-turns', authorize, TurnController.deleteTurns);
   app.post('/login', AuthController.login);
   app.post('/loginWithToken', AuthController.loginWithToken);
   app.post('/signup-datas/:signup_data_id', authorize, SignupDataController.saveSignupData);
@@ -30,7 +33,9 @@ const router = (app)=> {
 
   app.put('/userturns', authorize, UserturnController.signUpToTurn);
   app.get('/userturns/:user_id/:turn_id', authorize, UserturnController.getUserTurn);
+
   app.get('/turns', authorize, TurnController.getAllTurns);
+  app.post('/turns', authorize, TurnController.saveTurn);
 
   app.get('/get-current-turn/:user_id', authorize, UserturnController.getCurrentTurn);
   app.get('/get-signup-data/:user_id', authorize, SignupDataController.getSignupDataByUserId);

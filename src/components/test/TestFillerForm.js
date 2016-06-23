@@ -14,7 +14,8 @@ class TestFillerForm extends Component {
     onSave: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     saving: React.PropTypes.bool,
-    errors: React.PropTypes.object
+    errors: React.PropTypes.object,
+    disabled: PropTypes.bool
   };
 
 
@@ -69,12 +70,14 @@ class TestFillerForm extends Component {
     return (
       <form >
         {this.buildForm()}
+        {this.props.disabled ||
         <input
           type="submit"
           disabled={saving}
           value={saving ? 'Mentés...' : 'Mentés'}
           className="btn btn-primary"
           onClick={onSave}/>
+        }
       </form>
     );
   }

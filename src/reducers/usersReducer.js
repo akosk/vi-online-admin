@@ -33,6 +33,11 @@ export default function users(state = initialState.users, action) {
         selected: action.isSelected,
       }));
 
+    case types.DELETE_USERS_SUCCESS:
+      return state.filter((user, index) => {
+        return action.ids.indexOf(user.id)===-1
+      });
+
 
     default:
       return state;

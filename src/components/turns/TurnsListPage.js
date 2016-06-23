@@ -36,7 +36,7 @@ class TurnsListPage extends Component {
   }
 
   editIcon(id) {
-    return (<Link to={`/turns/${id}`} onClick={(e)=>e.stopPropagation()}>
+    return (<Link to={`/admin/turns/${id}`} onClick={(e)=>e.stopPropagation()}>
       <span className="glyphicon glyphicon-pencil"></span>
     </Link>);
   }
@@ -47,10 +47,18 @@ class TurnsListPage extends Component {
     return (
       <div>
         <Panel className="panel-primary" header={(
+        <div>
         <span>
-        Felhasználók &nbsp;&nbsp;
+        Turnusok &nbsp;&nbsp;
         <Badge>{turns.length}</Badge>
         </span>
+        <div className="pull-right">
+          <Link to={`/admin/turns/new`} onClick={this.editIcon}>
+          <span className="glyphicon glyphicon-plus" style={{color:'white',fontSize:'1.4em'}}></span>
+          </Link>
+        </div>
+
+        </div>
         )}>
           <BootstrapTable data={turns} striped={false} hover
                           deleteRow
