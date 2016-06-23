@@ -48,6 +48,9 @@ export class LayoutContainer extends Component {
                 className="glyphicon glyphicon-user"></span> FELHASZNÁLÓK</MenuItem>
               <MenuItem eventKey="4.2" componentClass={Link} href="/admin/turns" to="/admin/turns"><span
                 className="glyphicon glyphicon-list-alt"></span> TURNUSOK</MenuItem>
+              <hr/>
+              <MenuItem eventKey="4.3" componentClass={Link} href="/admin/github" to="/admin/github"><span
+                className="glyphicon glyphicon-tasks"></span> Fejlesztési feladatok</MenuItem>
             </NavDropdown>
             }
 

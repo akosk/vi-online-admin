@@ -11,6 +11,7 @@ import UsersPage from './components/users/UsersPage';
 import UsersListPage from './components/users/UsersListPage';
 import ManageUserPage from './components/users/ManageUserPage';
 import TurnsPage from './components/turns/TurnsPage';
+import GitHubIssuesPage from './components/github/GitHubIssuesPage';
 import TurnsListPage from './components/turns/TurnsListPage';
 import ManageTurnPage from './components/turns/ManageTurnPage';
 import NotFoundRoutePage from './components/NotFoundRoutePage';
@@ -89,6 +90,7 @@ const createRoutes = (store)=> {
           <Route path="new" component={ManageTurnPage}/>
           <Route path=":id" component={ManageTurnPage}/>
         </Route>
+        <Route path="github" component={GitHubIssuesPage}/>
       </Route>
       <Route path="*" component={NotFoundRoutePage}/>
     </Route>
