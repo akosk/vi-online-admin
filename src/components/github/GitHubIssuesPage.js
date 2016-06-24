@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Panel} from 'react-bootstrap';
+import {Panel,Media} from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -23,6 +23,20 @@ class GitHubIssuesPage extends Component {
     let list=[];
     if (this.state.data) {
      list= this.state.data.map((item)=><li key={item.title}>{item.title}</li>);
+     list= this.state.data.map((item)=>(
+       <div>
+       <Media >
+         <Media.Left align="middle">
+           <img width={54} height={54} src={item.user.avatar_url} alt="Image" className="img-circle"/>
+         </Media.Left>
+         <Media.Body>
+           <Media.Heading>#{item.number}</Media.Heading>
+           <p>{item.title}</p>
+         </Media.Body>
+       </Media>
+       <hr/>
+         </div>
+     ));
     }
     return (
       <Panel className="panel-primary" header={(
@@ -30,9 +44,11 @@ class GitHubIssuesPage extends Component {
         Aktuális fejlesztendő feladatok
         </span>
         )}>
-        <ul>
+
+        <div >
           {list}
-        </ul>
+        </div>
+
       </Panel>
     );
   }

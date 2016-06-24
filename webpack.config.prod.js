@@ -25,7 +25,7 @@ export default {
     new HtmlWebpackPlugin({
       inject: 'body',
       filename: 'index.html',
-      template: 'src/index.html'
+      template: 'src/index_dist.html'
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin(GLOBALS),
