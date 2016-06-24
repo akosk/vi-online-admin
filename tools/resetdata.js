@@ -164,11 +164,8 @@ data.tests[0].questions.forEach(function(item,index){
   item.id='q_'+index;
 });
 
-var config = {
-  host: '192.168.99.100',
-  port: '28015',
-  db: 'vi_del_dunantul'
-};
+import c from './config';
+var config = c.db;
 
 
 var createDb = function (next) {
