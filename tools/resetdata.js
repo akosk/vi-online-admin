@@ -1,7 +1,9 @@
-var r = require("rethinkdb");
-var async = require("async");
+import r from "rethinkdb";
+import async from "async" ;
+import c from './config';
+const config = c.db;
 
-var data = {
+const data = {
   users: [{
     "email": "admin@admin.hu",
     "id": "d49dda99-28ce-444a-a59a-ce5441b85459",
@@ -17,7 +19,11 @@ var data = {
   }],
   turns: [{
     "active": true,
-    "competency_test": { "end_at": 1466071650937, "id": "12724bc9-9874-41c4-8d5e-7aaf6f642dfe", "start_at": 1466071650937 },
+    "competency_test": {
+      "end_at": 1466071650937,
+      "id": "12724bc9-9874-41c4-8d5e-7aaf6f642dfe",
+      "start_at": 1466071650937
+    },
     "id": "12724bc9-9874-41c4-8d5e-7aaf6f642df",
     "name": "Teszt turnus 1.",
     "slug": "teszt-turnus-1",
@@ -160,36 +166,33 @@ var data = {
 };
 
 
-data.tests[0].questions.forEach(function(item,index){
-  item.id='q_'+index;
+data.tests[0].questions.forEach((item, index) => {
+  item.id = 'q_' + index;
 });
 
-import c from './config';
-var config = c.db;
 
-
-var createDb = function (next) {
-  r.connect(config, function (err, conn) {
-    r.dbCreate(config.db).run(conn, function (err, res) {
+const createDb = (next) => {
+  r.connect(config, (err, conn)=> {
+    r.dbCreate(config.db).run(conn, (err, res) => {
       conn.close();
       next(err, res);
     });
   });
 };
 
-var createTable = function (name, next) {
-  r.connect(config, function (err, conn) {
-    r.tableCreate(name).run(conn, function (err, res) {
+const createTable = (name, next)=> {
+  r.connect(config, (err, conn) => {
+    r.tableCreate(name).run(conn, (err, res) => {
       conn.close();
       next(err, res);
     });
   });
 };
 
-var loadData = function (name, next) {
-  console.log(`loadData ${name}`)
-  r.connect(config, function (err, conn) {
-    r.table(name).insert(data[name]).run(conn, function (err, res) {
+const loadData = (name, next) => {
+  console.log(`loadData ${name}`);
+  r.connect(config, (err, conn) => {
+    r.table(name).insert(data[name]).run(conn, (err, res) => {
       conn.close();
       next(err, res);
     });
@@ -197,10 +200,10 @@ var loadData = function (name, next) {
   });
 };
 
-var createTables = function (next) {
-  async.map(["users", "turns", "tests", "signup_datas", "userturns","usertests"], createTable, next);
+const createTables = (next) => {
+  async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
 };
-var createData = function (next) {
+const createData = (next) => {
   async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
 };
 
