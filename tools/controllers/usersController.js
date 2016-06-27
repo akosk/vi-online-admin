@@ -18,7 +18,7 @@ class UsersController {
     if (user.id === undefined) {
       try {
         const hash = await hash_password(user.password);
-        const result=model.insertUser({ ...user, password: hash, role: 'user' });
+        const result=await model.insertUser({ ...user, password: hash, role: 'user' });
         return res.send(result.generated_keys);
       } catch (err) {
         console.log(err);

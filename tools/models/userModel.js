@@ -64,7 +64,6 @@ export async function insertUser(user) {
   console.log(`insertUser`,user);
   const connection = await pool.getConnection();
   const result = await rdb.table('users')
-                          .get(user.id)
                           .insert(user)
                           .run(connection);
   pool.closeConnection(connection);
