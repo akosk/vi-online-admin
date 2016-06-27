@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import testApi from '../api/mockTestApi';
+import testApi from '../api/testApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 
@@ -28,8 +28,8 @@ export function loadTestsSuccess(tests) {
 export function loadTests() {
   return function (dispatch) {
     dispatch(beginAjaxCall());
-    return testApi.getAllTests().then(tests => {
-      dispatch(loadTestsSuccess(tests));
+    return testApi.getAllTests().then(result => {
+      dispatch(loadTestsSuccess(result.data));
     }).catch(error => {
       throw(error);
     });

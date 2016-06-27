@@ -16,5 +16,14 @@ export async function getTest(test_id) {
   return test;
 }
 
+export async function getAllTests() {
+  console.log(`getAllTests`);
+  const connection = await pool.getConnection();
+  const result = await rdb.table('tests')
+                          .run(connection);
 
+  const tests= await result.toArray();
+  pool.closeConnection(connection);
+  return tests;
+}
 

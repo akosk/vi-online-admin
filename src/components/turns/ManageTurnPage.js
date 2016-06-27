@@ -71,6 +71,7 @@ class ManageTurnPage extends Component {
 
   updateTurnState(event, component) {
     let turn = this.state.turn;
+
     if (component) {
       // If component is daterangepicker
       const field =event.target.attributes.name.value;

@@ -5,6 +5,7 @@ import multipart from 'connect-multiparty';
 import UsersController from './controllers/usersController';
 import AuthController from './controllers/authController';
 import UserturnController from './controllers/userturnController';
+import TestController from './controllers/testController';
 import TurnController from './controllers/turnController';
 import SignupDataController from './controllers/signupDataController';
 import UsertestsController from './controllers/usertestsController';
@@ -33,6 +34,8 @@ const router = (app)=> {
 
   app.put('/userturns', authorize, blocked,  UserturnController.signUpToTurn);
   app.get('/userturns/:user_id/:turn_id', authorize, blocked,  UserturnController.getUserTurn);
+
+  app.get('/tests', authorize, blocked,  TestController.getAllTests);
 
   app.get('/turns', authorize, blocked,  TurnController.getAllTurns);
   app.post('/turns', authorize, blocked,  TurnController.saveTurn);
