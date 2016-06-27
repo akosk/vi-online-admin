@@ -95,22 +95,23 @@ class RegistrationPage extends Component {
   render() {
     return (
       <div>
-        <Panel className="panel-primary" header="Regisztráció">
-          <RegistrationForm
-            onChange={this.updateRegistrationState}
-            onSave={this.saveRegistration}
-            registration={this.state.user}
-            errors={this.state.errors}
-            saving={this.state.saving}
-          />
+        <div className="col-sm-6 col-sm-offset-3">
+          <Panel className="panel-primary" header="Regisztráció">
+            <RegistrationForm
+              onChange={this.updateRegistrationState}
+              onSave={this.saveRegistration}
+              registration={this.state.user}
+              errors={this.state.errors}
+              saving={this.state.saving}
+            />
 
-        </Panel>
+          </Panel>
+        </div>
 
       </div>
     );
   }
 }
-
 
 
 export default connect(null, actions)(RegistrationPage);
