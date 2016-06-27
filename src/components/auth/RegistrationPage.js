@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {browserHistory} from 'react-router';
+import {browserHistory,Link} from 'react-router';
 import {HelpBlock, Form, Panel, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import toastr from 'toastr';
 
@@ -95,7 +95,7 @@ class RegistrationPage extends Component {
   render() {
     return (
       <div>
-        <div className="col-sm-6 col-sm-offset-3">
+        <div className="col-sm-8 col-sm-offset-2">
           <Panel className="panel-primary" header="Regisztráció">
             <RegistrationForm
               onChange={this.updateRegistrationState}
@@ -105,8 +105,13 @@ class RegistrationPage extends Component {
               saving={this.state.saving}
             />
 
+            <div className="text-muted" style={{marginTop:36}}>
+              Amennyiben mégsem szeretne regisztrálni, <Link to="/">kattintson ide</Link> a főoldalra való visszajutáshoz.
+            </div>
+
           </Panel>
         </div>
+
 
       </div>
     );
