@@ -30,3 +30,8 @@
 .layout-leave-active {
   opacity: 0;
 }
+
+.nav hr {
+  margin-top:6px;
+  margin-bottom:6px;
+}
