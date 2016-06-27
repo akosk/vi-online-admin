@@ -7,10 +7,6 @@ import * as model from '../models/signupDataModel';
 class SignupDataController {
 
   static async getSignupDataByUserId(req, res) {
-    if (!req.body) {
-      res.status(400);
-      return res.send('Bad request.');
-    }
 
     const {user_id}=req.params;
 

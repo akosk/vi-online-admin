@@ -4,7 +4,7 @@ import pool from '../lib/RethinkDbConnectionPool';
 
 
 export async function updateSignupData(signupData) {
-  console.log('updateSignupData',signupData)
+  console.log('updateSignupData', signupData)
   delete(signupData.created_at);
   delete(signupData.user_id);
 
@@ -18,21 +18,21 @@ export async function updateSignupData(signupData) {
 }
 
 export async function insertSignupData(signupData) {
-  console.log('insertSignupData',signupData)
+  console.log('insertSignupData', signupData)
 
   const connection = await pool.getConnection();
   const result = await rdb.table('signup_datas')
                           .insert({ ...signupData, created_at: rdb.now() })
                           .run(connection);
   console.log(result);
-  const newSignupData=await getSignupData(result.generated_keys);
+  const newSignupData = await getSignupData(result.generated_keys);
   pool.closeConnection(connection);
 
   return newSignupData;
 }
 
 export async function getSignupData(id) {
-  console.log('getSignupData',id)
+  console.log('getSignupData', id)
 
 
   const connection = await pool.getConnection();
@@ -44,5 +44,15 @@ export async function getSignupData(id) {
 }
 
 export async function getSignupDataByUserId(user_id) {
+  console.log('getSignupDataByUserId', user_id)
 
+
+  const connection = await pool.getConnection();
+  const result = await rdb.table('signup_datas')
+                          .filter({ user_id })
+                          .run(connection);
+  const data = await result.toArray();
+
+  pool.closeConnection(connection);
+  return data.length > 0 ? data[0] : {};
 }
