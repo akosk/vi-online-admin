@@ -85,10 +85,7 @@ class UserturnController {
     const {user_id, turn_id}=req.body;
 
     try {
-      const connection = await rdb.connect(config.db);
-      const result = await rdb.table('userturns')
-                              .insert({ user_id, turn_id, created_at: rdb.now() })
-                              .run(connection);
+      const result = await model.insertUserturn(user_id,turn_id);
 
       return res.send('Ok');
 

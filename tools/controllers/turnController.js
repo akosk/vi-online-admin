@@ -7,14 +7,8 @@ class TurnController {
   static async getAllTurns(req, res) {
 
     try {
-      const connection = await rdb.connect(config.db);
-      const result = await rdb.table('turns')
-                              .run(connection);
-
-      const turns= await result.toArray();
+      const turns=await model.getAllTurns();
       console.log(turns);
-
-
       return res.send(turns);
 
     } catch (err) {

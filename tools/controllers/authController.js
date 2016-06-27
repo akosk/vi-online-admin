@@ -8,6 +8,7 @@ import {verify} from '../lib/token'
 class AuthController {
 
   static async loginWithToken(req, res) {
+    console.log('loginWithToken');
     if (!req.body) {
       res.status(400);
       return res.send('Bad request.');
@@ -22,13 +23,15 @@ class AuthController {
       console.log(data);
 
       const user = await model.getUserByEmail(data.user.email);
+      console.log('loginWithToken',user);
 
       if (user.blocked) {
-        throw('')
+        throw new Error('A felhasználó tiltva van.');
       }
 
       res.send({ user, token });
     } catch (err) {
+      console.log(err.message);
       return res.send({ error: err.message });
     }
 
@@ -36,6 +39,7 @@ class AuthController {
 
   static async login(req, res) {
 
+    console.log('login');
     if (!req.body) {
       res.status(400);
       return res.send('Bad request.');

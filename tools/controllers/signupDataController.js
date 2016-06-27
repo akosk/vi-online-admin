@@ -1,7 +1,7 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 
-import {updateSignupData, insertSignupData} from '../models/signupDataModel';
+import * as model from '../models/signupDataModel';
 
 
 class SignupDataController {
@@ -17,15 +17,8 @@ class SignupDataController {
     console.log(`getSignupDataByUserId for ${user_id}`);
 
     try {
-      const connection = await rdb.connect(config.db);
-      let cursor = await rdb.table('signup_datas')
-                            .filter({ user_id })
-                            .run(connection);
-
-      const signupData = await cursor.toArray();
-
-      return res.send(signupData.length == 0 ? {} : signupData[0]);
-
+      const signupData = await model.getSignupDataByUserId(user_id);
+      return res.send(signupData);
     } catch (err) {
       console.log(err);
       res.status(500);
@@ -42,18 +35,16 @@ class SignupDataController {
       return res.send('Bad request.');
     }
 
-    const signupData = req.body;
-
+    let signupData = req.body;
+console.log("SignupData",signupData);
 
     try {
-      const connection = await rdb.connect(config.db);
       if (signupData.id) {
-        const result = await updateSignupData(signupData);
+        const result = await model.updateSignupData(signupData);
       } else {
         signupData.user_id = req.token.user.id;
-        const signupData = await insertSignupData(signupData);
+        signupData = await model.insertSignupData(signupData);
       }
-
       return res.send(signupData);
 
     } catch (err) {

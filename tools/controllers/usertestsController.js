@@ -1,5 +1,7 @@
 import rdb from 'rethinkdb';
 import config from '../config';
+import * as model from '../models/usertestModel';
+import * as testmodel from '../models/testModel';
 
 import {hash_password} from '../lib/auth';
 
@@ -12,25 +14,18 @@ class UsertestsController {
     console.log(`getUserTest for ${user_id} ${test_id}`);
 
     try {
-      const connection = await rdb.connect(config.db);
-      let cursor = await rdb.table('usertests')
-                            .filter({ user_id, test_id })
-                            .run(connection);
 
-      let usertest = await cursor.toArray();
+      let usertest = await model.getUserTest(user_id, test_id);
 
       if (usertest.length == 0) {
-        usertest = await rdb.table('tests')
-                            .get(test_id)
-                            .run(connection);
+        usertest = await testmodel.getTest(test_id);
         usertest.test_id = test_id;
         usertest.user_id = user_id;
         delete(usertest.id);
         usertest.questions.forEach(item=> item.value = '');
 
-        const result = await rdb.table('usertests')
-                                .insert(usertest)
-                                .run(connection);
+        const result = model.insertUserTest(usertest);
+
       } else {
         usertest = usertest[0];
       }
@@ -56,11 +51,7 @@ class UsertestsController {
     console.log(`saveUserTest body ${test} `);
 
     try {
-      const connection = await rdb.connect(config.db);
-      let result = await rdb.table('usertests')
-                            .get(usertest_id)
-                            .update(test)
-                            .run(connection);
+      let result = await model.saveUserTest(test);
       return res.send(test);
     } catch (err) {
       console.log(err);
