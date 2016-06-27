@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import _ from 'lodash';
 import EasyTransition from 'react-easy-transition'
 
@@ -8,6 +8,11 @@ import { Nav, Navbar, NavDropdown, NavItem, MenuItem, Button, Label, Breadcrumb 
 import * as authActions from '../actions/authActions';
 
 export class LayoutContainer extends Component {
+
+  constructor(props,context) {
+    super(props,context);
+    this.logout=this.logout.bind(this);
+  }
 
   static propTypes = {
     children: React.PropTypes.element.isRequired,
@@ -17,8 +22,13 @@ export class LayoutContainer extends Component {
     displayName: React.PropTypes.string.isRequired,
   };
 
+  logout() {
+    this.props.logout();
+    browserHistory.push('/');
+  }
+
   render() {
-    const { isLoggedIn, isAdmin, logout, displayName, avatarUrl,  } = this.props;
+    const { isLoggedIn, isAdmin, displayName, avatarUrl,  } = this.props;
 
     return (
       <div  >
@@ -34,7 +44,7 @@ export class LayoutContainer extends Component {
             <NavItem>&nbsp;<strong><span className="glyphicon glyphicon-user"></span> {displayName}</strong> &nbsp;
             </NavItem>
             {isLoggedIn &&
-            <NavItem eventKey={1} onClick={logout}>
+            <NavItem eventKey={1} onClick={this.logout}>
               <span className="glyphicon glyphicon-log-out"></span>
             </NavItem>
             }

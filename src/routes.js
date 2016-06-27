@@ -46,6 +46,23 @@ const createRoutes = (store)=> {
 
   };
 
+  const requireGuest = (nextState, replace) => {
+    const state = store.getState();
+    const role = _.get(state, 'auth.user.role', null);
+    if (role === 'admin') {
+      replace('/admin');
+    }
+    if (role === 'user') {
+			var slug = _.get(state, 'userturns.currentTurn.slug',null);
+      if (slug) {
+        replace(`/user/${slug}/dashboard`);
+      } else {
+        replace('/user/select-turn');
+      }
+    }
+
+  };
+
   const initUserTurns = (nextState, replace)=> {
     const state = store.getState();
     store.dispatch(actions.getCurrentTurn(state.auth.user.id)).then((x)=> {
@@ -67,7 +84,7 @@ const createRoutes = (store)=> {
 
   return (
     <Route path="/" component={LayoutContainer}>
-      <IndexRoute component={HomePage}/>
+      <IndexRoute component={HomePage} onEnter={requireGuest}/>
       <Route path="login" component={LoginPage}/>
       <Route path="registration" component={RegistrationPage}/>
       <Route path="user" onEnter={(n,r)=>requireRole(n,r,'user')}>

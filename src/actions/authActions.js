@@ -31,7 +31,7 @@ export function loginSuccess(authData) {
 export function logout() {
   return (dispatch, getState) => {
     localStorage.removeItem('token');
-    browserHistory.push('/');
+
     dispatch({
       type: 'LOGOUT_SUCCESS'
     });
