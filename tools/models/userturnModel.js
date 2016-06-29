@@ -3,90 +3,150 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 
 
-export async function getUserCurrentTurn(user_id) {
+export function getUserCurrentTurn(user_id) {
 
-  const connection = await pool.getConnection();
-  let userturnsCursor = await rdb.table('userturns')
-                                 .filter({ user_id })
-                                 .run(connection);
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({ user_id })
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((userturns)=> {
+              if (userturns.length == 0) {
+                return null;
+              }
+              return userturns[0];
+            })
+            .then((userturn)=> {
+              if (!userturn) return null;
+              return rdb.table('turns')
+                        .get(userturn.turn_id)
+                        .coerceTo('object')
+                        .run(conn);
 
-  const userturns = await userturnsCursor.toArray();
-
-
-  if (userturns.length == 0) {
-    return null;
-  }
-  const userturn = userturns[0];
-
-  const turnsCursor = await rdb.table('turns')
-                               .filter({ id: userturn.turn_id })
-                               .run(connection);
-  const turns = await turnsCursor.toArray();
-
-  pool.closeConnection(connection);
-  return turns.length > 0 ? turns[0] : null;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
-export async function getUserTurn(user_id, turn_id) {
+//export function getUserTurn(user_id, turn_id) {
+//  console.log('hihi');
+//  const connection =  /* await */  pool.getConnection();
+//  console.log('haha');
+//  rdb.table('userturns')
+//     .filter({ user_id, turn_id })
+//     .run(connection)
+//     .then(
+//       (data)=>{
+//         console.log(data);
+//         console.log('huhu');
+//         data.toArray().then(
+//           (userturns)=>{
+//             console.log(userturns);
+//             if (userturns.length == 0) {
+//               return null;
+//             }
+//             const userturn = userturns[0];
+//             pool.closeConnection(connection);
+//             return userturn;
+//
+//           }
+//         );
+//
+//       }
+//     );
+//
+//}
+export function getUserTurn(user_id, turn_id) {
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .coerceTo('array')
+                        .run(conn)
+            })
+            .then((userturns)=> {
+              if (userturns.length == 0) {
+                return null;
+              }
+              const userturn = userturns[0];
+              return userturn;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 
-  const connection = await pool.getConnection();
-  let userturnsCursor = await rdb.table('userturns')
-                                 .filter({ user_id, turn_id })
-                                 .run(connection);
 
-  const userturns = await userturnsCursor.toArray();
-
-
-  if (userturns.length == 0) {
-    return null;
-  }
-  const userturn = userturns[0];
-  pool.closeConnection(connection);
-
-  return userturn;
 }
 
-export async function setProgress(user_id, turn_id, progressName) {
-  const connection = await pool.getConnection();
+export function setProgress(user_id, turn_id, progressName) {
 
   const progress = {};
   progress[progressName] = {
     created_at: rdb.now()
   };
 
-  let updateResult = await rdb.table('userturns')
-                                 .filter({ user_id, turn_id })
-                                 .update({
-                                   progress
-                                 })
-                                 .run(connection);
-
-  let userturnsCursor = await rdb.table('userturns')
-                                 .filter({ user_id, turn_id })
-                                 .run(connection);
-
-  const userturns = await userturnsCursor.toArray();
-
-
-  if (userturns.length == 0) {
-    return null;
-  }
-  const userturn = userturns[0];
-
-  pool.closeConnection(connection);
-  return userturn;
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .update({
+                            progress
+                          },
+                          { return_changes: true }
+                        )
+                        .run(conn)
+            })
+            .then((result)=> {
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .coerceTo('array')
+                        .run(conn)
+            })
+            .then((userturns)=>{
+              if (userturns.length>0) return userturns[0];
+              return {};
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
 
+export function insertUserturn(user_id, turn_id) {
+  console.log(`insertUserturn`, user_id, turn_id);
 
-export async function insertUserturn(user_id, turn_id) {
-  console.log(`insertUserturn`,user_id, turn_id);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('userturns')
-                          .insert({ user_id, turn_id, created_at: rdb.now() })
-                          .run(connection);
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .insert({ user_id, turn_id, created_at: rdb.now() })
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 
-  console.log(result);
-  pool.closeConnection(connection);
-  return result;
+
 }

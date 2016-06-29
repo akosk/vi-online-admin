@@ -17,7 +17,10 @@ class FinalizeSignup extends Component {
   }
 
   finalize(event) {
-    this.props.finalizeSignup(this.props.user.id, this.props.userturn.turn_id);
+    this.props.finalizeSignup(this.props.user.id, this.props.userturn.turn_id)
+    .then((errors)=>{
+      this.setState({errors})
+    });
   }
 
 
@@ -27,7 +30,7 @@ class FinalizeSignup extends Component {
 
         <Panel bsStyle="primary" header="Jelentkezés">
           {(!this.props.signupCompleted) &&
-          <div>
+          <div style={{marginBottom:24}}>
             <Alert bsStyle="info">
               A jelentkezés véglegesítése előtt kérjük végezze el az alábbiakat!
             </Alert>
@@ -44,6 +47,14 @@ class FinalizeSignup extends Component {
           {(this.props.signupCompleted) &&
             <Alert bsStyle="success">
               A jelentkezés véglegesítése megtörtént!
+            </Alert>
+          }
+
+          {(this.state.errors) &&
+            <Alert bsStyle="danger">
+              <ul>
+              {this.state.errors.map((error)=><li>{error}</li>)}
+              </ul>
             </Alert>
           }
         </Panel>

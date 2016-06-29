@@ -4,66 +4,73 @@ import * as model from '../models/turnModel';
 
 class TurnController {
 
-  static async getAllTurns(req, res) {
+  static getAllTurns(req, res) {
 
-    try {
-      const turns=await model.getAllTurns();
-      console.log(turns);
-      return res.send(turns);
-
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
-    }
+    model.getAllTurns()
+         .then((turns)=> {
+           return res.send(turns);
+         })
+         .catch((err)=> {
+           console.log(err);
+           res.status(500);
+           return res.send(err);
+         });
 
   }
 
-  static async saveTurn(req,res) {
+  static saveTurn(req, res) {
     if (!req.body) {
       res.status(400);
       return res.send('Bad request.');
     }
 
     console.log(req.body);
-    const turn=req.body.turn;
+    const turn = req.body.turn;
 
-    if (turn.id === undefined || turn.id=='') {
-      try {
-        const result = await model.insertTurn(turn);
-        return res.send(result.generated_keys);
+    let promise = null;
 
-      } catch (err) {
-        console.log(err);
-        res.status(500);
-        return res.send(err);
-      }
-
+    if (turn.id === undefined || turn.id == '') {
+      promise = model.insertTurn(turn);
     } else {
-      const result=await model.updateTurn(turn);
-      return res.send({turn});
+      promise = model.updateTurn(turn);
     }
+
+    promise.then((turn)=> {
+             console.log('saveTurn :', turn);
+             res.send(turn);
+           })
+           .catch((err)=> {
+             console.log(err);
+             res.status(500);
+             return res.send(err);
+           });
 
   }
 
-  static async deleteTurns(req, res) {
-    try {
-      if (!req.body) {
-        return res.send('Bad request.');
-      }
-
-      console.log(req.body)
-      const {ids}=req.body;
-
-      for (var i = 0; i < ids.length; i++) {
-        let result = await model.deleteTurn(ids[i]);
-      }
-      return res.send('Ok');
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
+  static deleteTurns(req, res) {
+    if (!req.body) {
+      return res.send('Bad request.');
     }
+
+    console.log(req.body)
+    const {ids}=req.body;
+
+    const promises = []
+    for (var i = 0; i < ids.length; i++) {
+      promises.push(model.deleteTurn(ids[i]));
+    }
+
+    Promise.all(promises)
+           .then((values)=> {
+             res.send('OK');
+           })
+           .catch((err)=> {
+             console.log(err);
+             res.status(500);
+             return res.send(err);
+           });
+
+
   }
 
 

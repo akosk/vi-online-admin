@@ -4,7 +4,7 @@ import turnApi from './turnApi';
 class UserturnApi {
 
 
-  static getSignupStatement(user_id,test_id) {
+  static getSignupStatement(user_id, test_id) {
     return axios.get(`/userturns/${user_id}/${test_id}`,
       { headers: { 'x-api-token': localStorage.getItem('token') } }
     );
@@ -12,30 +12,34 @@ class UserturnApi {
 
   static async getCurrentTurn(user_id) {
     return axios.get(`/get-current-turn/${user_id}`,
-        {
-          headers: { 'x-api-token': localStorage.getItem('token') }
-        }
-      );
-  }
-  static async getUserTurn(user_id,turn_id) {
-    return axios.get(`/userturns/${user_id}/${turn_id}`,
-        {
-          headers: { 'x-api-token': localStorage.getItem('token') }
-        }
-      );
+      {
+        headers: { 'x-api-token': localStorage.getItem('token') }
+      }
+    );
   }
 
-  static async finalizeSignup(user_id,turn_id) {
+  static async getUserTurn(user_id, turn_id) {
+    return axios.get(`/userturns/${user_id}/${turn_id}`,
+      {
+        headers: { 'x-api-token': localStorage.getItem('token') }
+      }
+    );
+  }
+
+  static async finalizeSignup(user_id, turn_id) {
     return axios.post(`/finalize-signup`,
-      {user_id,turn_id},
-        {
-          headers: { 'x-api-token': localStorage.getItem('token') }
-        }
-      );
+      { user_id, turn_id },
+      {
+        headers: { 'x-api-token': localStorage.getItem('token') }
+      }
+    );
   }
 
   static signUpToTurn(user, turn) {
-    return axios.put(`/userturns`, { user_id: user.id, turn_id: turn.id });
+    return axios.put(`/userturns`,
+      { user_id: user.id, turn_id: turn.id },
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
   }
 
   static saveUser({id, name,email,password}) {

@@ -6,8 +6,8 @@ import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 export function saveSignupData(signupData) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
-    return signupDataApi.saveSignupData(signupData).then(signupData => {
-      dispatch(updateSignupDataSuccess(signupData));
+    return signupDataApi.saveSignupData(signupData).then(response => {
+      dispatch(updateSignupDataSuccess(response.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -18,8 +18,8 @@ export function saveSignupData(signupData) {
 export function getSignupDataByUserId(user_id) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
-    return signupDataApi.getSignupDataByUserId(user_id).then(signupData => {
-      dispatch(loadSignupDatasSuccess(signupData.data));
+    return signupDataApi.getSignupDataByUserId(user_id).then(response => {
+      dispatch(loadSignupDatasSuccess(response.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);

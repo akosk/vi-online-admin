@@ -6,25 +6,27 @@ import * as model from '../models/signupDataModel';
 
 class SignupDataController {
 
-  static async getSignupDataByUserId(req, res) {
+  static getSignupDataByUserId(req, res) {
 
     const {user_id}=req.params;
 
     console.log(`getSignupDataByUserId for ${user_id}`);
 
-    try {
-      const signupData = await model.getSignupDataByUserId(user_id);
-      return res.send(signupData);
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
-    }
+    model.getSignupDataByUserId(user_id)
+         .then((signupData)=> {
+           console.log('getSignupDataByUserId :', signupData);
+           res.send(signupData)
+         })
+         .catch((err)=> {
+           console.log(err);
+           res.status(500);
+           return res.send(err);
+         });
 
 
   }
 
-  static async saveSignupData(req, res) {
+  static saveSignupData(req, res) {
 
     if (!req.body) {
       res.status(400);
@@ -32,22 +34,25 @@ class SignupDataController {
     }
 
     let signupData = req.body;
-console.log("SignupData",signupData);
+    console.log("SignupData", signupData);
 
-    try {
-      if (signupData.id) {
-        const result = await model.updateSignupData(signupData);
-      } else {
-        signupData.user_id = req.token.user.id;
-        signupData = await model.insertSignupData(signupData);
-      }
-      return res.send(signupData);
-
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
+    let promise = null;
+    if (signupData.id) {
+      promise = model.updateSignupData(signupData);
+    } else {
+      signupData.user_id = req.token.user.id;
+      promise = model.insertSignupData(signupData);
     }
+    promise.then((signupData)=> {
+             console.log('saveSignupData :', signupData);
+             res.send(signupData);
+           })
+           .catch((err)=> {
+             console.log(err);
+             res.status(500);
+             return res.send(err);
+           });
+
   }
 
 

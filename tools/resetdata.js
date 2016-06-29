@@ -147,22 +147,8 @@ const data = {
     "user_id": "daacd210-e114-452f-95fd-8a2ef3b7a419",
     "vallalkozas_szekhelye": "BA"
   }],
-  userturns: [{
-    "crated_at": { "$reql_type$": "TIME", "epoch_time": 1466079824.187, "timezone": "+00:00" },
-    "id": "23b36700-a6c0-4207-a058-316db390601b",
-    "turn_id": "12724bc9-9874-41c4-8d5e-7aaf6f642df",
-    "user_id": "daacd210-e114-452f-95fd-8a2ef3b7a419"
-  }, {
-    "crated_at": { "$reql_type$": "TIME", "epoch_time": 1466079606.176, "timezone": "+00:00" },
-    "id": "7c5d93f1-960d-4002-9428-4567584ead22",
-    "turn_id": "12724bc9-9874-41c4-8d5e-7aaf6f642df",
-    "user_id": "daacd210-e114-452f-95fd-8a2ef3b7a419"
-  }, {
-    "crated_at": { "$reql_type$": "TIME", "epoch_time": 1466080560.321, "timezone": "+00:00" },
-    "id": "305672ec-2937-4be7-8257-ef30ce73da1d",
-    "turn_id": "12724bc9-9874-41c4-8d5e-7aaf6f642df",
-    "user_id": "daacd210-e114-452f-95fd-8a2ef3b7a419"
-  }]
+  userturns: [
+   ]
 };
 
 
@@ -201,10 +187,10 @@ const loadData = (name, next) => {
 };
 
 const createTables = (next) => {
-  async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
+async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
 };
 const createData = (next) => {
-  async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
+ async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
 };
 
 async.series({

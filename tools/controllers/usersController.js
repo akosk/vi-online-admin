@@ -6,7 +6,7 @@ import {hash_password} from '../lib/auth';
 
 class UsersController {
 
-  static async saveUser(req, res) {
+  static saveUser(req, res) {
 
     if (!req.body) {
       res.status(400);
@@ -15,54 +15,70 @@ class UsersController {
 
     const {user}=req.body;
 
+    let promise = null;
+
     if (user.id === undefined) {
-      try {
-        const hash = await hash_password(user.password);
-        const result=await model.insertUser({ ...user, password: hash, role: 'user' });
-        return res.send(result.generated_keys);
-      } catch (err) {
-        console.log(err);
-        res.status(500);
-        return res.send(err);
-      }
+      promise = hash_password(user.password)
+        .then((hash)=> {
+          console.log('new hash:', hash);
+          return model.insertUser({ ...user, password: hash, role: 'user' });
+        });
 
     } else {
       console.log('Módosítás');
-      const result=await model.updateUser(user);
-      return res.send({user});
+      promise = model.updateUser(user);
+      return res.send({ user });
     }
+
+    promise.then((user)=> {
+             console.log('saveUser', user);
+             res.send({ user });
+           })
+           .catch((err)=> {
+             console.log(err);
+             res.status(500);
+             return res.send(err);
+           });
 
   }
 
-  static async getAllUsers(req, res) {
-    try {
-      const users = await model.getAllUsers();
-      return res.send(users);
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
-    }
+  static getAllUsers(req, res) {
+    model.getAllUsers()
+         .then((users)=> {
+           return res.send(users);
+         })
+         .catch((err)=> {
+           console.log(err);
+           res.status(500);
+           return res.send(err);
+         });
+
   }
 
-  static async deleteUsers(req, res) {
-    try {
-      if (!req.body) {
-        return res.send('Bad request.');
-      }
-
-      console.log(req.body)
-      const {ids}=req.body;
-
-      for (var i = 0; i < ids.length; i++) {
-        let result = await model.deleteUser(ids[i]);
-      }
-      return res.send('Ok');
-    } catch (err) {
-      console.log(err);
-      res.status(500);
-      return res.send(err);
+  static deleteUsers(req, res) {
+    if (!req.body) {
+      return res.send('Bad request.');
     }
+
+    console.log(req.body)
+    const {ids}=req.body;
+
+    const promises = []
+    for (var i = 0; i < ids.length; i++) {
+      promises.push(model.deleteUser(ids[i]));
+    }
+
+    Promise.all(promises)
+           .then((values)=> {
+             res.send('OK');
+           })
+           .catch((err)=> {
+             console.log(err);
+             res.status(500);
+             return res.send(err);
+           });
+
+
   }
 
 }

@@ -3,71 +3,149 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 
 
-export async function updateSignupStatementFile(user_id, turn_id, filename) {
+export function updateSignupStatementFile(user_id, turn_id, filename) {
   console.log(`updateSignupStatementFile ${user_id} ${turn_id} ${filename}`);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('userturns')
-                          .filter({user_id,turn_id})
-                          .update({ signup_statement_file: filename })
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .update({ signup_statement_file: filename })
+                        .run(conn);
+            })
+            .then((result)=> {
+              return result;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
 }
 
-export async function getUserByEmail(email) {
+export function getUserByEmail(email) {
   console.log(`userModel/getUserByEmail ${email}`);
-  const connection = await pool.getConnection();
 
-  const result = await rdb.table('users')
-                          .filter({ email })
-                          .run(connection);
-  const userArray=await result.toArray();
-  pool.closeConnection(connection);
-
-  return userArray.length>0?userArray[0]:null;
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .filter({ email })
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((userArray)=> {
+              return userArray.length > 0 ? userArray[0] : null
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
-export async function getAllUsers() {
+export function getAllUsers() {
   console.log(`getAllUsers`);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('users')
-                          .run(connection);
-  const usersArray=await result.toArray();
-  pool.closeConnection(connection);
-  return usersArray;
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
-export async function deleteUser(user_id) {
+export function deleteUser(user_id) {
   console.log(`deleteUser`);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('users')
-                          .get(user_id)
-                          .delete()
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .get(user_id)
+                        .delete()
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
 }
 
 
-export async function updateUser(user) {
-  console.log(`updateUser`,user);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('users')
-                          .get(user.id)
-                          .update(user)
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+export function updateUser(user) {
+  console.log(`updateUser`, user);
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .get(user.id)
+                        .update(user, { return_changes: true })
+                        .run(conn);
+            })
+            .then((result)=> {
+              if (result.changes.length > 0) {
+                user = { ...user, ...result.changes[0].new_val };
+              }
+              console.log('user update return:', user.id);
+              return user;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
 }
 
-export async function insertUser(user) {
-  console.log(`insertUser`,user);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('users')
-                          .insert(user)
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result.generated_keys;
+export function insertUser(user) {
+  console.log(`insertUser`, user);
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .insert(user, { return_changes: true })
+                        .run(conn);
+            })
+            .then((result)=> {
+              const user = result.changes[0].new_val;
+              console.log('user insert return:', user.id);
+              return user;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
 }
 
 

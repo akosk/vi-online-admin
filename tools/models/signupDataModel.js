@@ -3,56 +3,104 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 
 
-export async function updateSignupData(signupData) {
+export function updateSignupData(signupData) {
   console.log('updateSignupData', signupData)
   delete(signupData.created_at);
   delete(signupData.user_id);
 
-  const connection = await pool.getConnection();
-  const result = await rdb.table('signup_datas')
-                          .get(signupData.id)
-                          .update({ ...signupData, updated_at: rdb.now() })
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('signup_datas')
+                        .get(signupData.id)
+                        .update({ ...signupData, updated_at: rdb.now() })
+                        .run(conn);
+            })
+            .then((result)=> {
+              return getSignupData(signupData.id)
+                .then((sd)=> {
+                  console.log('get updated SignupData', sd)
+                  return sd;
+                })
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
-export async function insertSignupData(signupData) {
+export function insertSignupData(signupData) {
   console.log('insertSignupData', signupData)
 
-  const connection = await pool.getConnection();
-  const result = await rdb.table('signup_datas')
-                          .insert({ ...signupData, created_at: rdb.now() })
-                          .run(connection);
-  console.log(result);
-  const newSignupData = await getSignupData(result.generated_keys);
-  pool.closeConnection(connection);
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('signup_datas')
+                        .insert({ ...signupData, created_at: rdb.now() })
+                        .run(conn);
+            })
+            .then((result)=> {
+              return getSignupData(result.generated_keys[0])
+                .then((sd)=> {
+                  console.log('get inserted SignupData', sd)
+                  return sd;
+                })
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 
-  return newSignupData;
+
 }
 
-export async function getSignupData(id) {
+export function getSignupData(id) {
   console.log('getSignupData', id)
 
-
-  const connection = await pool.getConnection();
-  const result = await rdb.table('signup_datas')
-                          .get(id)
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('signup_datas')
+                        .get(id)
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 }
 
-export async function getSignupDataByUserId(user_id) {
+export function getSignupDataByUserId(user_id) {
   console.log('getSignupDataByUserId', user_id)
 
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('signup_datas')
+                        .filter({ user_id })
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((signupDatas)=> {
+              return signupDatas.length > 0 ? signupDatas[0] : {};
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
 
-  const connection = await pool.getConnection();
-  const result = await rdb.table('signup_datas')
-                          .filter({ user_id })
-                          .run(connection);
-  const data = await result.toArray();
 
-  pool.closeConnection(connection);
-  return data.length > 0 ? data[0] : {};
 }

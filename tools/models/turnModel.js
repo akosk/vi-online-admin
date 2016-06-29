@@ -3,48 +3,123 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 
 
-export async function updateTurn(turn) {
-  console.log(`saveTurn`,turn);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('turns')
-                          .get(turn.id)
-                          .update(turn)
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+export function updateTurn(turn) {
+  console.log(`updateTurn`, turn);
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('turns')
+                        .get(turn.id)
+                        .update(turn, { return_changes: true })
+                        .run(conn);
+            })
+            .then((result)=> {
+              if (result.changes.length>0) {
+                turn = {...turn,...result.changes[0].new_val};
+              }
+              console.log('turn update return:', turn.id);
+              return turn;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
 }
 
-export async function insertTurn(turn) {
-  console.log(`saveTurn`,turn);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('turns')
-                          .insert(turn)
-                          .run(connection);
-  console.log(result);
-  pool.closeConnection(connection);
-  return result;
+export function insertTurn(turn) {
+  console.log(`insertTurn`, turn);
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('turns')
+                        .insert(turn, { return_changes: true })
+                        .run(conn);
+            })
+            .then((result)=> {
+              const turn = result.changes[0].new_val;
+              console.log('turn insert return:', turn.id);
+              return turn;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
 }
 
-export async function deleteTurn(turn_id) {
+export function deleteTurn(turn_id) {
   console.log(`deleteTurn`);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('turns')
-                          .get(turn_id)
-                          .delete()
-                          .run(connection);
-  pool.closeConnection(connection);
-  return result;
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('turns')
+                        .get(turn_id)
+                        .delete()
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
 }
 
-export async function getAllTurns() {
-  console.log(`getAllTurns`);
-  const connection = await pool.getConnection();
-  const result = await rdb.table('turns')
-                          .run(connection);
+export function getAllTurns() {
+  console.log(`turnModel/getAllTurns`);
 
-  const turns= await result.toArray();
-  pool.closeConnection(connection);
-  return turns;
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('turns')
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
+}
+
+export function getTurn(turn_id) {
+  console.log(`getTurn ${turn_id}`);
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('turns')
+                        .get(turn_id)
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
 }
 
 
