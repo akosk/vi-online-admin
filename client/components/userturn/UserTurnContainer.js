@@ -4,7 +4,8 @@ import { Link } from 'react-router';
 import  {LinkContainer} from'react-router-bootstrap';
 import {Nav, NavItem,Panel} from 'react-bootstrap';
 import _ from 'lodash';
-
+//import * as progressTypes from '../../progressTypes';
+import * as progressTypes from '../../../common/progressTypes';
 
 class UserTurnContainer extends Component {
 
@@ -36,20 +37,20 @@ class UserTurnContainer extends Component {
               <Nav bsStyle="pills" stacked>
                 <LinkContainer to={`${turnRootUrl}/signup-data`}>
                   <NavItem eventKey={1}>
-                    {this.props.progress.SIGNUP_COMPLETED && ready}
+                    {this.props.progress[progressTypes.SIGNUP_COMPLETED] && ready}
                     Jelentkezési lap
                   </NavItem>
                 </LinkContainer>
                 <LinkContainer to={`${turnRootUrl}/signup-test`}>
                   <NavItem eventKey={2}>
-                    {this.props.progress.SIGNUP_COMPLETED && ready}
+                    {this.props.progress[progressTypes.SIGNUP_COMPLETED] && ready}
                     Kérdőív
                   </NavItem>
                 </LinkContainer>
                 <LinkContainer to={`${turnRootUrl}/signup-statement`}>
                   <NavItem eventKey={2}>
-                    {this.props.progress.SIGNUP_COMPLETED && ready}
-                    Nyilatkozat
+                    {this.props.progress[progressTypes.SIGNUP_COMPLETED] && ready}
+                    Nyilatkozatok
                   </NavItem>
                 </LinkContainer>
               </Nav>

@@ -101,6 +101,40 @@ export function setProgress(user_id, turn_id, progressName) {
             });
 }
 
+export function setProgressById(userturn_id, progressName) {
+
+  const progress = {};
+  progress[progressName] = {
+    created_at: rdb.now()
+  };
+
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .update({
+                            progress
+                          },
+                          { return_changes: true }
+                        )
+                        .run(conn)
+            })
+            .then((result)=> {
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .coerceTo('object')
+                        .run(conn)
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
 
 export function insertUserturn(user_id, turn_id) {
   console.log(`insertUserturn`, user_id, turn_id);

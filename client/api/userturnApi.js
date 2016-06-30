@@ -10,7 +10,14 @@ class UserturnApi {
     );
   }
 
-  static async getCurrentTurn(user_id) {
+  static setProgress(userturn_id, progress) {
+    return axios.post(`/set-progress/${userturn_id}`,
+      { progress },
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
+  static  getCurrentTurn(user_id) {
     return axios.get(`/get-current-turn/${user_id}`,
       {
         headers: { 'x-api-token': localStorage.getItem('token') }
@@ -18,7 +25,7 @@ class UserturnApi {
     );
   }
 
-  static async getUserTurn(user_id, turn_id) {
+  static  getUserTurn(user_id, turn_id) {
     return axios.get(`/userturns/${user_id}/${turn_id}`,
       {
         headers: { 'x-api-token': localStorage.getItem('token') }
@@ -26,7 +33,7 @@ class UserturnApi {
     );
   }
 
-  static async finalizeSignup(user_id, turn_id) {
+  static  finalizeSignup(user_id, turn_id) {
     return axios.post(`/finalize-signup`,
       { user_id, turn_id },
       {

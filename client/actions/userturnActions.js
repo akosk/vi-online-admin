@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import userturnApi from '../api/userturnApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import * as progressTypes from '../../common/progressTypes';
 
 export function signUpToTurn(user, turn) {
   return function (dispatch, getState) {
@@ -52,6 +53,19 @@ export function getSignupStatement(user_id, test_id) {
   };
 }
 
+export function acceptSignupStatements(userturn_id) {
+  return function (dispatch, getState) {
+    console.log('Actions acceptSignupStatements', userturn_id);
+    dispatch(beginAjaxCall());
+    return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_STATEMENTS_ACCEPTED).then(result => {
+      dispatch(acceptSignupStatementsSuccess(result.data));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+}
+
 export function finalizeSignup(user_id, turn_id) {
   return function (dispatch, getState) {
     console.log('Actions finalizeSignup', user_id, turn_id);
@@ -73,6 +87,10 @@ export function finalizeSignup(user_id, turn_id) {
 
 function getUserTurnSuccess(userturn) {
   return { type: types.GET_USER_TURN_SUCCESS, userturn };
+}
+
+function acceptSignupStatementsSuccess(userturn) {
+  return { type: types.ACCEPT_SIGNUP_STATEMENTS_SUCCESS, userturn };
 }
 function finalizeSignupSuccess(userturn) {
   return { type: types.FINALIZE_SIGNUP_SUCCESS, userturn };

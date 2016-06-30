@@ -36,7 +36,7 @@ class FinalizeSignup extends Component {
             </Alert>
             <p><Label>1</Label> Töltse ki a jelentkezési lapot.</p>
             <p><Label>2</Label> Töltse ki a kérdőívet.</p>
-            <p><Label>3</Label> Töltse fel az aláírt nyilatkozatot.</p>
+            <p><Label>3</Label> Fogadjon el a nyilatkozatokat és töltse fel az aláírt jelentkezési nyilatkozatot.</p>
 
             <div className="text-center">
               <Button onClick={this.finalize} bsStyle="warning" bsSize="large">Jelentkezés véglegesítése</Button>

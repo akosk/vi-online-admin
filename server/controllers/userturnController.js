@@ -5,14 +5,41 @@ import * as model from '../models/userturnModel';
 import * as turnModel from '../models/turnModel';
 import * as usertestModel from '../models/usertestModel';
 import * as signupDataModel from '../models/signupDataModel';
-import * as progressTypes from './progressTypes';
+import * as progressTypes from '../../common/progressTypes';
 
 
 class UserturnController {
 
 
+  static setProgress(req, res) {
+    if (!req.body) {
+      res.status(400);
+      return res.send('Bad request.');
+    }
+
+    const {userturn_id} =req.params;
+    const {progress} = req.body;
+    console.log(`finalizeSignup ${userturn_id} ${progress}`);
+
+    return model.setProgressById(userturn_id, progress)
+                .then((userturn)=> {
+                  console.log('UserturnController/setProgressById', userturn)
+                  res.send(userturn);
+                })
+                .catch((err)=> {
+                  if (err.errors) {
+                    return res.send({ errors: err.errors });
+                  }
+                  console.log(err);
+                  res.status(500);
+
+                  return res.send(err);
+                });
+
+  }
+
+
   static validateSignup(user_id, turn_id) {
-////Nincs user id, nézd a consolet!!!
     return model.getUserTurn(user_id, turn_id)
                 .then((ut)=> {
                   return { userturn: ut }
@@ -51,7 +78,7 @@ class UserturnController {
                   if (usertest.id === undefined) {
                     errors.push('A kérdőív nincs elmentve');
                   } else {
-                    const emptyItem = _.find(usertest.questions,(item)=> {
+                    const emptyItem = _.find(usertest.questions, (item)=> {
                       return item.value === '' || item.value === undefined || item.value === null
                     });
                     if (emptyItem !== undefined) {
@@ -70,7 +97,8 @@ class UserturnController {
                     }
                     if (!signupData.birth_date) {
                       errors.push('Az születés dátumának megadása kötelező');
-                    }if (!signupData.vallalkozas_szekhelye) {
+                    }
+                    if (!signupData.vallalkozas_szekhelye) {
                       errors.push('A vállalkozás székhelyének megadása kötelező');
                     }
                   }

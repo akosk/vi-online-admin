@@ -14,10 +14,10 @@ import {authorize,blocked} from './lib/auth';
 
 const router = (app)=> {
 
-  app.use('/images', express.static(path.join(__dirname, '../src/images')));
-  app.use('/files', express.static(path.join(__dirname, '../src/files')));
+  app.use('/images', express.static(path.join(__dirname, '../client/images')));
+  app.use('/files', express.static(path.join(__dirname, '../client/files')));
 
-  const statementsPath = path.join(__dirname, '../src/statements');
+  const statementsPath = path.join(__dirname, '../client/statements');
   app.use('/statements', express.static(statementsPath));
 
 
@@ -53,12 +53,13 @@ const router = (app)=> {
   app.post('/delete-users', authorize, blocked,  UsersController.deleteUsers);
 
   app.post('/delete-turns', authorize, blocked,  TurnController.deleteTurns);
+  app.post('/set-progress/:userturn_id', authorize, blocked,  UserturnController.setProgress);
 
 
 
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../src/index.html'));
+    res.sendFile(path.join(__dirname, '../client/index.html'));
   });
 };
 

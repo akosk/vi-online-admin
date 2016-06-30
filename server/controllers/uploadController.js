@@ -8,7 +8,7 @@ class UploadController {
 
   static uploadSignupStatement(req, res) {
 
-    const statementsPath = path.join(__dirname, '../../src/statements');
+    const statementsPath = path.join(__dirname, '../../client/statements');
     const sourceFilePath = req.files.file.path;
     console.log(req.files.file.originalFilename);
     const filename = `${uuid.v1()}_${req.files.file.originalFilename}`;
