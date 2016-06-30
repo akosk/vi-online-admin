@@ -36,34 +36,6 @@ export function getUserCurrentTurn(user_id) {
             });
 }
 
-//export function getUserTurn(user_id, turn_id) {
-//  console.log('hihi');
-//  const connection =  /* await */  pool.getConnection();
-//  console.log('haha');
-//  rdb.table('userturns')
-//     .filter({ user_id, turn_id })
-//     .run(connection)
-//     .then(
-//       (data)=>{
-//         console.log(data);
-//         console.log('huhu');
-//         data.toArray().then(
-//           (userturns)=>{
-//             console.log(userturns);
-//             if (userturns.length == 0) {
-//               return null;
-//             }
-//             const userturn = userturns[0];
-//             pool.closeConnection(connection);
-//             return userturn;
-//
-//           }
-//         );
-//
-//       }
-//     );
-//
-//}
 export function getUserTurn(user_id, turn_id) {
   let conn;
   return rdb.connect(config.db)

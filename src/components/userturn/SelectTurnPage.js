@@ -36,7 +36,7 @@ class SelectTurnPage extends Component {
 
   redirect() {
     this.setState({ saving: false });
-    this.context.router.push(`/user/${this.props.slug}`);
+    this.context.router.push(`/user/${this.props.slug}/dashboard`);
   }
 
   componentDidMount() {
