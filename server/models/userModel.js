@@ -54,7 +54,7 @@ export function getUserByEmail(email) {
 
 export function getAllUsers() {
   console.log(`getAllUsers`);
-
+  const start = new Date().getTime();
   let conn = null;
   return rdb.connect(config.db)
             .then((c)=> {
@@ -68,6 +68,9 @@ export function getAllUsers() {
             })
             .finally(function () {
               if (conn) conn.close();
+              const end = new Date().getTime();
+              const time = end - start;
+              console.log('Execution time: ' + time);
             });
 }
 

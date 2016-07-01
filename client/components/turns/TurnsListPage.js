@@ -63,6 +63,7 @@ class TurnsListPage extends Component {
           <BootstrapTable data={turns} striped={false} hover
                           deleteRow
                           bordered
+                          pagination
                           selectRow={this.selectRowProp()}
                           options={this.options()}>
             <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>

@@ -14,7 +14,14 @@ class AdminTurnMenu extends Component {
   }
 
   componentWillMount() {
-    this.props.loadTurns();
+    if (!this.props.turn) {
+      this.props.loadTurns()
+          .then(()=> {
+            if (this.props.turns.length>0) {
+              this.props.adminSelectTurn(this.props.turns[0]);
+            }
+          })
+    }
   }
 
   selectTurn(id, e) {
@@ -51,10 +58,9 @@ class AdminTurnMenu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const defaultTurn = state.turns.length > 0 ? state.turns[0] : { name: "Válasszon turnust..." };
   return {
     turns: _.get(state, 'turns', []),
-    selectedTurn: _.get(state, 'admin.turn', defaultTurn)
+    selectedTurn: _.get(state, 'admin.turn', { name: "Válasszon turnust..." })
   };
 };
 

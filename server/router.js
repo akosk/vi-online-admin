@@ -55,7 +55,7 @@ const router = (app)=> {
   app.post('/delete-turns', authorize, blocked,  TurnController.deleteTurns);
   app.post('/set-progress/:userturn_id', authorize, blocked,  UserturnController.setProgress);
 
-  app.post('/get-turn-members/:turn_id', authorize, blocked,  UserturnController.getTurnMembers);
+  app.get('/get-turn-members/:turn_id', authorize, blocked,  UserturnController.getTurnMembers);
 
 
 

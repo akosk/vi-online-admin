@@ -16,6 +16,7 @@ class UsersListPage extends Component {
       afterDeleteRow: (rowKeys)=> {
         this.props.deleteSelectedUsers(rowKeys);
       },
+      sizePerPageList: [10, 20, 50, 100],
       insertText: 'Hozzáad',
       deleteText: 'Töröl',
     };
@@ -58,12 +59,14 @@ class UsersListPage extends Component {
           <BootstrapTable data={users} striped={false} hover
                           deleteRow
                           bordered
+                          pagination
                           selectRow={this.selectRowProp()}
                           options={this.options()}>
             <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>
             <TableHeaderColumn dataField="name" dataSort>Név</TableHeaderColumn>
             <TableHeaderColumn dataField="email" dataSort>Email</TableHeaderColumn>
-            <TableHeaderColumn dataField="blocked" style={{color:'red'}} dataSort  dataFormat={checkboxFormatter}>Tiltva</TableHeaderColumn>
+            <TableHeaderColumn dataField="blocked" style={{color:'red'}} dataSort
+                               dataFormat={checkboxFormatter}>Tiltva</TableHeaderColumn>
             <TableHeaderColumn dataField="id" dataFormat={this.editIcon}></TableHeaderColumn>
           </BootstrapTable>
 
