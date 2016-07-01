@@ -8,6 +8,7 @@ const initialState = {
       //token: "123456789ABCD"
     }
   },
+  admin: {},
   users: [],
   userturns: [],
   turns: [],

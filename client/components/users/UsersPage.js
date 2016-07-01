@@ -9,9 +9,6 @@ class UsersPage extends Component {
     loadUsers: React.PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    this.props.loadUsers();
-  }
 
   render() {
     return (

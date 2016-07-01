@@ -7,11 +7,13 @@ import EasyTransition from 'react-easy-transition'
 import { Nav, Navbar, NavDropdown, NavItem, MenuItem, Button, Label, Breadcrumb } from 'react-bootstrap';
 import * as authActions from '../actions/authActions';
 
+import AdminTurnMenu from './AdminTurnMenu';
+
 export class LayoutContainer extends Component {
 
-  constructor(props,context) {
-    super(props,context);
-    this.logout=this.logout.bind(this);
+  constructor(props, context) {
+    super(props, context);
+    this.logout = this.logout.bind(this);
   }
 
   static propTypes = {
@@ -63,8 +65,8 @@ export class LayoutContainer extends Component {
                 className="glyphicon glyphicon-tasks"></span> Fejlesztési feladatok</MenuItem>
             </NavDropdown>
             }
-
           </Nav>
+          {isAdmin && <AdminTurnMenu/>}
 
         </Navbar>
         <div style={{backgroundColor:'white',paddingTop:28}} className="container">

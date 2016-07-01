@@ -21,6 +21,7 @@ import SignupDataPage from './components/userturn/signup/SignupDataPage';
 import SignupTestPage from './components/userturn/signup/SignupTestPage';
 import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
 import UserTurnHomePage from './components/userturn/UserTurnHomePage';
+import TurnMembersPage from './components/turnmembers/TurnMembersPage';
 
 import * as actions from './actions/';
 
@@ -107,6 +108,7 @@ const createRoutes = (store)=> {
           <Route path="new" component={ManageTurnPage}/>
           <Route path=":id" component={ManageTurnPage}/>
         </Route>
+        <Route path="turnmembers" component={TurnMembersPage}/>
         <Route path="github" component={GitHubIssuesPage}/>
       </Route>
       <Route path="*" component={NotFoundRoutePage}/>

@@ -5,3 +5,4 @@ export * from './testActions';
 export * from './userturnActions';
 export * from './signupDataActions';
 export * from './usertestActions';
+export * from './adminActions';

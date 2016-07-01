@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Panel,Media} from 'react-bootstrap';
+import {Panel,Media,Label} from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -22,7 +22,6 @@ class GitHubIssuesPage extends Component {
   render() {
     let list=[];
     if (this.state.data) {
-     list= this.state.data.map((item)=><li key={item.title}>{item.title}</li>);
      list= this.state.data.map((item)=>(
        <div>
        <Media >
@@ -32,6 +31,9 @@ class GitHubIssuesPage extends Component {
          <Media.Body>
            <Media.Heading>#{item.number}</Media.Heading>
            <p>{item.title}</p>
+           <p>
+             {item.labels.map((l)=><Label style={{backgroundColor:`#${l.color}`,color:'white'}}>{l.name}</Label>)}
+           </p>
          </Media.Body>
        </Media>
        <hr/>

@@ -11,6 +11,23 @@ import * as progressTypes from '../../common/progressTypes';
 class UserturnController {
 
 
+  static getTurnMembers(req,res) {
+    const {turn_id} =req.params;
+    console.log(`getTurnMembers ${turn_id}`);
+
+    model.getTurnMembers(turn_id)
+         .then((users)=> {
+           return res.send(users);
+         })
+         .catch((err)=> {
+           console.log(err);
+           res.status(500);
+           return res.send(err);
+         });
+
+
+  }
+
   static setProgress(req, res) {
     if (!req.body) {
       res.status(400);

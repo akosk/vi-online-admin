@@ -3,6 +3,31 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 
 
+export function getTurnMembers(turn_id) {
+  console.log(`getTurnMembers`);
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({turn_id})
+                        .eqJoin("user_id",rdb.table("users"))
+                        .without("left")
+                        .map(rdb.row('right'))
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
+
 export function getUserCurrentTurn(user_id) {
 
   let conn = null;

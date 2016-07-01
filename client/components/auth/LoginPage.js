@@ -22,8 +22,8 @@ class LoginPage extends Component {
 
     this.state = {
       login: {
-        //email: 'admin@admin.hu',
-        email: 'akos.kiszely@gmail.com',
+        email: 'admin@admin.hu',
+        //email: 'akos.kiszely@gmail.com',
         password: 'start123',
 
         //password: 'start123'
