@@ -49,8 +49,12 @@ class TurnMembersPage extends Component {
                           pagination
                           options={this.options()}>
             <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>
-            <TableHeaderColumn dataField="name" dataSort>Név</TableHeaderColumn>
-            <TableHeaderColumn dataField="email" dataSort>Email</TableHeaderColumn>
+            <TableHeaderColumn dataField="name"
+                               filter={ { type: 'TextFilter', placeholder: 'Név szűrő' } }
+                               dataSort>Név</TableHeaderColumn>
+            <TableHeaderColumn dataField="email"
+                               filter={ { type: 'TextFilter', placeholder: 'Email szűrő' } }
+                               dataSort>Email</TableHeaderColumn>
             <TableHeaderColumn dataField="id" dataFormat={this.viewIcon}></TableHeaderColumn>
           </BootstrapTable>
 
