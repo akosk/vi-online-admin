@@ -1,6 +1,8 @@
 import React from 'react';
 import TextInput from '../common/TextInput';
 import Checkbox from '../common/Checkbox';
+import SelectInput from '../common/SelectInput';
+import * as inputHelper from '../../utils/SelectInputHelper';
 
 const UserForm = ({user, onSave, onChange, onCancel, saving, errors}) => {
   return (
@@ -18,6 +20,16 @@ const UserForm = ({user, onSave, onChange, onCancel, saving, errors}) => {
         value={user.email}
         onChange={onChange}
         error={errors.email}/>
+
+      <SelectInput
+        name="role"
+        label="Szerepkör"
+        value={user.role}
+        defaultOption="Válasszon..."
+        options={inputHelper.roleOptions()}
+        onChange={onChange}
+        error={errors.role}
+      />
 
       <Checkbox
         name="blocked"

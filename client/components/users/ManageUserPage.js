@@ -4,14 +4,13 @@ import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
 import _ from 'lodash';
 
-import * as actions from '../../actions/userActions';
+import * as actions from '../../actions';
 import {validateEmail} from '../../utils/validationHelper';
 import UserForm from './UserForm';
 
 class ManageUserPage extends Component {
 
   static propTypes = {
-    user: PropTypes.object.isRequired,
     saveUser: PropTypes.func.isRequired,
   };
 
@@ -23,7 +22,12 @@ class ManageUserPage extends Component {
     super(props, context);
 
     this.state = {
-      user: { ...props.user },
+      user: {
+        name:'',
+        role:'',
+        email:'',
+        blocked:false
+      },
       errors: {},
       saving: false
     };
@@ -36,7 +40,13 @@ class ManageUserPage extends Component {
 
 
   componentDidMount() {
-    this.props.loadUsers();
+    this.props.loadUser(this.props.params.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.user.id!==this.state.user.id) {
+      this.setState({user:_.cloneDeep(nextProps.user)})
+    }
   }
 
 
@@ -65,7 +75,7 @@ class ManageUserPage extends Component {
     const field = event.target.name;
     let user = this.state.user;
     user[field] = event.target.checked;
-    if (event.target.type==='checkbox') {
+    if (event.target.type === 'checkbox') {
       user[field] = event.target.checked;
     } else {
       user[field] = event.target.value;
@@ -97,13 +107,13 @@ class ManageUserPage extends Component {
   }
 
   redirect() {
+    this.setState({id:null});
     this.setState({ saving: false });
     toastr.success('A módosítás sikeresen megtörtént');
     this.context.router.push('/admin/users');
   }
 
   render() {
-    console.log(this.state.user);
     return (
       <Panel className="panel-primary" header={(
         <span>
@@ -125,15 +135,9 @@ class ManageUserPage extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  const userId = ownProps.params.id;
-  let user = { id: '', name: '', email: '', password: '' };
-
-  if (userId && state.users.length > 0) {
-    user = _.find(state.users, { id: userId });
-  }
 
   return {
-    user
+    user: _.get(state,'userturns.user',{})
   };
 }
 

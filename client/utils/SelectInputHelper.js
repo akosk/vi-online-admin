@@ -19,6 +19,19 @@ export function yesnoOptions() {
   ];
 }
 
+export function roleOptions() {
+  return [
+    {
+      value: 'user',
+      text: 'Felhasználó'
+    },
+    {
+      value: 'admin',
+      text: 'Adminisztrátor'
+    }
+  ];
+}
+
 export function kepzesiHelyszinOptions() {
   return [
     {
