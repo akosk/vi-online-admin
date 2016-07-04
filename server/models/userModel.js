@@ -74,6 +74,25 @@ export function getAllUsers() {
             });
 }
 
+export function getUser(user_id) {
+  console.log(`getUser`,user_id);
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .get(user_id)
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
 export function deleteUser(user_id) {
   console.log(`deleteUser`);
 

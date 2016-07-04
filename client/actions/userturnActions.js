@@ -40,11 +40,11 @@ export function getUserTurn(user_id, turn_id) {
   };
 }
 
-export function getSignupStatement(user_id, test_id) {
+export function getSignupStatement(user_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions getSignupStatement', user_id, test_id);
+    console.log('Actions getSignupStatement', user_id, turn_id);
     dispatch(beginAjaxCall());
-    return userturnApi.getSignupStatement(user_id, test_id).then(result => {
+    return userturnApi.getUserTurn(user_id, turn_id).then(result => {
       dispatch(getSignupStatementSuccess(result.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
@@ -84,6 +84,22 @@ export function finalizeSignup(user_id, turn_id) {
   };
 }
 
+export function loadUser(user_id) {
+  return (dispatch, getState)=> {
+    dispatch(beginAjaxCall());
+    return userturnApi.loadUser(user_id)
+                      .then(result => dispatch(loadUserSuccess(result.data)))
+                      .catch(error => {
+                        dispatch(ajaxCallError(error));
+                        throw(error);
+                      });
+  }
+}
+
+
+function loadUserSuccess(user) {
+  return { type: types.LOAD_USER_SUCCESS, user };
+}
 
 function getUserTurnSuccess(userturn) {
   return { type: types.GET_USER_TURN_SUCCESS, userturn };

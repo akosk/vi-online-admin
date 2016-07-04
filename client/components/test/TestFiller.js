@@ -10,7 +10,6 @@ class TestFiller extends Component {
 
   static propTypes = {
     test: PropTypes.object.isRequired,
-    currentTurn: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     disabled: PropTypes.bool
   };
@@ -29,19 +28,17 @@ class TestFiller extends Component {
   }
 
   componentWillMount() {
+
+    this.props.loadUserSignupTest(this.props.user.id, this.props.test_id);
     this.state.test = _.cloneDeep(this.props.test);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', this.props.currentTurn, nextProps.currentTurn);
-    if (this.props.currentTurn.id != nextProps.currentTurn.id) {
-      if (nextProps.currentTurn.competency_test) {
-        this.props.loadUserSignupTest(this.props.user.id, nextProps.currentTurn.competency_test.id);
-      }
-    }
     if (this.props.test.test_id != nextProps.test.test_id) {
       this.state.test = _.cloneDeep(nextProps.test);
     }
+
+
   }
 
   onChange(event) {
@@ -96,8 +93,6 @@ class TestFiller extends Component {
 }
 
 const mapStateToProps = (state)=>({
-  user: state.auth.user,
-  currentTurn: _.get(state, 'userturns.currentTurn', {}),
   test: _.get(state, 'userturns.signupTest', {})
 });
 

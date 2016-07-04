@@ -32,7 +32,7 @@ const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
         type="submit"
         disabled={saving}
         value={saving ? 'Regisztráció...' : 'Regisztráció'}
-        className="btn btn-primary"
+        className="btn btn-primary btn-block"
         onClick={onSave}/>
     </form>
   );

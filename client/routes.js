@@ -22,6 +22,10 @@ import SignupTestPage from './components/userturn/signup/SignupTestPage';
 import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
 import UserTurnHomePage from './components/userturn/UserTurnHomePage';
 import TurnMembersPage from './components/turnmembers/TurnMembersPage';
+import TurnMemberView from './components/turnmembers/TurnMemberView';
+import SignupDataView from './components/turnmembers/SignupDataView';
+import SignupTestView from './components/turnmembers/SignupTestView';
+import SignupStatementView from './components/turnmembers/SignupStatementView';
 
 import * as actions from './actions/';
 
@@ -54,7 +58,7 @@ const createRoutes = (store)=> {
       replace('/admin');
     }
     if (role === 'user') {
-			var slug = _.get(state, 'userturns.currentTurn.slug',null);
+      var slug = _.get(state, 'userturns.currentTurn.slug', null);
       if (slug) {
         replace(`/user/${slug}/dashboard`);
       } else {
@@ -77,11 +81,6 @@ const createRoutes = (store)=> {
     store.dispatch(actions.loadUserSignupTest(state.auth.user.id, state.userturns.currentTurn.competency_test.id));
   };
 
-  const getSignupStatement = (nextState, replace)=> {
-    const state = store.getState();
-    store.dispatch(actions.getSignupStatement(state.auth.user.id, state.userturns.currentTurn.id));
-  };
-
 
   return (
     <Route path="/" component={LayoutContainer}>
@@ -94,7 +93,7 @@ const createRoutes = (store)=> {
           <Route path="dashboard" component={UserTurnHomePage}/>
           <Route path="signup-data" component={SignupDataPage}/>
           <Route path="signup-test" component={SignupTestPage} onEnter={getSignupTest}/>
-          <Route path="signup-statement" component={SignupStatementPage} onEnter={getSignupStatement}/>
+          <Route path="signup-statement" component={SignupStatementPage}/>
         </Route>
       </Route>
       <Route path="admin" onEnter={(n,r)=>requireRole(n,r,'admin')}>
@@ -109,12 +108,21 @@ const createRoutes = (store)=> {
           <Route path=":id" component={ManageTurnPage}/>
         </Route>
         <Route path="turnmembers" component={TurnMembersPage}/>
+        <Route path="turnmembers/:user_id" component={TurnMemberView}>
+          <Route path="signup-data" component={SignupDataView}/>
+          <Route path="signup-test" component={SignupTestView}/>
+          <Route path="signup-statement" component={SignupStatementView}/>
+        </Route>
+
+
         <Route path="github" component={GitHubIssuesPage}/>
       </Route>
       <Route path="*" component={NotFoundRoutePage}/>
     </Route>
   );
 };
-
+//<Route path=":id" component={TurnMemberLayout}>
+//
+//</Route>
 export default createRoutes;
 

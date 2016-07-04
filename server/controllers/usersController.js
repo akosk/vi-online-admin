@@ -55,6 +55,20 @@ class UsersController {
 
   }
 
+  static getUser(req, res) {
+    const {user_id}=req.params;
+    model.getUser(user_id)
+         .then((user)=> {
+           return res.send(user);
+         })
+         .catch((err)=> {
+           console.log(err);
+           res.status(500);
+           return res.send(err);
+         });
+
+  }
+
   static deleteUsers(req, res) {
     if (!req.body) {
       return res.send('Bad request.');

@@ -27,6 +27,10 @@ class SignupStatementPage extends Component {
     this.onAcceptStatementsChange = this.onAcceptStatementsChange.bind(this);
   }
 
+  componentDidMount(){
+    this.props.getSignupStatement(this.props.user.id, this.props.currentTurn.id);
+  }
+
   upload(event) {
     event.preventDefault();
     const data = new FormData();
@@ -111,7 +115,7 @@ class SignupStatementPage extends Component {
           <Panel className="panel-primary text-center" header="További nyilatkozatok">
 
             <div>
-            <Checkbox checked={this.props.userturn.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]}
+            <Checkbox checked={this.props.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]!==undefined}
                       onChange={this.onAcceptStatementsChange}>
               <strong>Elfogadom a lenti nyilatkozatokat</strong>
             </Checkbox>
@@ -203,8 +207,9 @@ class SignupStatementPage extends Component {
 
 const mapStateToProps = (state)=>({
   user: state.auth.user,
-  userturn: state.userturns.userturn,
-  file: _.get(state, 'userturns.userturn.signupStatementFileName', null),
+  currentTurn: _.get(state, 'userturns.currentTurn', {}),
+  userturn: _.get(state, 'userturns.userturn', {}),
+  file: _.get(state, 'userturns.userturn.signup_statement_file', null),
   progress: _.get(state, 'userturns.userturn.progress', {})
 });
 

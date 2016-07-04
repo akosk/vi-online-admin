@@ -95,7 +95,7 @@ class RegistrationPage extends Component {
   render() {
     return (
       <div>
-        <div className="col-sm-8 col-sm-offset-2">
+        <div className="col-sm-6 col-sm-offset-3">
           <Panel className="panel-primary" header="Regisztráció">
             <RegistrationForm
               onChange={this.updateRegistrationState}

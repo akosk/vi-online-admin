@@ -4,6 +4,11 @@ import turnApi from './turnApi';
 class UserturnApi {
 
 
+  static loadUser(user_id) {
+    return axios.get(`/users/${user_id}`,
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
   static getTurnMembers(turn_id) {
     return axios.get(`/get-turn-members/${turn_id}`,
       { headers: { 'x-api-token': localStorage.getItem('token') } }
@@ -11,11 +16,6 @@ class UserturnApi {
   }
 
 
-  static getSignupStatement(user_id, test_id) {
-    return axios.get(`/userturns/${user_id}/${test_id}`,
-      { headers: { 'x-api-token': localStorage.getItem('token') } }
-    );
-  }
 
   static setProgress(userturn_id, progress) {
     return axios.post(`/set-progress/${userturn_id}`,

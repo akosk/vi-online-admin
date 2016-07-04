@@ -26,7 +26,7 @@ const LoginForm = ({login, onLogin, onChange, saving, errors}) => {
         type="submit"
         disabled={saving}
         value={saving ? 'Bejelentkezés...' : 'Bejelentkezés'}
-        className="btn btn-primary"
+        className="btn btn-primary btn-block"
         onClick={onLogin}/>
     </form>
   );

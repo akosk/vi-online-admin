@@ -12,6 +12,12 @@ export default function userturns(state = initialState.userturns, action) {
         currentTurn: _.cloneDeep(action.turn)
       };
 
+    case types.LOAD_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.user
+      };
+
     case types.UPDATE_SIGNUP_DATA_SUCCESS:
     case types.LOAD_SIGNUP_DATAS_SUCCESS:
       return {

@@ -47,6 +47,7 @@ const router = (app)=> {
 
   app.post('/finalize-signup', authorize, blocked,  UserturnController.finalizeSignup);
 
+  app.get('/users/:user_id', authorize, blocked, UsersController.getUser);
   app.get('/users', authorize, blocked, UsersController.getAllUsers);
   app.post('/users', UsersController.saveUser);
 
