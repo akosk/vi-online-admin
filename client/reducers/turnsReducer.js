@@ -30,7 +30,7 @@ export default function turns(state = initialState.turns, action) {
 
     case types.DELETE_TURNS_SUCCESS:
       return state.filter((turn, index) => {
-        return action.ids.indexOf(turn.id)===-1
+        return action.ids.indexOf(turn.id)===-1;
       });
 
 

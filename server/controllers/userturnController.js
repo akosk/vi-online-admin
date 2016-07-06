@@ -40,7 +40,7 @@ class UserturnController {
 
     return model.setProgressById(userturn_id, progress)
                 .then((userturn)=> {
-                  console.log('UserturnController/setProgressById', userturn)
+                  console.log('UserturnController/setProgressById', userturn);
                   res.send(userturn);
                 })
                 .catch((err)=> {
@@ -59,21 +59,21 @@ class UserturnController {
   static validateSignup(user_id, turn_id) {
     return model.getUserTurn(user_id, turn_id)
                 .then((ut)=> {
-                  return { userturn: ut }
+                  return { userturn: ut };
                 })
                 .then((o)=> {
                   return turnModel.getTurn(o.userturn.turn_id)
                                   .then((turn)=> {
                                     o.turn = turn;
                                     return o;
-                                  })
+                                  });
                 })
                 .then((o)=> {
                     return usertestModel.getUserTest(user_id, o.turn.competency_test.id)
                                         .then((usertest)=> {
                                           o.usertest = usertest;
                                           return o;
-                                        })
+                                        });
 
                   }
                 )
@@ -82,7 +82,7 @@ class UserturnController {
                                         .then((signupData)=> {
                                           o.signupData = signupData;
                                           return o;
-                                        })
+                                        });
 
                 })
                 .then((o)=> {
@@ -90,16 +90,16 @@ class UserturnController {
                   const {userturn,usertest,signupData}=o;
                   console.log(usertest);
                   if (userturn.signup_statement_file === undefined) {
-                    errors.push('Az aláírt nyilatkozat nincs feltöltve.')
+                    errors.push('Az aláírt nyilatkozat nincs feltöltve.');
                   }
                   if (usertest.id === undefined) {
                     errors.push('A kérdőív nincs elmentve');
                   } else {
                     const emptyItem = _.find(usertest.questions, (item)=> {
-                      return item.value === '' || item.value === undefined || item.value === null
+                      return item.value === '' || item.value === undefined || item.value === null;
                     });
                     if (emptyItem !== undefined) {
-                      errors.push('A kérdőív minden kérdésére válaszolnia kell.')
+                      errors.push('A kérdőív minden kérdésére válaszolnia kell.');
                     }
                   }
 
@@ -142,12 +142,12 @@ class UserturnController {
                           if (errors.length > 0) {
                             return Promise.reject({ errors });
                           }
-                          return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_COMPLETED)
+                          return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_COMPLETED);
                         }
                       )
 
                       .then((userturn)=> {
-                        console.log('userturn', userturn)
+                        console.log('userturn', userturn);
                         res.send(userturn);
                       })
                       .catch((err)=> {
@@ -177,7 +177,7 @@ class UserturnController {
     model.getUserCurrentTurn(user_id)
          .then((turn)=> {
            console.log('getCurrentTurn turn:', turn);
-           res.send(turn)
+           res.send(turn);
          })
          .catch((err)=> {
            console.log(err);
@@ -201,7 +201,7 @@ class UserturnController {
     model.getUserTurn(user_id, turn_id)
          .then((turn)=> {
            console.log('getUserTurn turn:', turn);
-           res.send(turn)
+           res.send(turn);
          })
          .catch((err)=> {
            console.log(err);

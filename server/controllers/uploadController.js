@@ -24,8 +24,8 @@ class UploadController {
 
       getUserCurrentTurn(user_id)
         .then((turn)=> {
-          console.log('uploadSignupStatement turn', turn)
-          return updateSignupStatementFile(user_id, turn.id, filename)
+          console.log('uploadSignupStatement turn', turn);
+          return updateSignupStatementFile(user_id, turn.id, filename);
         })
         .then(()=> {
           console.log('sending');

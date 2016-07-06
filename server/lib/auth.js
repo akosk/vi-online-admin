@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import {verify} from './token';
 
-import * as model from '../models/userModel'
+import * as model from '../models/userModel';
 
 export function hash_password(password) {
   return new Promise(function (resolve, reject) {

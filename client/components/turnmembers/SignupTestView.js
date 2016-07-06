@@ -3,22 +3,23 @@ import { connect } from 'react-redux';
 import TestFiller from '../test/TestFiller';
 import * as actions from '../../actions';
 import _ from 'lodash';
+import ContentTitle from '../common/ContentTitle';
+
 class SignupTestView extends Component {
 
-  componentDidMount() {
-    this.props.loadUser(this.props.params.user_id);
-  }
 
   render() {
     const {competency_test, user}=this.props;
-    console.log('render',competency_test, user)
+    console.log('render',competency_test, user);
     return (
       <div>
-        { competency_test.id &&
+        <ContentTitle title="Kompetencia teszt"/>
+
+        {competency_test.id &&
         <TestFiller
           test_id={competency_test.id}
           user={user}
-          disabled={true}
+          disabled
         />
         }
       </div>

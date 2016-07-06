@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import {Nav, NavItem, NavDropdown} from 'react-bootstrap';
 import  {LinkContainer} from 'react-router-bootstrap';
+import Content from '../common/Content';
+import * as actions from '../../actions';
+
+import { connect } from 'react-redux';
+import _  from 'lodash';
 
 class TurnMemberView extends Component {
+
+  componentDidMount() {
+    this.props.loadUser(this.props.params.user_id);
+  }
+
   render() {
     const {user_id}=this.props.params;
     return (
+      <Content category="Turnusok" title="Felhasználó adatlapja">
       <div className="row">
         <div className="col-sm-3">
 
           <div className="text-center">
-            <h3>
-              <span className="glyphicon glyphicon-user"></span>
-            </h3>
-            <h5> Kiszely Ákos</h5>
+              <img src={`https://robohash.org/${this.props.displayName}`}
+                   style={{height:100,width:'auto'}}
+                   className="img-circle "/>
+            <h4> {this.props.displayName}</h4>
           </div>
 
           <hr/>
@@ -35,8 +46,17 @@ class TurnMemberView extends Component {
         {this.props.children}
         </div>
       </div>
+        </Content>
     );
   }
 }
 
-export default TurnMemberView;
+
+const mapStateToProps = (state) => {
+  return {
+    displayName: _.get(state, 'userturns.user.name', 'Unknown'),
+  };
+};
+
+export default connect(mapStateToProps, actions)(TurnMemberView);
+

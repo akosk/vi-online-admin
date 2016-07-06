@@ -94,7 +94,7 @@ class RegistrationPage extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop:48,marginBottom:1000}}>
         <div className="col-sm-6 col-sm-offset-3">
           <Panel className="panel-primary" header="Regisztráció">
             <RegistrationForm

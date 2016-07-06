@@ -5,7 +5,7 @@ import pool from './lib/RethinkDbConnectionPool';
 const p=function() {
   return new Promise((resolve,reject)=>{
     resolve(22);
-  })
+  });
 };
 
 const t1 = function (time) {
@@ -52,7 +52,7 @@ const parent = function () {
 
 console.log('Test...');
 //parent();
-const r=t1(200)
+const r=t1(200);
 
 //  .then((t)=>{
 //  console.log(t);

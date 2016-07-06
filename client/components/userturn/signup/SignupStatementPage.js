@@ -8,7 +8,7 @@ import toastr from 'toastr';
 import _ from 'lodash';
 
 import * as progressTypes from '../../../../common/progressTypes';
-
+import Content from '../../common/Content';
 import * as actions from '../../../actions';
 
 
@@ -27,7 +27,7 @@ class SignupStatementPage extends Component {
     this.onAcceptStatementsChange = this.onAcceptStatementsChange.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.getSignupStatement(this.props.user.id, this.props.currentTurn.id);
   }
 
@@ -56,10 +56,10 @@ class SignupStatementPage extends Component {
     this.props.acceptSignupStatements(
       this.props.userturn.id)
         .then(()=> {
-          toastr.success('A nyilatkozat elfogadása megtörtént.')
+          toastr.success('A nyilatkozat elfogadása megtörtént.');
         })
         .catch(()=> {
-          toastr.error('A nyilatkozat elfogadása sikertelen, próbálja újra!')
+          toastr.error('A nyilatkozat elfogadása sikertelen, próbálja újra!');
         });
   }
 
@@ -73,17 +73,13 @@ class SignupStatementPage extends Component {
       filePreview = <img className="img-thumbnail" src={this.state.files[0].preview}/>;
     }
     return (
-      <div>
+      <Content category="Jelentkezés" title="Jelentkezési nyilatkozat">
 
 
-        { this.props.progress.SIGNUP_COMPLETED === undefined &&
+      {this.props.progress.SIGNUP_COMPLETED === undefined &&
         <div>
 
-
-
-          <Panel className="panel-primary text-center" header="Jelentkezési nyilatkozat">
-
-            { this.props.file &&
+            {this.props.file &&
             <div className="alert alert-success">
               <strong >A jelentkezési nyilatkozat feltöltve.</strong>
               <br/>
@@ -91,13 +87,15 @@ class SignupStatementPage extends Component {
             </div>
             }
             <div style={{marginTop:24,marginBottom:24}}>
-              <a href="/files/nyilatkozat.pdf"> <span className="glyphicon glyphicon-download"></span> Kattintson ide a kitöltendő nyilatkozat letöltéséhez.</a>
+              <a href="/files/nyilatkozat.pdf"> <span className="glyphicon glyphicon-download"></span> Kattintson ide a
+                kitöltendő nyilatkozat letöltéséhez.</a>
             </div>
 
             <div className="row">
               <div className="col-sm-6">
                 <Dropzone onDrop={this.onDrop}>
-                  <div style={{margin:10}}>Húzza ide a feltölteni kívánt fájlt, vagy klikkeljen ide a fájl kiválasztásához.
+                  <div style={{margin:10}}>Húzza ide a feltölteni kívánt fájlt, vagy klikkeljen ide a fájl
+                    kiválasztásához.
                   </div>
                 </Dropzone>
 
@@ -109,16 +107,18 @@ class SignupStatementPage extends Component {
             {filePreview &&
             <div><Button onClick={this.upload} className="btn btn-primary">Feltölt</Button></div>
             }
-          </Panel>
 
 
-          <Panel className="panel-primary text-center" header="További nyilatkozatok">
+          <div className="x_title" style={{marginTop:48}}>
+            <h2>További nyilatkozatok</h2>
+            <div className="clearfix"></div>
+          </div>
 
-            <div>
-            <Checkbox checked={this.props.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]!==undefined}
-                      onChange={this.onAcceptStatementsChange}>
-              <strong>Elfogadom a lenti nyilatkozatokat</strong>
-            </Checkbox>
+            <div >
+              <Checkbox checked={this.props.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]!==undefined}
+                        onChange={this.onAcceptStatementsChange}>
+                <strong>Elfogadom a lenti nyilatkozatokat</strong>
+              </Checkbox>
             </div>
 
 
@@ -196,11 +196,10 @@ class SignupStatementPage extends Component {
                 Az adatkezelés nyilvántartási száma: NAIH-66446/2013.<br/><br/>
               </p>
             </div>
-          </Panel>
         </div>
 
         }
-      </div>
+      </Content>
     );
   }
 }

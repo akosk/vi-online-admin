@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import * as actions from '../../actions';
 import {checkboxToTextFormatter} from'../../utils/formatters';
+import Content from '../common/Content';
 
 class SelectTurnPage extends Component {
 
@@ -36,7 +37,7 @@ class SelectTurnPage extends Component {
 
   redirect() {
     this.setState({ saving: false });
-    this.context.router.push(`/user/${this.props.slug}/dashboard`);
+    this.context.router.push(`/user/${this.props.slug}/signup-finalize`);
   }
 
   componentDidMount() {
@@ -46,11 +47,8 @@ class SelectTurnPage extends Component {
   render() {
     const {turn}=this.props;
     return (
-      <div>
+      <Content category="Jelentkezés" title="Képzés kiválasztása">
 
-        <div className="text-center">
-          <h2>Jelentkezés</h2>
-        </div>
         <div>
           <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium at corporis dolor, fuga molestiae
             possimus quod reprehenderit? Dolorum explicabo magnam, non nostrum obcaecati quis recusandae! Aliquam animi
@@ -94,7 +92,7 @@ class SelectTurnPage extends Component {
 
 
 
-      </div>
+      </Content>
     );
   }
 }

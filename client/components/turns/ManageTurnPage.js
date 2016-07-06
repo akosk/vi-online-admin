@@ -4,6 +4,7 @@ import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
 import _ from 'lodash';
 
+import Content from '../common/Content';
 import {slugify} from '../../utils/textUtils';
 import * as actions from '../../actions/';
 import {validateEmail} from '../../utils/validationHelper';
@@ -43,7 +44,7 @@ class ManageTurnPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.turn.id != nextProps.turn.id) {
-      this.setState({turn: Object.assign({}, nextProps.turn)});
+      this.setState({ turn: Object.assign({}, nextProps.turn) });
     }
   }
 
@@ -74,7 +75,7 @@ class ManageTurnPage extends Component {
 
     if (component) {
       // If component is daterangepicker
-      const field =event.target.attributes.name.value;
+      const field = event.target.attributes.name.value;
       if (component.singleDatePicker) {
         turn[field] = component.startDate.valueOf();
       } else {
@@ -128,11 +129,7 @@ class ManageTurnPage extends Component {
 
   render() {
     return (
-      <Panel className="panel-primary" header={(
-        <span>
-        Turnus szerkesztése
-        </span>
-        )}>
+      <Content category="Törzsadatok" title="Turnus szerkesztése">
         <TurnForm
           onChange={this.updateTurnState}
           onSave={this.saveTurn}
@@ -142,7 +139,7 @@ class ManageTurnPage extends Component {
           errors={this.state.errors}
           saving={this.state.saving}
         />
-      </Panel>
+      </Content>
     );
   }
 }
@@ -152,9 +149,8 @@ function mapStateToProps(state, ownProps) {
   const turnId = ownProps.params.id;
   let turn = {
     name: '', slug: '', active: false,
-    start_at:Date.now(),
-    competency_test:{
-    }
+    start_at: Date.now(),
+    competency_test: {}
   };
 
   if (turnId && state.turns.length > 0) {
@@ -162,8 +158,8 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
-    turn:_.cloneDeep(turn),
-    tests:state.tests.map(item=>({value:item.id, text:item.name}))
+    turn: _.cloneDeep(turn),
+    tests: state.tests.map(item=>({ value: item.id, text: item.name }))
   };
 }
 

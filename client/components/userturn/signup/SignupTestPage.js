@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import {Panel,Alert} from'react-bootstrap';
 import _ from 'lodash';
 import moment from 'moment';
-
+import Content from '../../common/Content';
 import TestFiller from '../../test/TestFiller';
-
+import * as actions from '../../../actions';
 
 class SignupTestPage extends Component {
 
@@ -13,17 +13,29 @@ class SignupTestPage extends Component {
     router: PropTypes.object
   };
 
+  componentWillMount() {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.competency_test.id) {
+      this.props.loadUserSignupTest(this.props.user.id, nextProps.competency_test.id);
+    }
+
+  }
+
+
   render() {
     const {competency_test, user, finalized}=this.props;
     const now = moment().valueOf();
     const open = competency_test.start_at <= now && competency_test.end_at >= now;
     return (
-      <Panel className="panel-primary" header="Kérdőív">
+      <Content category="Jelentkezés" title="Kérdőív">
         {!open &&
         <Alert bsStyle="warning">
-          <strong> A teszt jelenleg nem elérhető.</strong>
+          <strong> A kérdőív jelenleg nem elérhető.</strong>
           <br/>
-          A teszt {moment(competency_test.start_at).format("LLL")} - {moment(competency_test.end_at).format("LLL")} időpontok között lesz elérhető.
+          A kérdőív {moment(competency_test.start_at).format("LLL")} - {moment(competency_test.end_at).format("LLL")}
+          időpontok között lesz elérhető.
 
         </Alert>
 
@@ -35,7 +47,7 @@ class SignupTestPage extends Component {
           disabled={finalized ? true : false}
         />
         }
-      </Panel>
+      </Content>
     );
   }
 }
@@ -47,4 +59,4 @@ const mapStateToProps = (state)=>({
   finalized: _.get(state, 'userturns.userturn.progress.SIGNUP_COMPLETED', false)
 });
 
-export default connect(mapStateToProps, null)(SignupTestPage);
+export default connect(mapStateToProps, actions)(SignupTestPage);

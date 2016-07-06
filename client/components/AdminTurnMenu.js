@@ -20,7 +20,7 @@ class AdminTurnMenu extends Component {
             if (this.props.turns.length>0) {
               this.props.adminSelectTurn(this.props.turns[0]);
             }
-          })
+          });
     }
   }
 
@@ -38,7 +38,7 @@ class AdminTurnMenu extends Component {
 
           <NavDropdown eventKey={5} title={selectedTurn.name} id="nav-dropdown">
 
-            { turns.map((turn)=>
+            {turns.map((turn)=>
               <MenuItem eventKey={turn.id} key={turn.id} onSelect={this.selectTurn}>{turn.name}</MenuItem>
             )
             }

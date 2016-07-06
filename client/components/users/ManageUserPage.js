@@ -4,6 +4,7 @@ import {Panel} from 'react-bootstrap';
 import toastr from 'toastr';
 import _ from 'lodash';
 
+import Content from '../common/Content';
 import * as actions from '../../actions';
 import {validateEmail} from '../../utils/validationHelper';
 import UserForm from './UserForm';
@@ -45,7 +46,7 @@ class ManageUserPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.user.id!==this.state.user.id) {
-      this.setState({user:_.cloneDeep(nextProps.user)})
+      this.setState({user:_.cloneDeep(nextProps.user)});
     }
   }
 
@@ -115,11 +116,7 @@ class ManageUserPage extends Component {
 
   render() {
     return (
-      <Panel className="panel-primary" header={(
-        <span>
-        Felhasználó szerkesztése
-        </span>
-        )}>
+      <Content  category="Törzsadatok" title="Felhasználó szerkesztése">
         <UserForm
           onChange={this.updateUserState}
           onSave={this.saveUser}
@@ -128,7 +125,7 @@ class ManageUserPage extends Component {
           errors={this.state.errors}
           saving={this.state.saving}
         />
-      </Panel>
+      </Content>
     );
   }
 }

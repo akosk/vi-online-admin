@@ -93,7 +93,7 @@ export function loadUser(user_id) {
                         dispatch(ajaxCallError(error));
                         throw(error);
                       });
-  }
+  };
 }
 
 

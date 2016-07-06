@@ -19,6 +19,8 @@ const router = (app)=> {
 
   const statementsPath = path.join(__dirname, '../client/statements');
   app.use('/statements', express.static(statementsPath));
+  const gentelellaPath = path.join(__dirname, '../gentelella');
+  app.use('/gentelella', express.static(gentelellaPath));
 
 
   app.post('/login', AuthController.login);

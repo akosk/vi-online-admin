@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import _ from 'lodash';
 
-import LayoutContainer from './components/LayoutContainer';
+import LayoutSelector from './components/LayoutSelector';
 import HomePage from './components/home/HomePage';
 import LoginPage from './components/auth/LoginPage';
 import RegistrationPage from './components/auth/RegistrationPage';
@@ -20,12 +20,13 @@ import UserTurnContainer from './components/userturn/UserTurnContainer';
 import SignupDataPage from './components/userturn/signup/SignupDataPage';
 import SignupTestPage from './components/userturn/signup/SignupTestPage';
 import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
-import UserTurnHomePage from './components/userturn/UserTurnHomePage';
+import SignupFinalizePage from './components/userturn/signup/SignupFinalizePage';
 import TurnMembersPage from './components/turnmembers/TurnMembersPage';
 import TurnMemberView from './components/turnmembers/TurnMemberView';
 import SignupDataView from './components/turnmembers/SignupDataView';
 import SignupTestView from './components/turnmembers/SignupTestView';
 import SignupStatementView from './components/turnmembers/SignupStatementView';
+import UserTurnHomePage from './components/userturn/UserTurnHomePage';
 
 import * as actions from './actions/';
 
@@ -76,23 +77,20 @@ const createRoutes = (store)=> {
     });
   };
 
-  const getSignupTest = (nextState, replace)=> {
-    const state = store.getState();
-    store.dispatch(actions.loadUserSignupTest(state.auth.user.id, state.userturns.currentTurn.competency_test.id));
-  };
 
 
   return (
-    <Route path="/" component={LayoutContainer}>
+    <Route path="/" component={LayoutSelector}>
       <IndexRoute component={HomePage} onEnter={requireGuest}/>
       <Route path="login" component={LoginPage}/>
       <Route path="registration" component={RegistrationPage}/>
       <Route path="user" onEnter={(n,r)=>requireRole(n,r,'user')}>
         <Route path="select-turn" component={SelectTurnPage}/>
-        <Route path=":slug" component={UserTurnContainer} onEnter={initUserTurns}>
+        <Route path=":slug"  onEnter={initUserTurns}>
           <Route path="dashboard" component={UserTurnHomePage}/>
+          <Route path="signup-finalize" component={SignupFinalizePage}/>
           <Route path="signup-data" component={SignupDataPage}/>
-          <Route path="signup-test" component={SignupTestPage} onEnter={getSignupTest}/>
+          <Route path="signup-test" component={SignupTestPage} />
           <Route path="signup-statement" component={SignupStatementPage}/>
         </Route>
       </Route>

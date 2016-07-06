@@ -30,7 +30,7 @@ class RethinkDbConnectionPool {
   closeAll() {
     this.pool.forEach((conn)=>{
       conn.close();
-    })
+    });
   }
 }
 

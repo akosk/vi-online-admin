@@ -28,7 +28,7 @@ class UsertestsController {
 
                                return model.insertUserTest(usertest);
 
-                             })
+                             });
              //.then((usertest)=> {
              //  console.log('-----', usertest.id);
              //  return usertest.id;

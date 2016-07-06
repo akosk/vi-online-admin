@@ -5,6 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Panel, Badge, Button } from 'react-bootstrap';
 import { Link } from 'react-router';
 
+import Content from '../common/Content';
 import * as actions from '../../actions/userActions';
 import {checkboxFormatter} from '../../utils/formatters';
 
@@ -49,13 +50,8 @@ class UsersListPage extends Component {
   render() {
     const { users } = this.props;
     return (
-      <div>
-        <Panel className="panel-primary" header={(
-        <span>
-        Felhasználók &nbsp;&nbsp;
-        <Badge>{users.length}</Badge>
-        </span>
-        )}>
+      <Content category="Törzsadatok" title="Felhasználók" badge={users.length}>
+
           <BootstrapTable data={users} striped={false} hover
                           deleteRow
                           bordered
@@ -64,21 +60,20 @@ class UsersListPage extends Component {
                           options={this.options()}>
             <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>
             <TableHeaderColumn dataField="name"
-                               filter={ { type: 'TextFilter', placeholder: 'Név szűrő' } }
+                               filter={{ type: 'TextFilter', placeholder: 'Név szűrő' }}
                                dataSort>
               Név
             </TableHeaderColumn>
             <TableHeaderColumn dataField="email"
-                               filter={ { type: 'TextFilter', placeholder: 'Email szűrő' } }
+                               filter={{ type: 'TextFilter', placeholder: 'Email szűrő' }}
                                dataSort>Email</TableHeaderColumn>
             <TableHeaderColumn dataField="blocked" style={{color:'red'}} dataSort
                                dataFormat={checkboxFormatter}>Tiltva</TableHeaderColumn>
             <TableHeaderColumn dataField="id" dataFormat={this.editIcon}></TableHeaderColumn>
           </BootstrapTable>
 
-        </Panel>
 
-      </div>
+      </Content>
     );
   }
 }

@@ -5,6 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Panel, Badge, Button } from 'react-bootstrap';
 import { Link } from 'react-router';
 
+import Content from '../common/Content';
 import * as actions from '../../actions/turnActions';
 import {checkboxFormatter} from '../../utils/formatters';
 
@@ -45,35 +46,28 @@ class TurnsListPage extends Component {
   render() {
     const { turns } = this.props;
     return (
-      <div>
-        <Panel className="panel-primary" header={(
-        <div>
-        <span>
-        Turnusok &nbsp;&nbsp;
-        <Badge>{turns.length}</Badge>
-        </span>
+
+      <Content category="Törzsadatok" title="Turnusok" badge={turns.length}>
+
         <div className="pull-right">
           <Link to={`/admin/turns/new`} onClick={this.editIcon}>
-          <span className="glyphicon glyphicon-plus" style={{color:'white',fontSize:'1.4em'}}></span>
+            <span className="glyphicon glyphicon-plus" style={{fontSize:'1.4em'}}></span>
           </Link>
         </div>
 
-        </div>
-        )}>
-          <BootstrapTable data={turns} striped={false} hover
-                          deleteRow
-                          bordered
-                          pagination
-                          selectRow={this.selectRowProp()}
-                          options={this.options()}>
-            <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>
-            <TableHeaderColumn dataField="name" dataSort>Név</TableHeaderColumn>
-            <TableHeaderColumn dataField="id" dataFormat={this.editIcon}></TableHeaderColumn>
-          </BootstrapTable>
+        <BootstrapTable data={turns} striped={false} hover
+                        deleteRow
+                        bordered
+                        pagination
+                        selectRow={this.selectRowProp()}
+                        options={this.options()}>
+          <TableHeaderColumn isKey hidden dataField="id">#</TableHeaderColumn>
+          <TableHeaderColumn dataField="name" dataSort>Név</TableHeaderColumn>
+          <TableHeaderColumn dataField="id" dataFormat={this.editIcon}></TableHeaderColumn>
+        </BootstrapTable>
 
-        </Panel>
+      </Content>
 
-      </div>
     );
   }
 }
@@ -87,4 +81,8 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, actions)(TurnsListPage);
+
+
+
+
 

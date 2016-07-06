@@ -3,7 +3,7 @@ import config from '../config';
 import {authenticate} from '../lib/auth';
 import {generate} from '../lib/token';
 import * as model from '../models/userModel';
-import {verify} from '../lib/token'
+import {verify} from '../lib/token';
 
 class AuthController {
 
@@ -80,11 +80,11 @@ class AuthController {
                    throw new Error('Az email cím vagy jelszó nem megfelelő');
                  }
 
-               })
+               });
            })
            .catch((err)=> {
              return res.send({ error: err.message });
-           })
+           });
     } catch (err) {
       return res.send({ error: err.message });
     }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignupDataForm from '../userturn/signup/SignupDataForm'
+import SignupDataForm from '../userturn/signup/SignupDataForm';
 import * as actions from '../../actions';
 import _ from 'lodash';
+
+import ContentTitle from '../common/ContentTitle';
 
 class SignupDataView extends Component {
 
@@ -13,11 +15,13 @@ class SignupDataView extends Component {
   render() {
     return (
       <div>
+        <ContentTitle title="Jelentkezési lap"/>
+
         <SignupDataForm
           onChange={()=>{}}
           onSave={()=>{}}
           signupData={this.props.signupData}
-          finalized={true}
+          finalized
           errors={{}}
           saving={false}
         />

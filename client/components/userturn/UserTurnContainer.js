@@ -18,7 +18,7 @@ class UserTurnContainer extends Component {
     const router = this.context.router;
     const turnRootUrl = `/user/${this.props.params.slug}`;
 
-    const ready = <span className="glyphicon glyphicon-ok" style={{fontSize:'1.4em',marginRight:12}}></span>
+    const ready = <span className="glyphicon glyphicon-ok" style={{fontSize:'1.4em',marginRight:12}}></span>;
 
 
     return (

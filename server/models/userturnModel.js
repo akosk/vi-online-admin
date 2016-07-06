@@ -69,7 +69,7 @@ export function getUserTurn(user_id, turn_id) {
               return rdb.table('userturns')
                         .filter({ user_id, turn_id })
                         .coerceTo('array')
-                        .run(conn)
+                        .run(conn);
             })
             .then((userturns)=> {
               if (userturns.length == 0) {
@@ -106,13 +106,13 @@ export function setProgress(user_id, turn_id, progressName) {
                           },
                           { return_changes: true }
                         )
-                        .run(conn)
+                        .run(conn);
             })
             .then((result)=> {
               return rdb.table('userturns')
                         .filter({ user_id, turn_id })
                         .coerceTo('array')
-                        .run(conn)
+                        .run(conn);
             })
             .then((userturns)=>{
               if (userturns.length>0) return userturns[0];
@@ -144,13 +144,13 @@ export function setProgressById(userturn_id, progressName) {
                           },
                           { return_changes: true }
                         )
-                        .run(conn)
+                        .run(conn);
             })
             .then((result)=> {
               return rdb.table('userturns')
                         .get(userturn_id)
                         .coerceTo('object')
-                        .run(conn)
+                        .run(conn);
             })
             .error(function (err) {
               console.log(err);

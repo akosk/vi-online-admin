@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import TestFiller from '../test/TestFiller';
 import * as actions from '../../actions';
 import _ from 'lodash';
+import ContentTitle from '../common/ContentTitle';
+
 class SignupStatementView extends Component {
 
   componentDidMount() {
@@ -22,7 +24,9 @@ class SignupStatementView extends Component {
   render() {
     return (
       <div>
-        { this.props.file &&
+        <ContentTitle title="Nyilatkozatok"/>
+
+        {this.props.file &&
         <div className="alert alert-success">
           <strong >A jelentkezési nyilatkozat feltöltve.</strong>
           <br/>
@@ -30,7 +34,7 @@ class SignupStatementView extends Component {
         </div>
         }
 
-        { !this.props.file &&
+        {!this.props.file &&
         <div className="alert alert-danger">
           <strong >A jelentkezési nyilatkozat még nincs feltöltve.</strong>
         </div>

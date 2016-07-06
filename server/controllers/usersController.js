@@ -74,10 +74,10 @@ class UsersController {
       return res.send('Bad request.');
     }
 
-    console.log(req.body)
+    console.log(req.body);
     const {ids}=req.body;
 
-    const promises = []
+    const promises = [];
     for (var i = 0; i < ids.length; i++) {
       promises.push(model.deleteUser(ids[i]));
     }

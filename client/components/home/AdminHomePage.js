@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-
+import Content from '../common/Content';
 
 class AdminHomePage extends Component {
 
@@ -10,10 +10,8 @@ class AdminHomePage extends Component {
 
   render() {
     return (
-      <div className="text-center">
-        <h3>Adminisztrációs felület</h3>
-
-      </div>
+      <Content category="Adminisztrációs felület" title="Napló">
+        </Content>
     );
   }
 }

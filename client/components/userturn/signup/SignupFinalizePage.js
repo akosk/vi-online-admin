@@ -4,12 +4,10 @@ import { Alert, Panel, Button, Label } from 'react-bootstrap';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 import _ from 'lodash';
+import Content from '../../common/Content';
 
 import * as actions from '../../../actions';
-
-
-class FinalizeSignup extends Component {
-
+class SignupFinalizePage extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
@@ -18,17 +16,16 @@ class FinalizeSignup extends Component {
 
   finalize(event) {
     this.props.finalizeSignup(this.props.user.id, this.props.userturn.turn_id)
-    .then((errors)=>{
-      this.setState({errors})
-    });
+        .then((errors)=>{
+          this.setState({errors});
+        });
   }
 
 
   render() {
     return (
-      <div>
+      <Content category="Jelentkezés" title="Jelentkezés véglegesítése">
 
-        <Panel bsStyle="primary" header="Jelentkezés">
           {(!this.props.signupCompleted) &&
           <div style={{marginBottom:24}}>
             <Alert bsStyle="info">
@@ -45,21 +42,20 @@ class FinalizeSignup extends Component {
           }
 
           {(this.props.signupCompleted) &&
-            <Alert bsStyle="success">
-              A jelentkezés véglegesítése megtörtént!
-            </Alert>
+          <Alert bsStyle="success">
+            A jelentkezés véglegesítése megtörtént!
+          </Alert>
           }
 
           {(this.state.errors) &&
-            <Alert bsStyle="danger">
-              <ul>
+          <Alert bsStyle="danger">
+            <ul>
               {this.state.errors.map((error)=><li>{error}</li>)}
-              </ul>
-            </Alert>
+            </ul>
+          </Alert>
           }
-        </Panel>
 
-      </div>
+      </Content>
     );
   }
 }
@@ -71,4 +67,4 @@ const mapStateToProps = (state)=>({
 
 });
 
-export default connect(mapStateToProps, actions)(FinalizeSignup);
+export default connect(mapStateToProps, actions)(SignupFinalizePage);

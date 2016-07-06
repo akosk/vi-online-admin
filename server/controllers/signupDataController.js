@@ -15,7 +15,7 @@ class SignupDataController {
     model.getSignupDataByUserId(user_id)
          .then((signupData)=> {
            console.log('getSignupDataByUserId :', signupData);
-           res.send(signupData)
+           res.send(signupData);
          })
          .catch((err)=> {
            console.log(err);

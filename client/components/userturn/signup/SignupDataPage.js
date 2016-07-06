@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import SignupDataForm from './SignupDataForm';
 import * as actions from '../../../actions';
+import Content from '../../common/Content';
 
 class SignupDataPage extends Component {
 
@@ -31,8 +32,8 @@ class SignupDataPage extends Component {
         legmagasabb_iskolai_vegzettseg_eve: '',
         allaskeresokent_regisztralt: '',
         allaskeresokent_regisztralt_datuma: '',
-        palyakezdo_allaskereso:'',
-        adoazonosito_jel:'',
+        palyakezdo_allaskereso: '',
+        adoazonosito_jel: '',
 
       },
       errors: {},
@@ -95,7 +96,7 @@ class SignupDataPage extends Component {
     this.props.saveSignupData(this.state.signupData)
         .then(() => {
           toastr.success('A jelentkezési lap elmentve');
-          this.setState({saving: false});
+          this.setState({ saving: false });
         })
         .catch(error => {
           toastr.error(error);
@@ -105,8 +106,7 @@ class SignupDataPage extends Component {
 
   render() {
     return (
-      <div>
-        <Panel className="panel-primary" header="Jelentkezési lap">
+      <Content category="Jelentkezés" title="Jelentkezési lap">
           <SignupDataForm
             onChange={this.updateSignupDataState}
             onSave={this.saveSignupData}
@@ -115,9 +115,7 @@ class SignupDataPage extends Component {
             errors={this.state.errors}
             saving={this.state.saving}
           />
-
-        </Panel>
-      </div>
+      </Content>
     );
   }
 }
@@ -125,7 +123,7 @@ class SignupDataPage extends Component {
 const mapStateToProps = (state)=>({
   user: state.auth.user,
   signupData: _.get(state, 'userturns.signupData', {}),
-  finalized:_.get(state,'userturns.userturn.progress.SIGNUP_COMPLETED', false)
+  finalized: _.get(state, 'userturns.userturn.progress.SIGNUP_COMPLETED', false)
 });
 
 export default connect(mapStateToProps, actions)(SignupDataPage);

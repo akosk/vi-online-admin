@@ -42,7 +42,7 @@ export function getUserByEmail(email) {
                         .run(conn);
             })
             .then((userArray)=> {
-              return userArray.length > 0 ? userArray[0] : null
+              return userArray.length > 0 ? userArray[0] : null;
             })
             .error(function (err) {
               console.log(err);

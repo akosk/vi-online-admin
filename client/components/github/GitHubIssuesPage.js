@@ -3,10 +3,11 @@ import {Panel,Media,Label} from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
 
+import Content from '../common/Content';
 
-const itemView=(item)=>{
+const itemView = (item)=> {
   return (
-    <div>
+    <div key={item.number}>
       <Media>
         <Media.Left align="middle">
           <img width={54} height={54} src={item.user.avatar_url} alt="Image" className="img-circle"/>
@@ -20,7 +21,7 @@ const itemView=(item)=>{
       </Media>
       <hr style={{margin:0}}/>
     </div>
-  )
+  );
 };
 
 class GitHubIssuesPage extends Component {
@@ -35,12 +36,12 @@ class GitHubIssuesPage extends Component {
       (data)=> {
         this.setState({ data: data.data });
       }
-    )
+    );
     axios.get('http://api.github.com/repos/akosk/vi-online-admin/issues?state=closed').then(
       (data)=> {
         this.setState({ done: data.data });
       }
-    )
+    );
   }
 
   render() {
@@ -49,41 +50,26 @@ class GitHubIssuesPage extends Component {
     if (this.state.data) {
       list = this.state.data.map(itemView);
     }
-    if (this.state.data) {
+    if (this.state.done) {
       list2 = this.state.done.map(itemView);
     }
     return (
-      <div className="row">
-        <div className="col-sm-6">
-          <Panel className="panel-primary" header={(
-        <span>
-        Aktuális fejlesztendő feladatok
-        </span>
-        )}>
-
-            <div >
+      <Content category="Fejlesztés" title="Feladatok">
+        <div className="row">
+          <div className="col-sm-6">
+            <Panel className="panel-primary" header="Aktuális fejlesztendő feladatok">
               {list}
-            </div>
-
-          </Panel>
-        </div>
-        <div className="col-sm-6">
-          <Panel className="panel-success" header={(
-        <span>
-        Elkészült feladatok
-        </span>
-        )}>
-
-            <div >
+            </Panel>
+          </div>
+          <div className="col-sm-6">
+            <Panel className="panel-success" header="Elkészült feladatok">
               {list2}
-            </div>
-
-          </Panel>
+            </Panel>
+          </div>
         </div>
-      </div>
+      </Content>
     );
   }
 }
-
 
 export default GitHubIssuesPage;

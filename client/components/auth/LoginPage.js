@@ -49,7 +49,7 @@ class LoginPage extends Component {
     this.setState({ saving: true });
 
     this.props.login(this.state.login)
-        .then(() => this.redirect())
+        .then((user) => this.redirect(user))
         .catch(error => {
           toastr.error(error);
           this.setState({
@@ -60,14 +60,13 @@ class LoginPage extends Component {
         });
   }
 
-  redirect() {
-    this.setState({ saving: false });
+  redirect(user) {
     toastr.success('Sikeres bejelentkezés');
-    if (this.props.user.role === 'admin') {
+    if (user.role === 'admin') {
       this.context.router.push('/admin');
     }
-    if (this.props.user.role === 'user') {
-      this.props.getCurrentTurn(this.props.user.id)
+    if (user.role === 'user') {
+      this.props.getCurrentTurn(user.id)
           .then(()=> {
               if (this.props.currentTurn) {
                 this.context.router.push(`/user/${this.props.currentTurn.slug}/dashboard`);
@@ -82,7 +81,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div className="col-sm-6 col-sm-offset-3">
+      <div className="col-sm-6 col-sm-offset-3" style={{marginTop:48,marginBottom:800}}>
         <Panel className="panel-primary" header="Bejelentkezés">
           <LoginForm
             onChange={this.updateLoginState}

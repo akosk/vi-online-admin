@@ -14,6 +14,7 @@ export function login(loginData) {
       }
       localStorage.setItem('token', authData.data.token);
       dispatch(loginSuccess(authData.data));
+      return authData.data.user;
     }).catch(error => {
       throw(error.message);
     });

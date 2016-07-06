@@ -4,7 +4,7 @@ import pool from '../lib/RethinkDbConnectionPool';
 
 
 export function updateSignupData(signupData) {
-  console.log('updateSignupData', signupData)
+  console.log('updateSignupData', signupData);
   delete(signupData.created_at);
   delete(signupData.user_id);
 
@@ -20,9 +20,9 @@ export function updateSignupData(signupData) {
             .then((result)=> {
               return getSignupData(signupData.id)
                 .then((sd)=> {
-                  console.log('get updated SignupData', sd)
+                  console.log('get updated SignupData', sd);
                   return sd;
-                })
+                });
             })
             .error(function (err) {
               console.log(err);
@@ -33,7 +33,7 @@ export function updateSignupData(signupData) {
 }
 
 export function insertSignupData(signupData) {
-  console.log('insertSignupData', signupData)
+  console.log('insertSignupData', signupData);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -46,9 +46,9 @@ export function insertSignupData(signupData) {
             .then((result)=> {
               return getSignupData(result.generated_keys[0])
                 .then((sd)=> {
-                  console.log('get inserted SignupData', sd)
+                  console.log('get inserted SignupData', sd);
                   return sd;
-                })
+                });
             })
             .error(function (err) {
               console.log(err);
@@ -61,7 +61,7 @@ export function insertSignupData(signupData) {
 }
 
 export function getSignupData(id) {
-  console.log('getSignupData', id)
+  console.log('getSignupData', id);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -81,7 +81,7 @@ export function getSignupData(id) {
 }
 
 export function getSignupDataByUserId(user_id) {
-  console.log('getSignupDataByUserId', user_id)
+  console.log('getSignupDataByUserId', user_id);
 
   let conn = null;
   return rdb.connect(config.db)
