@@ -12,7 +12,7 @@ import UsertestsController from './controllers/usertestsController';
 import UploadController from './controllers/uploadController';
 import {authorize,blocked} from './lib/auth';
 
-const router = (app)=> {
+const router = (app, mode = 'dev')=> {
 
   app.use('/images', express.static(path.join(__dirname, '../client/images')));
   app.use('/files', express.static(path.join(__dirname, '../client/files')));
@@ -39,32 +39,31 @@ const router = (app)=> {
 
   app.get('/usertests/:user_id/:test_id', authorize, blocked, UsertestsController.getUserTest);
 
-  app.get('/tests', authorize, blocked,  TestController.getAllTests);
-  app.post('/turns', authorize, blocked,  TurnController.saveTurn);
+  app.get('/tests', authorize, blocked, TestController.getAllTests);
+  app.post('/turns', authorize, blocked, TurnController.saveTurn);
 
-  app.post('/usertests/:user_id/:usertest_id', authorize, blocked,  UsertestsController.saveUserTest);
+  app.post('/usertests/:user_id/:usertest_id', authorize, blocked, UsertestsController.saveUserTest);
 
   const multipartMiddleware = multipart();
   app.use('/upload', multipartMiddleware, authorize, blocked, UploadController.uploadSignupStatement);
 
-  app.post('/finalize-signup', authorize, blocked,  UserturnController.finalizeSignup);
+  app.post('/finalize-signup', authorize, blocked, UserturnController.finalizeSignup);
 
   app.get('/users/:user_id', authorize, blocked, UsersController.getUser);
   app.get('/users', authorize, blocked, UsersController.getAllUsers);
   app.post('/users', UsersController.saveUser);
 
-  app.post('/delete-users', authorize, blocked,  UsersController.deleteUsers);
+  app.post('/delete-users', authorize, blocked, UsersController.deleteUsers);
 
-  app.post('/delete-turns', authorize, blocked,  TurnController.deleteTurns);
-  app.post('/set-progress/:userturn_id', authorize, blocked,  UserturnController.setProgress);
+  app.post('/delete-turns', authorize, blocked, TurnController.deleteTurns);
+  app.post('/set-progress/:userturn_id', authorize, blocked, UserturnController.setProgress);
 
-  app.get('/get-turn-members/:turn_id', authorize, blocked,  UserturnController.getTurnMembers);
-
-
+  app.get('/get-turn-members/:turn_id', authorize, blocked, UserturnController.getTurnMembers);
 
 
+  const indexPath = mode === 'dev' ? '../client/index.html' : '../dist/index.html';
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
+    res.sendFile(path.join(__dirname, indexPath));
   });
 };
 

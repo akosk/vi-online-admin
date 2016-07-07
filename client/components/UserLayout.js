@@ -121,6 +121,7 @@ export class UserLayout extends Component {
               </div>
             </div>
             <TopNav displayName={this.props.displayName}/>
+            <div className="right_col" style={{backgroundColor:'white'}}>
             <EasyTransition
               path={location.pathname}
               initialStyle={{opacity: 0}}
@@ -129,6 +130,7 @@ export class UserLayout extends Component {
             >
               {this.props.children}
             </EasyTransition>
+            </div>
             <Footer/>
           </div>
         </div>

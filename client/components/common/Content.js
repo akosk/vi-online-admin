@@ -3,7 +3,7 @@ import {Badge} from 'react-bootstrap';
 
 const Content = (props) => {
   return (
-    <div className="right_col" role="main" style={{minHeight:800}}>
+    <div role="main" style={{minHeight:800}}>
 
       {props.category &&
       <div className="page-title">

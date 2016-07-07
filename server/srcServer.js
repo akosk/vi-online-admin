@@ -9,7 +9,7 @@ import morgan from 'morgan';
 
 import router from './router';
 
-const port = 3000;
+const port = 4000;
 const app = express();
 const compiler = webpack(config);
 

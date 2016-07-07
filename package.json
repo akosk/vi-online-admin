@@ -4,8 +4,10 @@
   "description": "",
   "scripts": {
     "prestart": "babel-node server/startMessage.js",
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
-    "open:src": "babel-node server/srcServer.js",
+    "start": "npm-run-all --parallel test:watch open:client lint:watch",
+    "open:client": "babel-node server/srcServer.js",
+    "start:prod": "npm-run-all --parallel open:server",
+    "open:server": "babel-node server/distServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* client server",
     "lint:fix": "node_modules/.bin/esw --fix webpack.config.* client server",
     "lint:watch": "npm run lint -- --watch",

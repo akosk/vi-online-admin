@@ -16,8 +16,9 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(express.static('dist'));
 
-router(app);
+router(app,'production');
 
+console.log(`Production server. Listening on ${port}...`);
 app.listen(port, function(err) {
   if (err) {
     console.log(err);
