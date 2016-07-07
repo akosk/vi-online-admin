@@ -76,10 +76,12 @@ class TopNav extends Component {
                 </ul>
               </li>
 
+              { this.props.isAdmin &&
               <TopNavDropDown
                 items={items}
                 onSelect={this.selectTurn}
                 selectedName={this.props.selectedTurn.name}/>
+              }
 
             </ul>
           </nav>
@@ -94,6 +96,7 @@ const mapStateToProps = (state) => {
   return {
     displayName: _.get(state, 'auth.user.name', 'Unknown'),
     turns: _.get(state, 'turns', []),
+    isAdmin: _.get(state, 'auth.user.role') === 'admin',
     selectedTurn: _.get(state, 'admin.turn', { name: "Válasszon turnust..." })
   };
 };
