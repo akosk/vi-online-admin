@@ -10,7 +10,7 @@ class HomePage extends Component {
     return (
       <div>
 
-        <div style={{ height:400,backgroundSize:'cover',backgroundImage:'url(/images/img_header.jpg)'}}>
+        <div style={{ height:600,backgroundSize:'cover',backgroundImage:'url(/images/img_header8.jpg)'}}>
 
         </div>
 
