@@ -6,6 +6,7 @@ import EasyTransition from 'react-easy-transition';
 
 import { Nav, Navbar, NavDropdown, NavItem, MenuItem, Button, Label, Breadcrumb } from 'react-bootstrap';
 import * as authActions from '../actions/authActions';
+import * as progressTypes from '../../common/progressTypes';
 
 import TopLeft from './layout/TopLeft';
 import Footer from './layout/Footer';
@@ -30,18 +31,34 @@ export class UserLayout extends Component {
             {
               name: 'Jelentkezési lap',
               url: `${turnRootUrl}/signup-data`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA_SAVED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA_VALID}`),
             },
             {
               name: 'Kérdőív',
               url: `${turnRootUrl}/signup-test`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_TEST_SAVED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_TEST_VALID}`),
+
             },
             {
-              name: 'Nyilatkozatok',
+              name: 'Jelentkezési nyilatkozat',
               url: `${turnRootUrl}/signup-statement`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_STATEMENT_UPLOADED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes. SIGNUP_STATEMENT_VALID}`),
+
+            },
+            {
+              name: 'Egyéb nyilatkozatok',
+              url: `${turnRootUrl}/signup-agreements`,
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_AGREEMENTS_ACCEPTED}`),
             },
             {
               name: 'Véglegesítés',
               url: `${turnRootUrl}/signup-finalize`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_FINALIZED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_COMPLETED}`),
+
             }
           ]
         }

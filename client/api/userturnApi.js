@@ -24,6 +24,13 @@ class UserturnApi {
     );
   }
 
+  static removeProgress(userturn_id, progress) {
+    return axios.post(`/remove-progress/${userturn_id}`,
+      { progress },
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
   static  getCurrentTurn(user_id) {
     return axios.get(`/get-current-turn/${user_id}`,
       {

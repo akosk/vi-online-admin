@@ -67,9 +67,10 @@ class LoginPage extends Component {
     }
     if (user.role === 'user') {
       this.props.getCurrentTurn(user.id)
-          .then(()=> {
-              if (this.props.currentTurn) {
-                this.context.router.push(`/user/${this.props.currentTurn.slug}/dashboard`);
+          .then((currentTurn)=> {
+            console.log('LoginPage currentTurn',currentTurn);
+              if (currentTurn) {
+                this.context.router.push(`/user/${currentTurn.slug}/dashboard`);
               } else {
                 this.context.router.push('/user/select-turn');
               }

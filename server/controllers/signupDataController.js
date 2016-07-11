@@ -2,7 +2,10 @@ import rdb from 'rethinkdb';
 import config from '../config';
 
 import * as model from '../models/signupDataModel';
+import * as userturnModel from '../models/userturnModel';
+import * as progressTypes from '../../common/progressTypes';
 
+import {isSignupHasErrors} from '../../common/validation';
 
 class SignupDataController {
 
@@ -44,7 +47,23 @@ class SignupDataController {
       promise = model.insertSignupData(signupData);
     }
     promise.then((signupData)=> {
-             console.log('saveSignupData :', signupData);
+             return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA_SAVED)
+                                 .then(()=> {
+                                   return signupData;
+                                 });
+           })
+           .then((signupData)=> {
+             if (isSignupHasErrors(signupData).length===0) {
+               return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA_VALID)
+                                   .then(()=> {
+                                     return signupData;
+                                   });
+
+             } else {
+               return signupData;
+             }
+           })
+           .then((signupData)=> {
              res.send(signupData);
            })
            .catch((err)=> {

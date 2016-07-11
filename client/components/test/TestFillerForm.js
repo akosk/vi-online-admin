@@ -26,6 +26,7 @@ class TestFillerForm extends Component {
       case 'text':
         item.push(
           <TextInput
+            disabled={this.props.disabled}
             name={q.id}
             label={q.question}
             value={q.value}
@@ -38,6 +39,7 @@ class TestFillerForm extends Component {
       case 'select':
         item.push(
           <SelectInput
+            disabled={this.props.disabled}
             name={q.id}
             label={q.question}
             value={q.value}

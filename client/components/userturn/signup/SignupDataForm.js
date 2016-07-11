@@ -28,6 +28,7 @@ class SignupDataForm extends Component {
           value={signupData.vallalkozas_szekhelye || ''}
           defaultOption="Válasszon megyét..."
           options={inputHelper.megyekOptions()}
+          disabled={finalized}
           onChange={onChange} error={errors['vallalkozas_szekhelye']}
 
         />
@@ -39,6 +40,7 @@ class SignupDataForm extends Component {
           helpText="Van olyan vállalkozás a családban vagy ismeretségi körben,
     amelyben 50 %-nál nagyobb részesedése van a pályázónak.  Az 50%-os tulajdonrész nem kizáró ok."
           options={inputHelper.yesnoOptions()}
+          disabled={finalized}
           onChange={onChange} error={errors['tobbsegi_tulajdon_mas_vallalkozasban']}/>
       </div>
     );
@@ -68,11 +70,13 @@ class SignupDataForm extends Component {
           name="birth_name"
           label="Születési név"
           value={signupData.birth_name || ''}
+          disabled={finalized}
           helpText="Akkor kell kitölteni ha eltérő."
           onChange={onChange}
           error={errors.birth_name}/>
         <DateRangePickerInput
           name="birth_date"
+          disabled={finalized}
           onChange={onChange}
           label="Születési idő"
           value={signupData.birth_date || ''}
@@ -114,26 +118,28 @@ class SignupDataForm extends Component {
     form.push((
       <div key="4">
         <TextInput
-
+          disabled={finalized}
           name="birth_place"
           label="Születés helye"
           value={signupData.birth_place || ''}
           onChange={onChange}
           error={errors.birth_place}/>
         <TextInput
-
+          disabled={finalized}
           name="mothers_name"
           label="Anyja neve"
           value={signupData.mothers_name || ''}
           onChange={onChange}
           error={errors.mothers_name}/>
         <TextInput
+          disabled={finalized}
           name="permanent_address"
           label="Állandó lakcím"
           value={signupData.permanent_address || ''}
           onChange={onChange}
           error={errors.permanent_address}/>
         <TextInput
+          disabled={finalized}
           name="temporary_address"
           label="Tartókodási hely"
           value={signupData.temporary_address || ''}
@@ -141,18 +147,21 @@ class SignupDataForm extends Component {
           helptText="Ha eltér az állandó lakcímtől."
           error={errors.temporary_address}/>
         <TextInput
+          disabled={finalized}
           name="postal_address"
           label="Postázási cím"
           value={signupData.postal_address || ''}
           onChange={onChange}
           error={errors.postal_address}/>
         <TextInput
+          disabled={finalized}
           name="phone"
           label="Elérhetőségek (telefonszám)"
           value={signupData.phone || ''}
           onChange={onChange}
           error={errors.phone}/>
         <TextInput
+          disabled={finalized}
           name="email"
           label="Elérhetőségek (e-mail cím)"
           value={signupData.email || ''}
@@ -160,6 +169,7 @@ class SignupDataForm extends Component {
           onChange={onChange}
           error={errors.email}/>
         <SelectInput
+          disabled={finalized}
           name="legmagasabb_iskolai_vegzettseg"
           label="Legmagasabb iskolai végzettsége"
           value={signupData.legmagasabb_iskolai_vegzettseg || ''}
@@ -178,6 +188,7 @@ class SignupDataForm extends Component {
       form.push(<div key="4.5">
 
           <TextInput
+            disabled={finalized}
             name="legmagasabb_iskolai_vegzettseg_eve"
             label={txt}
             value={signupData.legmagasabb_iskolai_vegzettseg_eve || ''}
@@ -218,6 +229,7 @@ class SignupDataForm extends Component {
     if (form18to25) {
       form.push(<div key="5">
           <SelectInput
+            disabled={finalized}
             name="allaskeresokent_regisztralt"
             label="Álláskeresőként regisztrált-e?"
             value={signupData.allaskeresokent_regisztralt || ''}
@@ -247,6 +259,7 @@ class SignupDataForm extends Component {
         form.push(<div key="5.1">
 
             <DateRangePickerInput
+              disabled={finalized}
               name="allaskeresokent_regisztralt_datuma"
               onChange={onChange}
               helpText="A progaramba akkor kerülhet be, ha meglévő regisztrációja fennmarad 2016.09.01-ig."
@@ -263,6 +276,7 @@ class SignupDataForm extends Component {
     if (form25to30) {
       form.push(<div key="5.1">
           <SelectInput
+            disabled={finalized}
             name="palyakezdo_allaskereso"
             label="Pályakezdő álláskereső-e?"
             value={signupData.palyakezdo_allaskereso || ''}
@@ -291,16 +305,19 @@ class SignupDataForm extends Component {
         <TextInput
           name="adoazonosito_jel"
           label="Adóazonosító jel"
+          disabled={finalized}
           value={signupData.adoazonosito_jel || ''}
           onChange={onChange}
           error={errors.adoazonosito_jel}/>
         <TextInput
+          disabled={finalized}
           name="taj"
           label="Tajszám"
           value={signupData.taj  || ''}
           onChange={onChange}
           error={errors.taj}/>
         <SelectInput
+          disabled={finalized}
           name="kisebbsegi_vagy_hatranyos"
           label="Kisebbségi, vagy hátrányos helyzetbe tartozás"
           value={signupData.kisebbsegi_vagy_hatranyos  || ''}
@@ -309,6 +326,7 @@ class SignupDataForm extends Component {
           onChange={onChange} error={errors['kisebbsegi_vagy_hatranyos']}/>
 
         <SelectInput
+          disabled={finalized}
           name="kepzesi_helyszin"
           label="Preferált képzési helyszín"
           value={signupData.kepzesi_helyszin  || ''}

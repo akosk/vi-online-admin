@@ -11,7 +11,7 @@ import * as progressTypes from '../../common/progressTypes';
 class UserturnController {
 
 
-  static getTurnMembers(req,res) {
+  static getTurnMembers(req, res) {
     const {turn_id} =req.params;
     console.log(`getTurnMembers ${turn_id}`);
 
@@ -36,7 +36,7 @@ class UserturnController {
 
     const {userturn_id} =req.params;
     const {progress} = req.body;
-    console.log(`finalizeSignup ${userturn_id} ${progress}`);
+    console.log(`setProgress ${userturn_id} ${progress}`);
 
     return model.setProgressById(userturn_id, progress)
                 .then((userturn)=> {
@@ -55,8 +55,36 @@ class UserturnController {
 
   }
 
+  static removeProgress(req, res) {
+    if (!req.body) {
+      res.status(400);
+      return res.send('Bad request.');
+    }
+
+    const {userturn_id} =req.params;
+    const {progress} = req.body;
+    console.log(`removeProgress ${userturn_id} ${progress}`);
+
+    return model.removeProgressById(userturn_id, progress)
+                .then((userturn)=> {
+                  console.log('UserturnController/removeProgressById', userturn);
+                  res.send(userturn);
+                })
+                .catch((err)=> {
+                  if (err.errors) {
+                    return res.send({ errors: err.errors });
+                  }
+                  console.log(err);
+                  res.status(500);
+
+                  return res.send(err);
+                });
+
+  }
+
 
   static validateSignup(user_id, turn_id) {
+    console.log('validateSignup',user_id,turn_id);
     return model.getUserTurn(user_id, turn_id)
                 .then((ut)=> {
                   return { userturn: ut };
@@ -69,7 +97,7 @@ class UserturnController {
                                   });
                 })
                 .then((o)=> {
-                    return usertestModel.getUserTest(user_id, o.turn.competency_test.id)
+                    return usertestModel.getUserTest(user_id, o.turn.competency_test.id, o.turn.id)
                                         .then((usertest)=> {
                                           o.usertest = usertest;
                                           return o;
@@ -120,6 +148,10 @@ class UserturnController {
                     }
                   }
 
+                  if (!_.has(userturn, `progress.${progressTypes.SIGNUP_AGREEMENTS_ACCEPTED}`)) {
+                    errors.push('A nyilatkozatok nincsennek elfogadva.');
+                  }
+
                   return errors;
                 });
 
@@ -142,7 +174,7 @@ class UserturnController {
                           if (errors.length > 0) {
                             return Promise.reject({ errors });
                           }
-                          return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_COMPLETED);
+                          return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_FINALIZED);
                         }
                       )
 

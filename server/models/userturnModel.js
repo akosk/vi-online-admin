@@ -90,6 +90,7 @@ export function getUserTurn(user_id, turn_id) {
 
 export function setProgress(user_id, turn_id, progressName) {
 
+  console.log('setProgress',user_id,turn_id,progressName);
   const progress = {};
   progress[progressName] = {
     created_at: rdb.now()
@@ -142,6 +143,46 @@ export function setProgressById(userturn_id, progressName) {
                         .update({
                             progress
                           },
+                          { return_changes: true }
+                        )
+                        .run(conn);
+            })
+            .then((result)=> {
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
+export function removeProgressById(userturn_id, progressName) {
+
+  const progress = {};
+  progress[progressName] = {
+    created_at: rdb.now()
+  };
+
+
+  const without={
+    progress:{}
+  };
+  without.progress[progressName]=true;
+
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .replace(
+                          rdb.row.without(without)
+                          ,
                           { return_changes: true }
                         )
                         .run(conn);

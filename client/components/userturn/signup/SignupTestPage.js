@@ -6,6 +6,7 @@ import moment from 'moment';
 import Content from '../../common/Content';
 import TestFiller from '../../test/TestFiller';
 import * as actions from '../../../actions';
+import * as progressTypes from '../../../../common/progressTypes';
 
 class SignupTestPage extends Component {
 
@@ -18,7 +19,7 @@ class SignupTestPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.competency_test.id) {
-      this.props.loadUserSignupTest(this.props.user.id, nextProps.competency_test.id);
+      this.props.loadUserSignupTest(this.props.user.id, nextProps.competency_test.id, this.props.currentTurn.id);
     }
 
   }
@@ -56,7 +57,7 @@ const mapStateToProps = (state)=>({
   user: _.get(state, 'auth.user', {}),
   currentTurn: _.get(state, 'userturns.currentTurn', {}),
   competency_test: _.get(state, 'userturns.currentTurn.competency_test', {}),
-  finalized: _.get(state, 'userturns.userturn.progress.SIGNUP_COMPLETED', false)
+  finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`, false)
 });
 
 export default connect(mapStateToProps, actions)(SignupTestPage);

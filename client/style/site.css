@@ -1,17 +1,33 @@
+.nav-md ul.nav.child_menu li.in-progress:before {
+  background: #FFEB3B;
+}
+
+.nav-md ul.nav.child_menu li.completed:before {
+  background: #4CAF50;
+}
 
 /*.navbar {*/
-  /*height:95px;*/
-  /*margin-bottom: 0px;*/
+/*height:95px;*/
+/*margin-bottom: 0px;*/
 /*}*/
 /*.navbar-brand {*/
-  /*line-height: 30px;*/
+/*line-height: 30px;*/
 /*}*/
 /*.navbar-nav > li > a {*/
-  /*padding-top: 0px;*/
-  /*padding-bottom: 0px;*/
-  /*line-height: 95px;*/
+/*padding-top: 0px;*/
+/*padding-bottom: 0px;*/
+/*line-height: 95px;*/
 /*}*/
 
+body {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+#app {
+  height: 100vh;
+  min-height: 100vh;
+}
 
 .layout-enter {
   opacity: 0.01;
@@ -32,6 +48,6 @@
 }
 
 .nav hr {
-  margin-top:6px;
-  margin-bottom:6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }

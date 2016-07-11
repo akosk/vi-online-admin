@@ -8,6 +8,7 @@ import _ from 'lodash';
 import SignupDataForm from './SignupDataForm';
 import * as actions from '../../../actions';
 import Content from '../../common/Content';
+import * as progressTypes from '../../../../common/progressTypes';
 
 class SignupDataPage extends Component {
 
@@ -93,8 +94,9 @@ class SignupDataPage extends Component {
 
     this.setState({ saving: true });
 
-    this.props.saveSignupData(this.state.signupData)
+    this.props.saveSignupData({ ...this.state.signupData, turn_id: this.props.userturn.turn_id })
         .then(() => {
+          this.props.getUserTurn(this.props.user.id,this.props.userturn.turn_id);
           toastr.success('A jelentkezési lap elmentve');
           this.setState({ saving: false });
         })
@@ -107,14 +109,14 @@ class SignupDataPage extends Component {
   render() {
     return (
       <Content category="Jelentkezés" title="Jelentkezési lap">
-          <SignupDataForm
-            onChange={this.updateSignupDataState}
-            onSave={this.saveSignupData}
-            signupData={this.state.signupData}
-            finalized={this.state.finalized}
-            errors={this.state.errors}
-            saving={this.state.saving}
-          />
+        <SignupDataForm
+          onChange={this.updateSignupDataState}
+          onSave={this.saveSignupData}
+          signupData={this.state.signupData}
+          finalized={this.props.finalized}
+          errors={this.state.errors}
+          saving={this.state.saving}
+        />
       </Content>
     );
   }
@@ -123,7 +125,8 @@ class SignupDataPage extends Component {
 const mapStateToProps = (state)=>({
   user: state.auth.user,
   signupData: _.get(state, 'userturns.signupData', {}),
-  finalized: _.get(state, 'userturns.userturn.progress.SIGNUP_COMPLETED', false)
+  userturn: _.get(state, 'userturns.userturn', false),
+  finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`)
 });
 
 export default connect(mapStateToProps, actions)(SignupDataPage);

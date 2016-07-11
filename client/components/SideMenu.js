@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import  {LinkContainer} from'react-router-bootstrap';
 import  {NavItem} from'react-bootstrap';
+import classNames from 'classnames';
 
 class SideMenu extends Component {
   render() {
 
+
     const menu = this.props.menu.map((category)=> {
       const categoryMenu = category.items.map((item)=>(
-        <li key={item.name}><LinkContainer to={item.url}><a>{item.name}</a></LinkContainer></li>
+        <li
+          className={classNames({
+            'in-progress': item.inProgress,
+            'completed': item.completed,
+          })}
+          key={item.name}><LinkContainer to={item.url}><a>{item.name}</a></LinkContainer></li>
       ));
       return (
         <li key={category.name} className="active"><a><i className={category.icon}></i> {category.name} <span

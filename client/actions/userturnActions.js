@@ -19,8 +19,8 @@ export function getCurrentTurn(user_id) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return userturnApi.getCurrentTurn(user_id).then(turn => {
-      console.log(turn);
       dispatch(getCurrentTurnSuccess(turn.data));
+      return(turn.data);
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -29,10 +29,12 @@ export function getCurrentTurn(user_id) {
 }
 export function getUserTurn(user_id, turn_id) {
   return function (dispatch, getState) {
+    console.log('Actions / getUserTurn', user_id, turn_id);
     dispatch(beginAjaxCall());
     return userturnApi.getUserTurn(user_id, turn_id).then(userturn => {
       console.log(userturn);
       dispatch(getUserTurnSuccess(userturn.data));
+      return userturn.data;
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -57,8 +59,47 @@ export function acceptSignupStatements(userturn_id) {
   return function (dispatch, getState) {
     console.log('Actions acceptSignupStatements', userturn_id);
     dispatch(beginAjaxCall());
-    return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_STATEMENTS_ACCEPTED).then(result => {
+    return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED).then(result => {
       dispatch(acceptSignupStatementsSuccess(result.data));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+}
+
+export function setProgress(userturn_id, progress) {
+  return function (dispatch, getState) {
+    console.log('Actions setProgress', userturn_id,progress);
+    dispatch(beginAjaxCall());
+    return userturnApi.setProgress(userturn_id, progress).then(result => {
+      dispatch(setProgressSuccess(result.data));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+}
+
+export function acceptSignupStatement(userturn_id) {
+  return function (dispatch, getState) {
+    console.log('Actions acceptSignupStatement', userturn_id);
+    dispatch(beginAjaxCall());
+    return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_STATEMENT_VALID).then(result => {
+      dispatch(acceptSignupStatementSuccess(result.data));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+}
+
+export function removeProgress(userturn_id,progress) {
+  return function (dispatch, getState) {
+    console.log('Actions removeProgress', userturn_id,progress);
+    dispatch(beginAjaxCall());
+    return userturnApi.removeProgress(userturn_id, progress).then(result => {
+      dispatch(removeProgressSuccess(progress));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -97,8 +138,16 @@ export function loadUser(user_id) {
 }
 
 
+function setProgressSuccess(data) {
+  return { type: types.SET_PROGRESS_SUCCESS, data };
+}
+
 function loadUserSuccess(user) {
   return { type: types.LOAD_USER_SUCCESS, user };
+}
+
+function removeProgressSuccess(progress) {
+  return { type: types.REMOVE_PROGRESS_SUCCESS, progress };
 }
 
 function getUserTurnSuccess(userturn) {
@@ -108,6 +157,10 @@ function getUserTurnSuccess(userturn) {
 function acceptSignupStatementsSuccess(userturn) {
   return { type: types.ACCEPT_SIGNUP_STATEMENTS_SUCCESS, userturn };
 }
+function acceptSignupStatementSuccess(userturn) {
+  return { type: types.ACCEPT_SIGNUP_STATEMENT_SUCCESS, userturn };
+}
+
 function finalizeSignupSuccess(userturn) {
   return { type: types.FINALIZE_SIGNUP_SUCCESS, userturn };
 }

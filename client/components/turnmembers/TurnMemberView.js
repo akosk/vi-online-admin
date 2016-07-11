@@ -37,7 +37,13 @@ class TurnMemberView extends Component {
               <NavItem eventKey="1.2">Kompetencia teszt</NavItem>
             </LinkContainer>
             <LinkContainer to={`/admin/turnmembers/${user_id}/signup-statement`}>
-              <NavItem eventKey="1.3">Nyilatkozatok</NavItem>
+              <NavItem eventKey="1.3">Jelentkezési nyilatkozatok</NavItem>
+            </LinkContainer>
+            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-agreements`}>
+              <NavItem eventKey="1.3">Egyéb nyilatkozat</NavItem>
+            </LinkContainer>
+            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-finalize`}>
+              <NavItem eventKey="1.3">Véglegesítés</NavItem>
             </LinkContainer>
           </Nav>
 

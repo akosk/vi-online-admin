@@ -37,7 +37,7 @@ const router = (app, mode = 'dev')=> {
   app.post('/signup-datas', authorize, blocked, SignupDataController.saveSignupData);
   app.post('/signup-datas/:signup_data_id', authorize, blocked, SignupDataController.saveSignupData);
 
-  app.get('/usertests/:user_id/:test_id', authorize, blocked, UsertestsController.getUserTest);
+  app.get('/usertests/:user_id/:test_id/:turn_id', authorize, blocked, UsertestsController.getUserTest);
 
   app.get('/tests', authorize, blocked, TestController.getAllTests);
   app.post('/turns', authorize, blocked, TurnController.saveTurn);
@@ -57,6 +57,7 @@ const router = (app, mode = 'dev')=> {
 
   app.post('/delete-turns', authorize, blocked, TurnController.deleteTurns);
   app.post('/set-progress/:userturn_id', authorize, blocked, UserturnController.setProgress);
+  app.post('/remove-progress/:userturn_id', authorize, blocked, UserturnController.removeProgress);
 
   app.get('/get-turn-members/:turn_id', authorize, blocked, UserturnController.getTurnMembers);
 

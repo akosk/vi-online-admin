@@ -20,12 +20,15 @@ import UserTurnContainer from './components/userturn/UserTurnContainer';
 import SignupDataPage from './components/userturn/signup/SignupDataPage';
 import SignupTestPage from './components/userturn/signup/SignupTestPage';
 import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
+import SignupAgreementsPage from './components/userturn/signup/SignupAgreementsPage';
 import SignupFinalizePage from './components/userturn/signup/SignupFinalizePage';
 import TurnMembersPage from './components/turnmembers/TurnMembersPage';
 import TurnMemberView from './components/turnmembers/TurnMemberView';
 import SignupDataView from './components/turnmembers/SignupDataView';
 import SignupTestView from './components/turnmembers/SignupTestView';
 import SignupStatementView from './components/turnmembers/SignupStatementView';
+import SignupAgreementsView from './components/turnmembers/SignupAgreementsView';
+import SignupFinalizeView from './components/turnmembers/SignupFinalizeView';
 import UserTurnHomePage from './components/userturn/UserTurnHomePage';
 
 import * as actions from './actions/';
@@ -92,6 +95,7 @@ const createRoutes = (store)=> {
           <Route path="signup-data" component={SignupDataPage}/>
           <Route path="signup-test" component={SignupTestPage} />
           <Route path="signup-statement" component={SignupStatementPage}/>
+          <Route path="signup-agreements" component={SignupAgreementsPage}/>
         </Route>
       </Route>
       <Route path="admin" onEnter={(n,r)=>requireRole(n,r,'admin')}>
@@ -110,12 +114,14 @@ const createRoutes = (store)=> {
           <Route path="signup-data" component={SignupDataView}/>
           <Route path="signup-test" component={SignupTestView}/>
           <Route path="signup-statement" component={SignupStatementView}/>
+          <Route path="signup-agreements" component={SignupAgreementsView}/>
+          <Route path="signup-finalize" component={SignupFinalizeView}/>
         </Route>
 
 
         <Route path="github" component={GitHubIssuesPage}/>
       </Route>
-      <Route path="*" component={NotFoundRoutePage}/>
+      <Route path="*" component={NotFoundRoutePage} params={{layout:'none'}}/>
     </Route>
   );
 };

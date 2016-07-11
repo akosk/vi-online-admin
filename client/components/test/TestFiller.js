@@ -27,19 +27,14 @@ class TestFiller extends Component {
     this.onSave = this.onSave.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
-    this.props.loadUserSignupTest(this.props.user.id, this.props.test_id);
-    this.state.test = _.cloneDeep(this.props.test);
+    this.props.loadUserSignupTest(this.props.user.id, this.props.test_id, this.props.turn_id)
+        .then((test)=> {
+          this.setState({ test: _.cloneDeep(test) });
+        });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.test.test_id != nextProps.test.test_id) {
-      this.state.test = _.cloneDeep(nextProps.test);
-    }
-
-
-  }
 
   onChange(event) {
     if (this.props.disabled) return;
@@ -72,6 +67,10 @@ class TestFiller extends Component {
         .then(() => {
           toastr.success('A kérdőív elmentve');
         })
+        .then(() => {
+          this.props.getUserTurn(this.props.user.id, this.props.turn_id);
+          this.setState({ saving: false });
+        })
         .catch(error => {
           toastr.error(error);
           this.setState({ saving: false });
@@ -79,6 +78,7 @@ class TestFiller extends Component {
   }
 
   render() {
+    console.log('d', this.props.disabled);
     return (
       <div>
         <TestFillerForm
@@ -93,7 +93,8 @@ class TestFiller extends Component {
 }
 
 const mapStateToProps = (state)=>({
-  test: _.get(state, 'userturns.signupTest', {})
+  test: _.get(state, 'userturns.signupTest', {}),
+  turn_id: _.get(state, 'userturns.currentTurn.id', '')
 });
 
 export default connect(mapStateToProps, actions)(TestFiller);

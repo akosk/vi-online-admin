@@ -37,7 +37,7 @@ export class LayoutContainer extends Component {
 
         <div className="row" style={{marginBottom:28,paddingTop:14}}>
           <div className="col-sm-3 col-sm-offset-1">
-            <img src="/images/VI_Junior_tamoppal_DD.png" style={{height:60}}/>
+            <img src="/images/VI_Junior_tamoppal_DD.png" style={{height:80}}/>
           </div>
         </div>
 

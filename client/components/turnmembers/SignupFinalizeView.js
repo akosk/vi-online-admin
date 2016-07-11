@@ -8,7 +8,7 @@ import ContentTitle from '../common/ContentTitle';
 import toastr from 'toastr';
 import * as progressTypes from '../../../common/progressTypes';
 
-class SignupStatementView extends Component {
+class SignupFinalizeView extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -21,7 +21,7 @@ class SignupStatementView extends Component {
       this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id)
           .then((turn)=> {
             this.setState({
-              checked: this.props.userturn.progress[progressTypes.SIGNUP_STATEMENT_VALID]
+              checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
             })
           });
     }
@@ -33,7 +33,7 @@ class SignupStatementView extends Component {
       this.props.getUserTurn(this.props.params.user_id, nextProps.currentTurn.id)
           .then((turn)=> {
             this.setState({
-              checked: this.props.userturn.progress[progressTypes.SIGNUP_STATEMENT_VALID]
+              checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
             })
           });
 
@@ -44,16 +44,22 @@ class SignupStatementView extends Component {
   onAcceptClick(e) {
 
     if (e.target.checked) {
-      this.props.acceptSignupStatement(this.props.userturn.id)
+      this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
           .then(()=> {
-            toastr.success('A nyilatkozat elfogadva.');
+            return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
+          })
+          .then(()=> {
+            toastr.success('A jelentkezés elfogadva.');
           })
           .then(()=> {
             this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id);
           });
       this.setState({ checked: true });
     } else {
-      this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_STATEMENT_VALID)
+      this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
+          .then(()=> {
+            return this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
+          })
           .then(()=> {
             toastr.success('A nyilatkozat elutasítva.');
           })
@@ -67,43 +73,38 @@ class SignupStatementView extends Component {
   render() {
     return (
       <div>
-        <ContentTitle title="Jelentkezési nyilatkozat"/>
 
-        {this.props.file &&
-        <div>
-          <div className="alert alert-success">
-            <strong >A jelentkezési nyilatkozat feltöltve.</strong>
+
+        <ContentTitle title="Véglegesítés"/>
+        {this.props.progress[progressTypes.SIGNUP_FINALIZED] &&
+        < div >
+          < div className="alert alert-success">
+            <strong >A jelentkezési kérelem
+              {this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]?' elfogadva': ' elküldve'}.
+
+            </strong>
           </div>
-          <a href={`/statements/${this.props.file}`} target="_blank"> <span
-            className="glyphicon glyphicon-download"></span> A feltöltött nyilatkozat letöltéséhez kattintson ide.</a>
-          <br/>
           <br/>
           <div>
             <Checkbox onClick={this.onAcceptClick} checked={this.state.checked}>
-              Jelentkezési nyilatkozat elfogadása
+              Jelentkezés elfogadva
             </Checkbox>
           </div>
         </div>
-
-
         }
 
-        {!this.props.file &&
-        <div className="alert alert-danger">
-          <strong >A jelentkezési nyilatkozat még nincs feltöltve.</strong>
-        </div>
-        }
+
       </div>
     );
   }
 }
 
 const mapStateToProps = (state)=>({
-  file: _.get(state, 'userturns.userturn.signup_statement_file', null),
   currentTurn: _.get(state, 'admin.turn', {}),
   userturn: _.get(state, 'userturns.userturn', {}),
+  progress: _.get(state, 'userturns.userturn.progress', {}),
   user: _.get(state, 'userturns.user', {}),
 });
 
 
-export default connect(mapStateToProps, actions)(SignupStatementView);
+export default connect(mapStateToProps, actions)(SignupFinalizeView);

@@ -9,12 +9,12 @@ class UsertestsController {
 
   static getUserTest(req, res) {
 
-    const {user_id,test_id}=req.params;
+    const {user_id,test_id,turn_id}=req.params;
 
-    console.log(`getUserTest for ${user_id} ${test_id}`);
+    console.log(`getUserTest for ${user_id} ${test_id} ${turn_id}`);
 
 
-    model.getUserTest(user_id, test_id)
+    model.getUserTest(user_id, test_id, turn_id)
          .then((usertest)=> {
            console.log('UsertestsController/getUserModel usertests', usertest.id);
            if (usertest.id === undefined) {
@@ -23,6 +23,7 @@ class UsertestsController {
                              .then((usertest)=> {
                                usertest.test_id = test_id;
                                usertest.user_id = user_id;
+                               usertest.turn_id = turn_id;
                                delete(usertest.id);
                                usertest.questions.forEach(item=> item.value = '');
 
@@ -63,6 +64,7 @@ class UsertestsController {
 
     model.updateUserTest(test)
          .then((usertest)=> {
+           console.log('saveUserTest>>>>', usertest);
            res.send(usertest);
          })
          .catch((err)=> {

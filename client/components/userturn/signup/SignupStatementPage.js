@@ -24,7 +24,6 @@ class SignupStatementPage extends Component {
 
     this.onDrop = this.onDrop.bind(this);
     this.upload = this.upload.bind(this);
-    this.onAcceptStatementsChange = this.onAcceptStatementsChange.bind(this);
   }
 
   componentDidMount() {
@@ -39,29 +38,18 @@ class SignupStatementPage extends Component {
     data.append('user_id', this.props.user.id);
 
     this.props.uploadSignupStatement(data)
-        .then(function (res) {
+        .then((res)=> {
           toastr.success('A fájl feltöltése megtörtént.');
+          this.props.getUserTurn(this.props.user.id, this.props.currentTurn.id);
+          this.setState({ saving: false });
         })
-        .catch(function (err) {
+        .catch((err)=> {
           toastr.error(err.data);
         });
 
 
   }
 
-  onAcceptStatementsChange(e) {
-    e.preventDefault();
-    if (this.props.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]) return;
-
-    this.props.acceptSignupStatements(
-      this.props.userturn.id)
-        .then(()=> {
-          toastr.success('A nyilatkozat elfogadása megtörtént.');
-        })
-        .catch(()=> {
-          toastr.error('A nyilatkozat elfogadása sikertelen, próbálja újra!');
-        });
-  }
 
   onDrop(files) {
     this.setState({ files });
@@ -72,27 +60,39 @@ class SignupStatementPage extends Component {
     if (this.state.files.length > 0) {
       filePreview = <img className="img-thumbnail" src={this.state.files[0].preview}/>;
     }
+
+    console.log('f', this.props.finalized);
     return (
       <Content category="Jelentkezés" title="Jelentkezési nyilatkozat">
 
 
-      {this.props.progress.SIGNUP_COMPLETED === undefined &&
+        <div style={{marginTop:24,marginBottom:24}}>
+          <h2>
+            <a href="/files/nyilatkozat.pdf"> <span className="glyphicon glyphicon-download"></span> Kattintson ide a
+              kitöltendő nyilatkozat letöltéséhez.</a>
+          </h2>
+          {this.props.file &&
+          <h2><a href={`/statements/${this.props.file}`}><span className="glyphicon glyphicon-download"></span> A
+            feltöltött nyilatkozat letöltéséhez kattintson ide.</a></h2>
+          }
+        </div>
+
+
         <div>
 
-            {this.props.file &&
-            <div className="alert alert-success">
-              <strong >A jelentkezési nyilatkozat feltöltve.</strong>
-              <br/>
-              <a href={`/statements/${this.props.file}`}> A feltöltött nyilatkozat letöltéséhez kattintson ide.</a>
-            </div>
-            }
-            <div style={{marginTop:24,marginBottom:24}}>
-              <a href="/files/nyilatkozat.pdf"> <span className="glyphicon glyphicon-download"></span> Kattintson ide a
-                kitöltendő nyilatkozat letöltéséhez.</a>
-            </div>
+          {this.props.file &&
+          <div className="alert alert-success">
+            <h2><strong >A jelentkezési nyilatkozat
+              {this.props.completed?' elfogadva':' feltöltve'}.
+            </strong></h2>
 
-            <div className="row">
-              <div className="col-sm-6">
+          </div>
+          }
+
+          {!this.props.finalized && !this.props.completed &&
+          <div>
+            <div className="row well">
+              <div className="col-sm-6 ">
                 <Dropzone onDrop={this.onDrop}>
                   <div style={{margin:10}}>Húzza ide a feltölteni kívánt fájlt, vagy klikkeljen ide a fájl
                     kiválasztásához.
@@ -107,98 +107,13 @@ class SignupStatementPage extends Component {
             {filePreview &&
             <div><Button onClick={this.upload} className="btn btn-primary">Feltölt</Button></div>
             }
-
-
-          <div className="x_title" style={{marginTop:48}}>
-            <h2>További nyilatkozatok</h2>
-            <div className="clearfix"></div>
           </div>
-
-            <div >
-              <Checkbox checked={this.props.progress[progressTypes.SIGNUP_STATEMENTS_ACCEPTED]!==undefined}
-                        onChange={this.onAcceptStatementsChange}>
-                <strong>Elfogadom a lenti nyilatkozatokat</strong>
-              </Checkbox>
-            </div>
+          }
 
 
-            <div className="well well-small"><h4>1. sz. nyilatkozat</h4>
-
-
-              <p className="text-block"><br/>Felelősségem tudatában nyilatkozom, hogy a TÁMOP-2.3.6.A programban való
-                részvételi
-                feltételeket megismertem és tudomásul veszem.<br/><br/>
-
-                A jelentkezési feltételeknek a Támogatási Szerződés megkötésekor megfelelek, azaz<br/>
-                1) 18. életévemet már betöltöm, de a 35. életévemet még nem, <b>vagy</b><br/>
-                A fenti időpontban 0-6 éves kisgyermeket nevelek, a 18. életévemet már betöltöm, de a 40. életévemet még
-                nem.<br/>
-                2) A fenti időpontban más vállalkozásban többségi tulajdonnal nem rendelkezem.
-
-                <br/><br/>A programban való részvételi feltételeknek való megfelelésről a Támogatási Szerződés
-                megkötésekor –
-                <u>amely várhatóan 2013. 11. 01. és 2014. 07. 31. közötti időtartamra fog esni</u>
-                -
-                írásban, büntetőjogi felelősség
-                mellett ismételten nyilatkozni kell.<br/><br/>
-              </p>
-
-
-            </div>
-
-            <div className="well well-small">
-              <h4>2. sz. nyilatkozat</h4>
-
-              <p className="text-block"><br/>A TÁMOP-2.3.6.B-12/1. konstrukcióra pályázatot benyújtó vállalkozást
-                létrehozó,
-                valamint a
-                - TÁMOP-2.3.6.A-12/1.
-                konstrukcióban képzésen résztvevő - természetes személy részvételi feltételeiről
-
-                <br/><br/>Felelősségem tudatában kijelentem, hogy a TÁMOP-2.3.6.A-12/1. konstrukció keretében
-                meghirdetett
-                <u>képzésre
-                  jelentkezéskor</u> az alábbi feltételeknek megfelelek:<br/><br/>
-              </p>
-              <ul>
-                <li>B. pont: Pályázók köre</li>
-                <li>B1. pont: Jogi forma</li>
-                <li>B2. pont: Méret</li>
-                <li>B3. pont: Székhely</li>
-                <li>B4. pont: Iparág</li>
-                <li>B6. pont: A pályázat benyújtásának feltételei és Támogatói Okirat kiadására vonatkozó kizáró okok
-                  továbbá a fenti pontokba foglalt feltételeket, kikötéseket, és korlátozásokat magamra, illetve
-                  az általam képviselt szervezetre nézve kötelezőnek ismerem el, illetve kijelentem, hogy az
-                  abban foglalt feltételeknek és kikötéseknek az általam képviselt szervezet megfelel, és biztosítom,
-                  hogy a támogatási jogviszony fennállásának teljes időtartama alatt megfeleljen;<br/>
-                </li>
-              </ul>
-
-            </div>
-
-
-            <div className="well well-small">
-              <h4>3. sz. Adatvédelmi nyilatkozat</h4>
-
-              <p className="text-block"><br/>A Fiatal Vállalkozók Országos Szövetsége számára kiemelt fontosságú cél az
-                Ügyfelei által
-
-                rendelkezésére bocsátott személyes adatok védelme, a felhasználók információs önrendelkezési
-
-                jogának biztosítása. A Fiatal Vállalkozók Országos Szövetsége Ügyfelei személyes adatait
-
-                bizalmasan, a hatályos jogszabályi előírásokkal összhangban kezeli, gondoskodik azok
-
-                biztonságáról, megteszi azokat a technikai és szervezési intézkedéseket, amelyek a vonatkozó
-
-                jogszabályi rendelkezések érvényre juttatásához szükségesek.
-
-                Az adatkezelés nyilvántartási száma: NAIH-66446/2013.<br/><br/>
-              </p>
-            </div>
         </div>
 
-        }
+
       </Content>
     );
   }
@@ -209,7 +124,9 @@ const mapStateToProps = (state)=>({
   currentTurn: _.get(state, 'userturns.currentTurn', {}),
   userturn: _.get(state, 'userturns.userturn', {}),
   file: _.get(state, 'userturns.userturn.signup_statement_file', null),
-  progress: _.get(state, 'userturns.userturn.progress', {})
+  progress: _.get(state, 'userturns.userturn.progress', {}),
+  finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`, false),
+  completed: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_COMPLETED}`, false)
 });
 
 export default connect(mapStateToProps, actions)(SignupStatementPage);

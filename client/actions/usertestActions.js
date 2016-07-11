@@ -18,12 +18,13 @@ export function getUserTestByIds(user_id, test_id) {
   };
 }
 
-export function loadUserSignupTest(user_id, test_id) {
+export function loadUserSignupTest(user_id, test_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions loadUserSignupTest', user_id, test_id);
+    console.log('Actions loadUserSignupTest', user_id, test_id, turn_id);
     dispatch(beginAjaxCall());
-    return usertestApi.getUserTest(user_id, test_id).then(result => {
+    return usertestApi.getUserTest(user_id, test_id, turn_id).then(result => {
       dispatch(loadUserSignupTestSuccess(result.data));
+      return(result.data);
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);

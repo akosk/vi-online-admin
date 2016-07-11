@@ -6,7 +6,8 @@ class TopLeft extends Component {
       <div>
         <div className="navbar nav_title" style={{border: 0}}>
           <a href="index.html" className="site_title">
-            <span>&nbsp;Vállalkozz Itthon!</span></a>
+            <span>&nbsp;<strong>Vállalkozz</strong> Itthon <strong>!</strong> </span>
+          </a>
         </div>
 
         <div className="clearfix"></div>
