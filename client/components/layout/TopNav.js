@@ -56,8 +56,7 @@ class TopNav extends Component {
             </div>
 
             <ul className="nav navbar-nav navbar-right">
-
-              <li><a href="" onClick={this.logout}><span className=" fa fa-sign-out "></span> </a></li>
+              <li ><a onClick={this.logout} style={{padding:'14px 15px 5px'}} href=''><span style={{lineHeight:'32px',fontSize: '28px'}} className=" fa fa-sign-out "></span></a></li>
 
               <li className="">
                 <a href="javascript:;" className="user-profile dropdown-toggle" data-toggle="dropdown"
