@@ -25,6 +25,8 @@ export default {
   ],
   module: {
     loaders: [
+      { test: /\.json$/, loader: "json-loader" },
+      { test: /\.scss$/, loaders: ["style", "css", "sass"] },
       {
         test: /\.js$/,
         exclude: [/node_modules/, /dist/],
