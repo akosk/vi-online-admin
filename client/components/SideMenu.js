@@ -9,12 +9,15 @@ class SideMenu extends Component {
 
     const menu = this.props.menu.map((category)=> {
       const categoryMenu = category.items.map((item)=>(
-        <li
-          className={classNames({
+        <LinkContainer to={item.url}>
+          <NavItem
+            className={classNames({
             'in-progress': item.inProgress,
             'completed': item.completed,
           })}
-          key={item.name}><LinkContainer to={item.url}><a>{item.name}</a></LinkContainer></li>
+            key={item.name}>{item.name}
+          </NavItem>
+        </LinkContainer>
       ));
       return (
         <li key={category.name} className="active"><a><i className={category.icon}></i> {category.name} <span
