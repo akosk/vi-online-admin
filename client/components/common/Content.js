@@ -2,8 +2,18 @@ import React from 'react';
 import {Badge} from 'react-bootstrap';
 
 const Content = (props) => {
+
+  const toolButtons = props.toolButtons ? props.toolButtons.map((item)=> {
+      return (
+        <li key={item.icon} style={{float:'right'}}>
+          <a onClick={item.onClick} href="#" style={{padding:'0px 10px 0px 10px', fontSize:'21px'}}><i
+            className={item.icon}></i></a>
+        </li>);
+    }
+  ) : <div></div>;
+
   return (
-    <div role="main" style={{minHeight:800}}>
+    <div role="main"  >
 
       {props.category &&
       <div className="page-title">
@@ -21,7 +31,12 @@ const Content = (props) => {
 
             {props.title &&
             <div className="x_title">
-              <h2>{props.title} {props.badge && <span className="badge bg-green" style={{color:"white"}}>{props.badge}</span>}</h2>
+              <h2>{props.title} {props.badge &&
+              <span className="badge bg-green" style={{color:"white"}}>{props.badge}</span>}</h2>
+              <ul className="nav navbar-right panel_toolbox">
+                { toolButtons}
+              </ul>
+
               <div className="clearfix"></div>
             </div>
             }

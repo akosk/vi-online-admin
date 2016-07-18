@@ -30,6 +30,7 @@ class TopNavDropDown extends Component {
       <li role="presentation" className={dropDownClass} onClick={this.onClick}>
         <a href="javascript:;" className="dropdown-toggle info-number" data-toggle="dropdown"
            aria-expanded="false">
+          <span className=" fa fa-mortar-board"></span>
           <span>{this.props.selectedName}</span>
           <span className=" fa fa-angle-down"></span>
         </a>

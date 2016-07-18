@@ -19,9 +19,53 @@
 /*line-height: 95px;*/
 /*}*/
 
+.filter span i {
+  margin-left: 12px;
+}
+
+.filter-wrapper {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.filter span {
+  display: inline-block;
+  padding: 8px;
+  margin-left: 2px;
+}
+
 body {
   height: 100vh;
   min-height: 100vh;
+}
+
+.wide-modal {
+  width: 90%;
+  z-index: 99999
+}
+
+.left_col {
+  z-index: 1000 !important;
+}
+
+.label-teal-100 {
+  background-color: #B2DFDB;
+  color: black
+}
+
+.label-teal-400 {
+  background-color: #26A69A;
+  color: black
+}
+
+.label-green-600 {
+  background-color: #43A047;
+  color: white
+}
+
+.label-green-800 {
+  background-color: #2E7D32;
+  color: white
 }
 
 #app {

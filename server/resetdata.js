@@ -147,8 +147,7 @@ const data = {
     "user_id": "daacd210-e114-452f-95fd-8a2ef3b7a419",
     "vallalkozas_szekhelye": "BA"
   }],
-  userturns: [
-   ]
+  userturns: []
 };
 
 
@@ -186,17 +185,34 @@ const loadData = (name, next) => {
   });
 };
 
+const createIndex = (name, next) => {
+  console.log(`loadData ${name}`);
+  r.connect(config, (err, conn) => {
+    r.db('vi_del_dunantul').table(name).indexCreate('user_id', r.row('user_id'))
+     .run(conn, (err, res) => {
+       conn.close();
+       next(err, res);
+     });
+
+  });
+};
+
 const createTables = (next) => {
-async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
+  async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
 };
 const createData = (next) => {
- async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
+  async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
+};
+
+const createIndexes = (next) => {
+  async.map(["signup_datas", "userturns", "usertests"], createIndex, next);
 };
 
 async.series({
   created: createDb,
   tables: createTables,
-  data: createData
+  data: createData,
+  index: createIndexes
 }, function (err, res) {
   console.log(res);
 });

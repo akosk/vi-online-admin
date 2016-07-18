@@ -12,6 +12,7 @@ import {checkboxFormatter} from '../../utils/formatters';
 class TurnsListPage extends Component {
 
 
+
   options() {
     return {
       afterDeleteRow: (rowKeys)=> {
@@ -41,7 +42,6 @@ class TurnsListPage extends Component {
       <span className="glyphicon glyphicon-pencil"></span>
     </Link>);
   }
-
 
   render() {
     const { turns } = this.props;

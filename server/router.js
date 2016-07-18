@@ -10,6 +10,7 @@ import TurnController from './controllers/turnController';
 import SignupDataController from './controllers/signupDataController';
 import UsertestsController from './controllers/usertestsController';
 import UploadController from './controllers/uploadController';
+import FilterController from './controllers/filterController';
 import {authorize,blocked} from './lib/auth';
 
 const router = (app, mode = 'dev')=> {
@@ -59,8 +60,11 @@ const router = (app, mode = 'dev')=> {
   app.post('/set-progress/:userturn_id', authorize, blocked, UserturnController.setProgress);
   app.post('/remove-progress/:userturn_id', authorize, blocked, UserturnController.removeProgress);
 
-  app.get('/get-turn-members/:turn_id', authorize, blocked, UserturnController.getTurnMembers);
+  app.post('/get-turn-members/:turn_id', authorize, blocked, UserturnController.getTurnMembers);
 
+  app.post('/filters', authorize, blocked, FilterController.saveFilter);
+  app.get('/filters', authorize, blocked, FilterController.getAllFilters);
+  app.delete('/filters/:id', authorize, blocked, FilterController.deleteFilter);
 
   const indexPath = mode === 'dev' ? '../client/index.html' : '../dist/index.html';
   app.get('*', (req, res) => {

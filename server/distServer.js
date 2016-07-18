@@ -4,6 +4,7 @@ import open from 'open';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import helmet from 'helmet';
 
 import router from './router';
 
@@ -12,6 +13,7 @@ import router from './router';
 const port = 3000;
 const app = express();
 
+app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(express.static('dist'));

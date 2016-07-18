@@ -13,9 +13,11 @@ class UserturnController {
 
   static getTurnMembers(req, res) {
     const {turn_id} =req.params;
-    console.log(`getTurnMembers ${turn_id}`);
+    const {filter}=req.body;
 
-    model.getTurnMembers(turn_id)
+    console.log(`getTurnMembers ${turn_id} ${filter}`);
+
+    model.getTurnMembers(turn_id,filter)
          .then((users)=> {
            return res.send(users);
          })

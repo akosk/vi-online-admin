@@ -7,6 +7,7 @@ import turns from './turnsReducer';
 import userturns from './userturnsReducer';
 import tests from './testsReducer';
 import admin from './adminReducer';
+import filters from './filtersReducer';
 
 
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   tests,
   userturns,
   admin,
+  filters,
   routing: routerReducer,
 });
 

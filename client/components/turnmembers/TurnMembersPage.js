@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Panel, Badge, Button } from 'react-bootstrap';
+import { Modal, Panel, Badge, Button } from 'react-bootstrap';
+import  FilterManager from '../filter/FilterManager';
+import FilterElement from '../filter/FilterElement';
 
 import Content from '../common/Content';
 
@@ -10,16 +12,26 @@ import _  from 'lodash';
 
 class TurnMembersPage extends Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.onFilterClick = this.onFilterClick.bind(this);
+    this.onFilterClose = this.onFilterClose.bind(this);
+    this.state = {
+      showFilterModal: false,
+      filter: {}
+    };
+  }
+
 
   componentWillReceiveProps(newProps) {
     if (newProps.selectedTurn.id && this.props.selectedTurn.id !== newProps.selectedTurn.id) {
-      this.props.loadTurnMembers(newProps.selectedTurn.id);
+      this.props.loadTurnMembers(newProps.selectedTurn.id, this.state.filter);
     }
   }
 
   componentDidMount() {
     if (this.props.selectedTurn.id)
-      this.props.loadTurnMembers(this.props.selectedTurn.id);
+      this.props.loadTurnMembers(this.props.selectedTurn.id, this.state.filter);
   }
 
   viewIcon(id) {
@@ -35,11 +47,54 @@ class TurnMembersPage extends Component {
     };
   }
 
+  onFilterClick(e) {
+    e.preventDefault();
+    this.setState({ showFilterModal: true });
+  }
+
+  onFilterClose(e) {
+    e.preventDefault();
+    this.setState({ showFilterModal: false });
+  }
+
+  onSelectFilter = (id)=> {
+		var selectedFilter = _.find(this.props.filters, (i)=> {
+      return i.id === id;
+    });
+    this.setState({
+      showFilterModal: false,
+      filter: {...selectedFilter}
+    });
+
+    this.props.loadTurnMembers(this.props.selectedTurn.id, selectedFilter);
+
+  };
+
+  onRemoveFilterClick=(e)=>{
+    e.preventDefault();
+    this.setState({
+      filter:{}
+    })
+    this.props.loadTurnMembers(this.props.selectedTurn.id, {});
+  };
 
   render() {
     const { users, selectedTurn } = this.props;
     return (
-      <Content category="Turnus" title="Turnus felhasználói" badge={users.length}>
+      <Content category="Turnus" title="Turnus felhasználói" badge={users.length}
+               toolButtons={[{icon:'fa fa-filter', onClick:this.onFilterClick}]}>
+
+        {
+          this.state.filter.id &&
+          <div className="well filter">
+            <a href="#" onClick={this.onRemoveFilterClick}> <span className="pull-right fa fa-close"></span></a>
+            <h4>{this.state.filter.name}</h4>
+
+            {  this.state.filter.conditions
+                   .map((item, index)=><FilterElement key={index} index={index} item={item} edit={false}/>)
+            }
+          </div>
+        }
         <BootstrapTable data={users} striped={false} hover
                         bordered
                         pagination
@@ -55,6 +110,17 @@ class TurnMembersPage extends Component {
         </BootstrapTable>
 
 
+        <Modal show={this.state.showFilterModal} onHide={this.onFilterClose} dialogClassName="wide-modal">
+          <Modal.Header closeButton>
+            <Modal.Title>Szűrők</Modal.Title>
+          </Modal.Header>
+          <Modal.Body >
+            <FilterManager onSelectFilter={this.onSelectFilter}/>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.onFilterClose}>Bezár</Button>
+          </Modal.Footer>
+        </Modal>
       </Content>
     );
   }
@@ -64,7 +130,8 @@ class TurnMembersPage extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedTurn: _.get(state, 'admin.turn', {}),
-    users: _.get(state, 'admin.turnMembers', [])
+    users: _.get(state, 'admin.turnMembers', []),
+    filters: _.get(state, 'filters', [])
   };
 };
 

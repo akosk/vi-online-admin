@@ -6,6 +6,18 @@ export const FELSOFOKU_SZAKKEPZES = 'FELSOFOKU_SZAKKEPZES';
 export const FOISKOLA = 'FOISKOLA';
 export const EGYETEM = 'EGYETEM';
 
+export function relationOptions(type='') {
+  return [
+    { value: '=', text: '=' },
+    { value: '<', text: '<' },
+    { value: '>', text: '>' },
+    { value: '<=', text: '<=' },
+    { value: '>=', text: '>=' },
+    { value: 'LIKE', text: 'LIKE' },
+    { value: 'NOT LIKE', text: 'NOT LIKE' },
+  ]
+}
+
 export function yesnoOptions() {
   return [
     {
@@ -76,35 +88,35 @@ export function megyekOptions() {
   ];
 }
 
-  export function eduLevelOptions() {
-    return [
-      {
-        value: ALTALANOSNAL_KEVESEBB,
-        text: '8 általánosnál kevesebb'
-      },
-      {
-        value: ALTALANOS,
-        text: '8 általános'
-      },
-      {
-        value: ALTALANOS_OKJ,
-        text: '8 általános és OKJ-s végzettség'
-      },
-      {
-        value: ERETTSEGI,
-        text: 'Érettségi'
-      },
-      {
-        value: FELSOFOKU_SZAKKEPZES,
-        text: 'Felsőfokú szakképzés'
-      },
-      {
-        value: FOISKOLA,
-        text: 'Főiskola'
-      },
-      {
-        value: EGYETEM,
-        text: 'Egyetem'
-      }
-    ];
-  }
+export function eduLevelOptions() {
+  return [
+    {
+      value: ALTALANOSNAL_KEVESEBB,
+      text: '8 általánosnál kevesebb'
+    },
+    {
+      value: ALTALANOS,
+      text: '8 általános'
+    },
+    {
+      value: ALTALANOS_OKJ,
+      text: '8 általános és OKJ-s végzettség'
+    },
+    {
+      value: ERETTSEGI,
+      text: 'Érettségi'
+    },
+    {
+      value: FELSOFOKU_SZAKKEPZES,
+      text: 'Felsőfokú szakképzés'
+    },
+    {
+      value: FOISKOLA,
+      text: 'Főiskola'
+    },
+    {
+      value: EGYETEM,
+      text: 'Egyetem'
+    }
+  ];
+}

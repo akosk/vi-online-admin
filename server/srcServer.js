@@ -6,6 +6,7 @@ import config from '../webpack.config.dev';
 import open from 'open';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import helmet from 'helmet';
 
 import router from './router';
 
@@ -14,6 +15,7 @@ const app = express();
 const compiler = webpack(config);
 
 //app.use(morgan('combined'));
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,

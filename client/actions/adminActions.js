@@ -8,10 +8,10 @@ export function adminSelectTurn(turn) {
 }
 
 
-export function loadTurnMembers(turn_id) {
+export function loadTurnMembers(turn_id, filter) {
   return function (dispatch) {
     dispatch(beginAjaxCall());
-    return userturnApi.getTurnMembers(turn_id)
+    return userturnApi.getTurnMembers(turn_id, filter)
                   .then(result => {
                     dispatch(loadTurnMembersSuccess(result.data));
                   })

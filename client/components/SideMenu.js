@@ -9,7 +9,7 @@ class SideMenu extends Component {
 
     const menu = this.props.menu.map((category)=> {
       const categoryMenu = category.items.map((item)=>(
-        <LinkContainer to={item.url}>
+        <LinkContainer key={item.url} to={item.url}>
           <NavItem
             className={classNames({
             'in-progress': item.inProgress,
@@ -22,7 +22,7 @@ class SideMenu extends Component {
       return (
         <li key={category.name} className="active"><a><i className={category.icon}></i> {category.name} <span
           className="fa fa-chevron-down"></span></a>
-          <ul className="nav child_menu" style={{display: "block"}}>
+          <ul  className="nav child_menu" style={{display: "block"}}>
             {categoryMenu}
           </ul>
         </li>
@@ -34,6 +34,7 @@ class SideMenu extends Component {
           <h3>&nbsp;</h3>
           <ul className="nav side-menu">
             {menu}
+
           </ul>
         </div>
       </div>
@@ -41,4 +42,4 @@ class SideMenu extends Component {
   }
 }
 
-export default SideMenu;
+export default  SideMenu;

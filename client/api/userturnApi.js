@@ -9,8 +9,9 @@ class UserturnApi {
       { headers: { 'x-api-token': localStorage.getItem('token') } }
     );
   }
-  static getTurnMembers(turn_id) {
-    return axios.get(`/get-turn-members/${turn_id}`,
+  static getTurnMembers(turn_id, filter) {
+    return axios.post(`/get-turn-members/${turn_id}`,
+      {filter},
       { headers: { 'x-api-token': localStorage.getItem('token') } }
     );
   }

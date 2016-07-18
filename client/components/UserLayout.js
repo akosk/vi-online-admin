@@ -85,7 +85,7 @@ export class UserLayout extends Component {
     return [
       {
         name: "Törzsadatok",
-        icon: "fa fa-hand-peace-o",
+        icon: "fa fa-database",
         items: [
           {
             name: 'Felhasználók',

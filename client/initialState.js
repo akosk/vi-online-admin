@@ -13,6 +13,7 @@ const initialState = {
   userturns: [],
   turns: [],
   tests: [],
+  filters: [],
 };
 
 export default initialState;
