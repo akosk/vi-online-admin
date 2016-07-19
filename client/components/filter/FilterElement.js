@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import * as filter from '../../../common/filterSchema';
 import * as fieldTypes from '../../../common/fieldTypes';
+import _ from 'lodash';
 
 class FilterElement extends Component {
 
