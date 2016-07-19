@@ -2,7 +2,7 @@ import React from 'react';
 import TextInput from '../common/TextInput';
 import Checkbox from '../common/Checkbox';
 import SelectInput from '../common/SelectInput';
-import * as inputHelper from '../../utils/SelectInputHelper';
+import * as inputHelper from '../../../common/SelectInputHelper';
 
 const UserForm = ({user, onSave, onChange, onCancel, saving, errors}) => {
   return (

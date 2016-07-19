@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import SelectInput from '../common/SelectInput';
 import * as filter from '../../../common/filterSchema';
 import * as fieldTypes from '../../../common/fieldTypes';
-import {relationOptions} from '../../utils/SelectInputHelper';
+import {relationOptions} from '../../../common/SelectInputHelper';
+import SelectInput from '../common/SelectInput';
 import TextInput from '../common/TextInput';
 import DateRangePickerInput from '../common/DateRangePickerInput';
 
@@ -12,16 +12,19 @@ class FilterFormElement extends Component {
     this.props.onRemove(this.props.index, e);
   };
 
-  onChange = (e,component)=> {
-    this.props.onChange(e, this.props.index,component);
+  onChange = (e, component)=> {
+    this.props.onChange(e, this.props.index, component);
   };
+
+
+
 
   render() {
     const {item}=this.props;
 
-    let valueInput;
+    let valueInput, field;
     if (item.table && item.field) {
-      let field = filter.findField(item.table, item.field);
+      field = filter.findField(item.table, item.field);
       switch (field.type) {
         case fieldTypes.STRING:
           valueInput = <TextInput
@@ -31,8 +34,20 @@ class FilterFormElement extends Component {
             onChange={this.onChange}
           />;
           break;
+        case fieldTypes.SELECT:
+
+
+          valueInput = <SelectInput
+            name="value"
+            label="Érték"
+            value={item.value}
+            onChange={this.onChange}
+            options={field.options}
+            defaultOption="Válasszon..."
+          />;
+          break;
         case fieldTypes.DATE:
-          valueInput =<DateRangePickerInput
+          valueInput = <DateRangePickerInput
             name="value"
             onChange={this.onChange}
             label="Érték"
@@ -59,10 +74,15 @@ class FilterFormElement extends Component {
 
           { item.field &&
           <div className="row">
+            {field.type !== fieldTypes.SELECT &&
             <div className="col-sm-5">
-              <SelectInput name='rel' label='Reláció' onChange={this.onChange}
-                           options={relationOptions()}></SelectInput>
+              <SelectInput
+                name='rel'
+                label='Reláció'
+                onChange={this.onChange}
+                options={relationOptions(field.type)}></SelectInput>
             </div>
+            }
             <div className="col-sm-7">
               {valueInput}
             </div>

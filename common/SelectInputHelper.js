@@ -1,3 +1,4 @@
+import * as fieldTypes from './fieldTypes';
 export const ALTALANOSNAL_KEVESEBB = 'ALTALANOSNAL_KEVESEBB';
 export const ALTALANOS = 'ALTALANOS';
 export const ALTALANOS_OKJ = 'ALTALANOS_OKJ';
@@ -6,16 +7,20 @@ export const FELSOFOKU_SZAKKEPZES = 'FELSOFOKU_SZAKKEPZES';
 export const FOISKOLA = 'FOISKOLA';
 export const EGYETEM = 'EGYETEM';
 
-export function relationOptions(type='') {
-  return [
-    { value: '=', text: '=' },
-    { value: '<', text: '<' },
-    { value: '>', text: '>' },
-    { value: '<=', text: '<=' },
-    { value: '>=', text: '>=' },
+const allRelationOptions = [
+  { value: '=', text: '=' },
+  { value: '<', text: '<' },
+  { value: '>', text: '>' },
+  { value: '<=', text: '<=' },
+  { value: '>=', text: '>=' }
+];
+
+export function relationOptions(type = '') {
+  return type === fieldTypes.STRING
+    ? [...allRelationOptions,
     { value: 'LIKE', text: 'LIKE' },
-    { value: 'NOT LIKE', text: 'NOT LIKE' },
-  ]
+    { value: 'NOT LIKE', text: 'NOT LIKE' }]
+    : allRelationOptions;
 }
 
 export function yesnoOptions() {

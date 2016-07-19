@@ -14,10 +14,70 @@ const addOrFilter = (filterContent, filter) => {
   }
 }
 
+const appendFilter = (query, c, field) => {
+  console.log('appendFilter ', c, field);
+  switch (field.type) {
+    case fieldTypes.SELECT:
+      query = query.eq(`${c.value}`);
+      break;
+    case fieldTypes.STRING:
+      switch (c.rel) {
+        case 'LIKE':
+          query = query.match(`${c.value}`);
+          break;
+        case 'NOT LIKE':
+          query = query.match(`${c.value}`).not();
+          break;
+        case '=':
+          query = query.eq(`${c.value}`);
+          break;
+        case '!=':
+          query = query.ne(`${c.value}`);
+          break;
+        case '>':
+          query = query.gt(`${c.value}`);
+          break;
+        case '<':
+          query = query.lt(`${c.value}`);
+          break;
+        case '<=':
+          query = query.le(`${c.value}`);
+          break;
+        case '>=':
+          query = query.ge(`${c.value}`);
+          break;
+      }
+      break;
+    case fieldTypes.DATETIME:
+    case fieldTypes.DATE:
+      switch (c.rel) {
+        case '=':
+          query = query.eq(c.value);
+          break;
+        case '!=':
+          query = query.ne(c.value);
+          break;
+        case '>':
+          query = query.gt(c.value);
+          break;
+        case '<':
+          query = query.lt(c.value);
+          break;
+        case '<=':
+          query = query.le(c.value);
+          break;
+        case '>=':
+          query = query.ge(c.value);
+          break;
+      }
+      break;
+  }
+  return query;
+}
+
 const addFilter = (table, f) => {
   if (!_.has(f, 'conditions')) return table;
 
-  //cut conditions to table parts
   const conditionsByTable = _.groupBy(f.conditions, (i)=> {
 
     return Array.isArray(i) ? i[0].table : i.table;
@@ -29,35 +89,39 @@ const addFilter = (table, f) => {
     table = table.eqJoin("user_id", rdb.table(t), index);
     conditionsByTable[t].forEach((condition)=> {
       let filterContent;
+      let funfilterContent;
       if (!Array.isArray(condition)) {
         condition = [condition];
       }
       condition.forEach((c)=> {
-        console.log(c);
-        let _filter = rdb.row('right')(c.field);
+        console.log('c', c);
+
         const field = filter.findField(c.table, c.field);
-        switch (field.type) {
-          case fieldTypes.STRING:
-            switch (c.rel) {
-              case 'LIKE':
-                _filter = _filter.match(`${c.value}`);
-                break;
-              case '=':
-                console.log('>>>>>>>>>>>>>>eq match');
-                _filter = _filter.eq(`${c.value}`);
-                break;
-              case '>':
-                _filter = _filter.gt(`${c.value}`);
-                break;
-              case '<':
-                _filter = _filter.lt(`${c.value}`);
-                break;
+
+        let query;
+
+        let path = field.rname.split(":");
+
+        if (path.length > 1) {
+          console.log(': filter', path[0], path[1]);
+
+          query = rdb.row('right')(path[0]).contains(
+            function (q) {
+              return q("id").eq(path[1]).and(appendFilter(q("value"), c, field));
             }
-            break;
+          );
+
+        } else {
+          path = field.rname.split(".");
+          if (path.length > 1) {
+            //TODO: nested field filter
+          } else {
+            query = appendFilter(rdb.row('right')(c.field), c, field);
+          }
         }
 
-        filterContent = addOrFilter(filterContent, _filter);
 
+        filterContent = addOrFilter(filterContent, query);
       });
 
 
@@ -81,7 +145,7 @@ export function getTurnMembers(turn_id, filter) {
             .then((c)=> {
               conn = c;
               let table = rdb.table('userturns')
-                             .filter({ turn_id })
+                             .filter({ turn_id });
               table = addFilter(table, filter);
               return table
                 .eqJoin("user_id", rdb.table("users"))

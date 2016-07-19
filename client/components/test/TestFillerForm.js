@@ -5,7 +5,7 @@ import _ from 'lodash';
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 import DateRangePickerInput from '../common/DateRangePickerInput';
-import * as inputHelper from '../../utils/SelectInputHelper';
+import * as inputHelper from '../../../common/SelectInputHelper';
 
 class TestFillerForm extends Component {
 

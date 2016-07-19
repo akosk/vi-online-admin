@@ -135,12 +135,14 @@ class FilterManager extends Component {
     } else {
 
       const field = event.target.name;
-
+      console.log(event.target.type);
       switch (event.target.type) {
         case 'checkbox':
           form[index][field] = event.target.checked;
           break;
         case 'select-one':
+          console.log('setting rel eq',form[index]);
+          form[index]['rel']='=';
           form[index][field] = event.target.value;
           break;
         default:

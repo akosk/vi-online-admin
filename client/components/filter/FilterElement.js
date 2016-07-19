@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import * as filter from '../../../common/filterSchema';
+import * as fieldTypes from '../../../common/fieldTypes';
 
 class FilterElement extends Component {
 
@@ -47,7 +48,18 @@ class FilterElement extends Component {
 
 
     } else {
-      const text = `${table.name}.${field.name} ${item.rel} ${item.value}`;
+      let val;
+      if (field.type === fieldTypes.SELECT) {
+        val = _.find(field.options, (o)=> {
+          return o.value === item.value
+        });
+        val = val ? val.text : item.val;
+      } else {
+        val = item.value;
+      }
+
+      const text = `${table.name}.${field.name} ${item.rel} ${val}`;
+
       const classes = {
         label: true,
         'label-green-600': operation === 'ÉS',
