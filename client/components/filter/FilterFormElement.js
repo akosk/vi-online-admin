@@ -27,33 +27,33 @@ class FilterFormElement extends Component {
       field = filter.findField(item.table, item.field);
       switch (field.type) {
         case fieldTypes.STRING:
-          valueInput = <TextInput
+          valueInput = (<TextInput
             name="value"
             label="Érték"
             value={item.value}
             onChange={this.onChange}
-          />;
+          />);
           break;
         case fieldTypes.SELECT:
 
 
-          valueInput = <SelectInput
+          valueInput = (<SelectInput
             name="value"
             label="Érték"
             value={item.value}
             onChange={this.onChange}
             options={field.options}
             defaultOption="Válasszon..."
-          />;
+          />);
           break;
         case fieldTypes.DATE:
-          valueInput = <DateRangePickerInput
+          valueInput = (<DateRangePickerInput
             name="value"
             onChange={this.onChange}
             label="Érték"
             value={item.value}
             singleDatePicker>
-          </DateRangePickerInput>
+          </DateRangePickerInput>);
           break;
       }
     }
@@ -63,22 +63,22 @@ class FilterFormElement extends Component {
       <div>
         <span className="pull-right"><a href="#" onClick={this.onRemove}><i className="fa fa-close"></i></a></span>
 
-        <SelectInput disabled={this.props.size>1} name='table' label='Tábla' onChange={this.onChange}
+        <SelectInput disabled={this.props.size>1} name="table" label="Tábla" onChange={this.onChange}
                      value={item.table || ''}
                      options={filter.getTablesAsOptions()}></SelectInput>
-        { item.table &&
+        {item.table &&
         <div>
-          <SelectInput name='field' label='Mező' onChange={this.onChange}
+          <SelectInput name="field" label="Mező" onChange={this.onChange}
                        options={filter.getFieldsAsOptions(item.table)}>
           </SelectInput>
 
-          { item.field &&
+          {item.field &&
           <div className="row">
             {field.type !== fieldTypes.SELECT &&
             <div className="col-sm-5">
               <SelectInput
-                name='rel'
-                label='Reláció'
+                name="rel"
+                label="Reláció"
                 onChange={this.onChange}
                 options={relationOptions(field.type)}></SelectInput>
             </div>
@@ -95,7 +95,7 @@ class FilterFormElement extends Component {
           <div style={{flexGrow:1}}>
             <hr/>
           </div>
-          { this.props.size > this.props.index + 1 &&
+          {this.props.size > this.props.index + 1 &&
           <h4 style={{margin:'10px 0px'}}>
           <span style={{padding:'8px'}} className="label label-primary">
           VAGY

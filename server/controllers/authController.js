@@ -1,14 +1,11 @@
-import rdb from 'rethinkdb';
-import config from '../config';
 import {authenticate} from '../lib/auth';
-import {generate} from '../lib/token';
+import {generate,verify} from '../lib/token';
 import * as model from '../models/userModel';
-import {verify} from '../lib/token';
-
+import log from '../lib/nodelogger';
 class AuthController {
 
   static loginWithToken(req, res) {
-    console.log('loginWithToken');
+    log.debug('loginWithToken');
 
     if (!req.body) {
       res.status(400);
@@ -30,19 +27,19 @@ class AuthController {
              res.send({ user, token });
            })
            .catch((err)=> {
-             console.log(err.message);
+             log.debug(err.message);
              return res.send({ error: err.message });
            });
 
     } catch (err) {
-      console.log(err.message);
+      log.debug(err.message);
       return res.send({ error: err.message });
     }
 
   }
 
   static login(req, res) {
-    console.log('login');
+    log.debug('login');
     if (!req.body) {
       res.status(400);
       return res.send('Bad request.');
@@ -56,7 +53,7 @@ class AuthController {
 
       model.getUserByEmail(email)
            .then((user)=> {
-             console.log('login/1', user);
+             log.debug('login/1', user);
              if (!user) {
                throw new Error('Az email cím vagy jelszó nem megfelelő');
              }
@@ -67,10 +64,10 @@ class AuthController {
              return user;
            })
            .then((user)=> {
-             console.log('login/2', user);
+             log.debug('login/2', user);
              authenticate(password, user.password)
                .then((authenticated)=> {
-                 console.log('login/3', authenticated);
+                 log.debug('login/3', authenticated);
                  if (authenticated) {
                    return res.send({
                      user,

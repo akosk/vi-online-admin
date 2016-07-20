@@ -74,7 +74,7 @@ class TurnMembersPage extends Component {
     e.preventDefault();
     this.setState({
       filter:{}
-    })
+    });
     this.props.loadTurnMembers(this.props.selectedTurn.id, {});
   };
 
@@ -90,7 +90,7 @@ class TurnMembersPage extends Component {
             <a href="#" onClick={this.onRemoveFilterClick}> <span className="pull-right fa fa-close"></span></a>
             <h4>{this.state.filter.name}</h4>
 
-            {  this.state.filter.conditions
+            {this.state.filter.conditions
                    .map((item, index)=><FilterElement key={index} index={index} item={item} edit={false}/>)
             }
           </div>

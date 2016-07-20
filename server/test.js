@@ -1,6 +1,6 @@
 import rdb from 'rethinkdb';
 import pool from './lib/RethinkDbConnectionPool';
-
+import log from './lib/nodelogger';
 
 const p=function() {
   return new Promise((resolve,reject)=>{
@@ -9,16 +9,16 @@ const p=function() {
 };
 
 const t1 = function (time) {
-  console.log('t1 - before getConnection');
+  log.debug('t1 - before getConnection');
   const connection=  /* await */  pool.getConnection();
-  console.log('t1 - after getConnection');
+  log.debug('t1 - after getConnection');
   let userturnsCursor =  /* await */  rdb.table('userturns')
                                  .run(connection);
-  console.log('t1 - after rdb');
+  log.debug('t1 - after rdb');
   const masik= /* await */  t2(888);
-  console.log('t1 - promise');
+  log.debug('t1 - promise');
   const e= p();
-  console.log(e);
+  log.debug(e);
 
   const userturns =  /* await */  userturnsCursor.toArray();
   pool.closeConnection(connection);
@@ -27,12 +27,12 @@ const t1 = function (time) {
 };
 
 const t2 = function (time) {
-  console.log('t1 - before getConnection');
+  log.debug('t1 - before getConnection');
   const connection=  /* await */  pool.getConnection();
-  console.log('t1 - after getConnection');
+  log.debug('t1 - after getConnection');
   let userturnsCursor =  /* await */  rdb.table('userturns')
                                  .run(connection);
-  console.log('t1 - after rdb');
+  log.debug('t1 - after rdb');
   const userturns =  /* await */  userturnsCursor.toArray();
   pool.closeConnection(connection);
 
@@ -41,22 +41,22 @@ const t2 = function (time) {
 
 
 const parent = function () {
-  console.log('parent');
+  log.debug('parent');
   const a =  /* await */  t1(200);
-  console.log('a', a);
+  log.debug('a', a);
   const b =  /* await */  t1(500);
-  console.log('b', b);
+  log.debug('b', b);
 
-  console.log('parent end.');
+  log.debug('parent end.');
 };
 
-console.log('Test...');
+log.debug('Test...');
 //parent();
 const r=t1(200);
 
 //  .then((t)=>{
-//  console.log(t);
+//  log.debug(t);
 //  pool.closeAll();
 //});
 
-console.log('Test end.');
+log.debug('Test end.');

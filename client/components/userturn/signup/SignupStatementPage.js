@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import toastr from 'toastr';
 import _ from 'lodash';
+import log from '../../../utils/logger';
 
 import * as progressTypes from '../../../../common/progressTypes';
 import Content from '../../common/Content';
@@ -61,7 +62,7 @@ class SignupStatementPage extends Component {
       filePreview = <img className="img-thumbnail" src={this.state.files[0].preview}/>;
     }
 
-    console.log('f', this.props.finalized);
+    log('f', this.props.finalized);
     return (
       <Content category="Jelentkezés" title="Jelentkezési nyilatkozat">
 

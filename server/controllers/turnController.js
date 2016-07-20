@@ -1,6 +1,7 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import * as model from '../models/turnModel';
+import log from '../lib/nodelogger';
 
 class TurnController {
 
@@ -11,7 +12,7 @@ class TurnController {
            return res.send(turns);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -24,7 +25,7 @@ class TurnController {
       return res.send('Bad request.');
     }
 
-    console.log(req.body);
+    log.debug(req.body);
     const turn = req.body.turn;
 
     let promise = null;
@@ -36,11 +37,11 @@ class TurnController {
     }
 
     promise.then((turn)=> {
-             console.log('saveTurn :', turn);
+             log.debug('saveTurn :', turn);
              res.send(turn);
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });
@@ -52,11 +53,11 @@ class TurnController {
       return res.send('Bad request.');
     }
 
-    console.log(req.body);
+    log.debug(req.body);
     const {ids}=req.body;
 
     const promises = [];
-    for (var i = 0; i < ids.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
       promises.push(model.deleteTurn(ids[i]));
     }
 
@@ -65,7 +66,7 @@ class TurnController {
              res.send('OK');
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });

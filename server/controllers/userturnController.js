@@ -6,7 +6,7 @@ import * as turnModel from '../models/turnModel';
 import * as usertestModel from '../models/usertestModel';
 import * as signupDataModel from '../models/signupDataModel';
 import * as progressTypes from '../../common/progressTypes';
-
+import log from '../lib/nodelogger';
 
 class UserturnController {
 
@@ -15,14 +15,14 @@ class UserturnController {
     const {turn_id} =req.params;
     const {filter}=req.body;
 
-    console.log(`getTurnMembers ${turn_id} ${filter}`);
+    log.debug(`getTurnMembers ${turn_id} ${filter}`);
 
     model.getTurnMembers(turn_id,filter)
          .then((users)=> {
            return res.send(users);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -38,18 +38,18 @@ class UserturnController {
 
     const {userturn_id} =req.params;
     const {progress} = req.body;
-    console.log(`setProgress ${userturn_id} ${progress}`);
+    log.debug(`setProgress ${userturn_id} ${progress}`);
 
     return model.setProgressById(userturn_id, progress)
                 .then((userturn)=> {
-                  console.log('UserturnController/setProgressById', userturn);
+                  log.debug('UserturnController/setProgressById', userturn);
                   res.send(userturn);
                 })
                 .catch((err)=> {
                   if (err.errors) {
                     return res.send({ errors: err.errors });
                   }
-                  console.log(err);
+                  log.debug(err);
                   res.status(500);
 
                   return res.send(err);
@@ -65,18 +65,18 @@ class UserturnController {
 
     const {userturn_id} =req.params;
     const {progress} = req.body;
-    console.log(`removeProgress ${userturn_id} ${progress}`);
+    log.debug(`removeProgress ${userturn_id} ${progress}`);
 
     return model.removeProgressById(userturn_id, progress)
                 .then((userturn)=> {
-                  console.log('UserturnController/removeProgressById', userturn);
+                  log.debug('UserturnController/removeProgressById', userturn);
                   res.send(userturn);
                 })
                 .catch((err)=> {
                   if (err.errors) {
                     return res.send({ errors: err.errors });
                   }
-                  console.log(err);
+                  log.debug(err);
                   res.status(500);
 
                   return res.send(err);
@@ -86,7 +86,7 @@ class UserturnController {
 
 
   static validateSignup(user_id, turn_id) {
-    console.log('validateSignup',user_id,turn_id);
+    log.debug('validateSignup',user_id,turn_id);
     return model.getUserTurn(user_id, turn_id)
                 .then((ut)=> {
                   return { userturn: ut };
@@ -118,7 +118,7 @@ class UserturnController {
                 .then((o)=> {
                   const errors = [];
                   const {userturn,usertest,signupData}=o;
-                  console.log(usertest);
+                  log.debug(usertest);
                   if (userturn.signup_statement_file === undefined) {
                     errors.push('Az aláírt nyilatkozat nincs feltöltve.');
                   }
@@ -168,7 +168,7 @@ class UserturnController {
     }
 
     const {user_id, turn_id} = req.body;
-    console.log(`finalizeSignup ${user_id} ${turn_id}`);
+    log.debug(`finalizeSignup ${user_id} ${turn_id}`);
 
 
     UserturnController.validateSignup(user_id, turn_id)
@@ -181,14 +181,14 @@ class UserturnController {
                       )
 
                       .then((userturn)=> {
-                        console.log('userturn', userturn);
+                        log.debug('userturn', userturn);
                         res.send(userturn);
                       })
                       .catch((err)=> {
                         if (err.errors) {
                           return res.send({ errors: err.errors });
                         }
-                        console.log(err);
+                        log.debug(err);
                         res.status(500);
 
                         return res.send(err);
@@ -205,16 +205,16 @@ class UserturnController {
     }
 
     const {user_id}=req.params;
-    console.log(`getCurrentTurn for ${user_id}`);
+    log.debug(`getCurrentTurn for ${user_id}`);
 
 
     model.getUserCurrentTurn(user_id)
          .then((turn)=> {
-           console.log('getCurrentTurn turn:', turn);
+           log.debug('getCurrentTurn turn:', turn);
            res.send(turn);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -230,15 +230,15 @@ class UserturnController {
 
     const {user_id, turn_id}=req.params;
 
-    console.log(`getUserTurn for ${user_id} ${turn_id}`);
+    log.debug(`getUserTurn for ${user_id} ${turn_id}`);
 
     model.getUserTurn(user_id, turn_id)
          .then((turn)=> {
-           console.log('getUserTurn turn:', turn);
+           log.debug('getUserTurn turn:', turn);
            res.send(turn);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -260,7 +260,7 @@ class UserturnController {
            return res.send('Ok');
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });

@@ -1,10 +1,10 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
-
+import log from '../lib/nodelogger';
 
 export function updateSignupStatementFile(user_id, turn_id, filename) {
-  console.log(`updateSignupStatementFile ${user_id} ${turn_id} ${filename}`);
+  log.debug(`updateSignupStatementFile ${user_id} ${turn_id} ${filename}`);
 
 
   let conn = null;
@@ -20,7 +20,7 @@ export function updateSignupStatementFile(user_id, turn_id, filename) {
               return result;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -30,7 +30,7 @@ export function updateSignupStatementFile(user_id, turn_id, filename) {
 }
 
 export function getUserByEmail(email) {
-  console.log(`userModel/getUserByEmail ${email}`);
+  log.debug(`userModel/getUserByEmail ${email}`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -45,7 +45,7 @@ export function getUserByEmail(email) {
               return userArray.length > 0 ? userArray[0] : null;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -53,7 +53,7 @@ export function getUserByEmail(email) {
 }
 
 export function getAllUsers() {
-  console.log(`getAllUsers`);
+  log.debug(`getAllUsers`);
   const start = new Date().getTime();
   let conn = null;
   return rdb.connect(config.db)
@@ -64,18 +64,18 @@ export function getAllUsers() {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
               const end = new Date().getTime();
               const time = end - start;
-              console.log('Execution time: ' + time);
+              log.debug('Execution time: ' + time);
             });
 }
 
 export function getUser(user_id) {
-  console.log(`getUser`,user_id);
+  log.debug(`getUser`,user_id);
   let conn = null;
   return rdb.connect(config.db)
             .then((c)=> {
@@ -86,7 +86,7 @@ export function getUser(user_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -94,7 +94,7 @@ export function getUser(user_id) {
 }
 
 export function deleteUser(user_id) {
-  console.log(`deleteUser`);
+  log.debug(`deleteUser`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -106,7 +106,7 @@ export function deleteUser(user_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -117,7 +117,7 @@ export function deleteUser(user_id) {
 
 
 export function updateUser(user) {
-  console.log(`updateUser`, user);
+  log.debug(`updateUser`, user);
 
 
   let conn = null;
@@ -133,11 +133,11 @@ export function updateUser(user) {
               if (result.changes.length > 0) {
                 user = { ...user, ...result.changes[0].new_val };
               }
-              console.log('user update return:', user.id);
+              log.debug('user update return:', user.id);
               return user;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -146,7 +146,7 @@ export function updateUser(user) {
 }
 
 export function insertUser(user) {
-  console.log(`insertUser`, user);
+  log.debug(`insertUser`, user);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -158,11 +158,11 @@ export function insertUser(user) {
             })
             .then((result)=> {
               const user = result.changes[0].new_val;
-              console.log('user insert return:', user.id);
+              log.debug('user insert return:', user.id);
               return user;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

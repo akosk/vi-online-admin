@@ -34,7 +34,7 @@ const Content = (props) => {
               <h2>{props.title} {props.badge &&
               <span className="badge bg-green" style={{color:"white"}}>{props.badge}</span>}</h2>
               <ul className="nav navbar-right panel_toolbox">
-                { toolButtons}
+                {toolButtons}
               </ul>
 
               <div className="clearfix"></div>

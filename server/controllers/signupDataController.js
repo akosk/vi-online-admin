@@ -6,6 +6,7 @@ import * as userturnModel from '../models/userturnModel';
 import * as progressTypes from '../../common/progressTypes';
 
 import {isSignupHasErrors} from '../../common/validation';
+import log from '../lib/nodelogger';
 
 class SignupDataController {
 
@@ -13,15 +14,15 @@ class SignupDataController {
 
     const {user_id}=req.params;
 
-    console.log(`getSignupDataByUserId for ${user_id}`);
+    log.debug(`getSignupDataByUserId for ${user_id}`);
 
     model.getSignupDataByUserId(user_id)
          .then((signupData)=> {
-           console.log('getSignupDataByUserId :', signupData);
+           log.debug('getSignupDataByUserId :', signupData);
            res.send(signupData);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -37,7 +38,7 @@ class SignupDataController {
     }
 
     let signupData = req.body;
-    console.log("SignupData", signupData);
+    log.debug("SignupData", signupData);
 
     let promise = null;
     if (signupData.id) {
@@ -67,7 +68,7 @@ class SignupDataController {
              res.send(signupData);
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });

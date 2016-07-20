@@ -8,7 +8,7 @@ class TopNavDropDown extends Component {
     super(props, context);
     this.state = {
       open: false
-    }
+    };
 
     this.onClick = this.onClick.bind(this);
   }
@@ -16,7 +16,7 @@ class TopNavDropDown extends Component {
   onClick(e) {
     this.setState({
       open: !this.state.open
-    })
+    });
   }
 
   render() {

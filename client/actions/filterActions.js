@@ -1,11 +1,12 @@
 import * as types from './actionTypes';
 import filterApi from '../api/filterApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import log from '../utils/logger';
 
 
 
 export function deleteFilter(id) {
-  console.log('deleteFilter ',id);
+  log('deleteFilter ',id);
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return filterApi.deleteFilter(id).then(() => {

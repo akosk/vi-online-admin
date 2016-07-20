@@ -20,7 +20,7 @@ import './style/site.css';
 
 let outdatedBrowserFork = require("outdated-browser-rework");
 import "outdated-browser-rework/outdated-browser-rework.scss";
-
+import log from './utils/logger';
 
 
 outdatedBrowserFork({
@@ -32,11 +32,6 @@ outdatedBrowserFork({
     'Firefox': 32
   }
 });
-
-//import 'gentelella/vendors/iCheck/skins/flat/green.css';
-//import 'gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css';
-//import 'gentelella/build/css/custom.min.css';
-//import 'gentelella/build/js/custom';
 
 
 const store = configureStore(initialState);
@@ -54,7 +49,7 @@ if (token) {
            render();
          })
          .catch((err)=> {
-           console.log(err);
+           log(err);
            render();
          });
 

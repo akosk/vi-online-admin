@@ -5,6 +5,8 @@ import TopNavDropDown from '../layout/TopNavDropDown';
 import * as actions from '../../actions';
 import _ from 'lodash';
 
+import log from '../../utils/logger';
+
 class TopNav extends Component {
 
   constructor(props, context) {
@@ -32,7 +34,7 @@ class TopNav extends Component {
   }
 
   selectTurn(id, e) {
-    console.log(id);
+    log(id);
     const turn = _.find(this.props.turns, (turn)=>turn.id === id);
     this.props.adminSelectTurn(turn);
   }
@@ -46,7 +48,7 @@ class TopNav extends Component {
         name: turn.name
       };
     });
-    console.log(items);
+    log(items);
     return (
       <div className="top_nav">
         <div className="nav_menu">
@@ -56,7 +58,7 @@ class TopNav extends Component {
             </div>
 
             <ul className="nav navbar-nav navbar-right">
-              <li ><a onClick={this.logout} style={{padding:'14px 15px 5px'}} href=''><span style={{lineHeight:'32px',fontSize: '28px'}} className=" fa fa-sign-out "></span></a></li>
+              <li ><a onClick={this.logout} style={{padding:'14px 15px 5px'}} href=""><span style={{lineHeight:'32px',fontSize: '28px'}} className=" fa fa-sign-out "></span></a></li>
 
               <li className="">
                 <a href="javascript:;" className="user-profile dropdown-toggle" data-toggle="dropdown"
@@ -75,7 +77,7 @@ class TopNav extends Component {
                 </ul>
               </li>
 
-              { this.props.isAdmin &&
+              {this.props.isAdmin &&
               <TopNavDropDown
                 items={items}
                 onSelect={this.selectTurn}

@@ -1,7 +1,7 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import * as model from '../models/filterModel';
-
+import log from '../lib/nodelogger';
 class FilterController {
 
   static getAllFilters(req, res) {
@@ -11,7 +11,7 @@ class FilterController {
            return res.send(filters);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -24,7 +24,7 @@ class FilterController {
       return res.send('Bad request.');
     }
 
-    console.log(req.body);
+    log.debug(req.body);
     const filter = req.body.filter;
 
     let promise = null;
@@ -36,11 +36,11 @@ class FilterController {
     }
 
     promise.then((filter)=> {
-             console.log('saveFilter :', filter);
+             log.debug('saveFilter :', filter);
              res.send(filter);
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });
@@ -53,7 +53,7 @@ class FilterController {
     }
 
     const {id}=req.params;
-    console.log('delete filter', id);
+    log.debug('delete filter', id);
 
 
     model.deleteFilter(id)
@@ -61,7 +61,7 @@ class FilterController {
            res.send('OK');
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });

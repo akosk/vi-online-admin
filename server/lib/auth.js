@@ -37,7 +37,7 @@ export function blocked(request, response, next) {
   const {email}=request.token.user;
   model.getUserByEmail(email).then((user)=>{
     if (user.blocked) {
-      var expiredError = new Error('A fiókja jelenleg le van tiltva');
+      const expiredError = new Error('A fiókja jelenleg le van tiltva');
       expiredError.status = 401;
       return next(expiredError);
     }

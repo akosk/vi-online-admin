@@ -1,10 +1,11 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
+import log from '../lib/nodelogger';
 
 
 export function updateSignupData(signupData) {
-  console.log('updateSignupData', signupData);
+  log.debug('updateSignupData', signupData);
   delete(signupData.created_at);
   delete(signupData.user_id);
 
@@ -20,12 +21,12 @@ export function updateSignupData(signupData) {
             .then((result)=> {
               return getSignupData(signupData.id)
                 .then((sd)=> {
-                  console.log('get updated SignupData', sd);
+                  log.debug('get updated SignupData', sd);
                   return sd;
                 });
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -33,7 +34,7 @@ export function updateSignupData(signupData) {
 }
 
 export function insertSignupData(signupData) {
-  console.log('insertSignupData', signupData);
+  log.debug('insertSignupData', signupData);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -46,12 +47,12 @@ export function insertSignupData(signupData) {
             .then((result)=> {
               return getSignupData(result.generated_keys[0])
                 .then((sd)=> {
-                  console.log('get inserted SignupData', sd);
+                  log.debug('get inserted SignupData', sd);
                   return sd;
                 });
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -61,7 +62,7 @@ export function insertSignupData(signupData) {
 }
 
 export function getSignupData(id) {
-  console.log('getSignupData', id);
+  log.debug('getSignupData', id);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -73,7 +74,7 @@ export function getSignupData(id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -81,7 +82,7 @@ export function getSignupData(id) {
 }
 
 export function getSignupDataByUserId(user_id) {
-  console.log('getSignupDataByUserId', user_id);
+  log.debug('getSignupDataByUserId', user_id);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -96,7 +97,7 @@ export function getSignupDataByUserId(user_id) {
               return signupDatas.length > 0 ? signupDatas[0] : {};
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import toastr from 'toastr';
 
+import log from '../../utils/logger';
+
 import TestFillerForm from './TestFillerForm';
 import * as actions from '../../actions/';
 
@@ -78,7 +80,7 @@ class TestFiller extends Component {
   }
 
   render() {
-    console.log('d', this.props.disabled);
+    log('d', this.props.disabled);
     return (
       <div>
         <TestFillerForm

@@ -1,5 +1,6 @@
 import delay from './delay';
 import _ from 'lodash';
+import log from '../utils/logger';
 
 const usertests = [];
 
@@ -15,7 +16,7 @@ class UsertestApi {
         });
 
         const test_id = usertest ? usertest.test_id : undefined;
-        console.log('getUsersActiveTestId', test_id);
+        log('getUsersActiveTestId', test_id);
         resolve(test_id);
       }, delay);
     });

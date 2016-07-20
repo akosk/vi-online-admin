@@ -8,6 +8,8 @@ import ContentTitle from '../common/ContentTitle';
 import toastr from 'toastr';
 import * as progressTypes from '../../../common/progressTypes';
 
+import log from '../../utils/logger';
+
 class SignupFinalizeView extends Component {
 
   constructor(props, context) {
@@ -22,19 +24,19 @@ class SignupFinalizeView extends Component {
           .then((turn)=> {
             this.setState({
               checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
-            })
+            });
           });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next', nextProps, this.props);
+    log('next', nextProps, this.props);
     if (nextProps.currentTurn.id !== this.props.currentTurn.id) {
       this.props.getUserTurn(this.props.params.user_id, nextProps.currentTurn.id)
           .then((turn)=> {
             this.setState({
               checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
-            })
+            });
           });
 
 

@@ -1,10 +1,11 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
+import log from '../lib/nodelogger';
 
 
 export function updateFilter(filter) {
-  console.log(`updateFilter`, filter);
+  log.debug(`updateFilter`, filter);
 
 
   let conn = null;
@@ -20,11 +21,11 @@ export function updateFilter(filter) {
               if (result.changes.length>0) {
                 filter = {...filter,...result.changes[0].new_val};
               }
-              console.log('filter update return:', filter.id);
+              log.debug('filter update return:', filter.id);
               return filter;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -34,7 +35,7 @@ export function updateFilter(filter) {
 }
 
 export function insertFilter(filter) {
-  console.log(`insertFilter`, filter);
+  log.debug(`insertFilter`, filter);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -46,11 +47,11 @@ export function insertFilter(filter) {
             })
             .then((result)=> {
               const filter = result.changes[0].new_val;
-              console.log('filter insert return:', filter.id);
+              log.debug('filter insert return:', filter.id);
               return filter;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -59,7 +60,7 @@ export function insertFilter(filter) {
 }
 
 export function deleteFilter(filter_id) {
-  console.log(`deleteFilter`);
+  log.debug(`deleteFilter`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -71,7 +72,7 @@ export function deleteFilter(filter_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -80,7 +81,7 @@ export function deleteFilter(filter_id) {
 }
 
 export function getAllFilters() {
-  console.log(`filterModel/getAllFilters`);
+  log.debug(`filterModel/getAllFilters`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -91,7 +92,7 @@ export function getAllFilters() {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -101,7 +102,7 @@ export function getAllFilters() {
 }
 
 export function getFilter(filter_id) {
-  console.log(`getFilter ${filter_id}`);
+  log.debug(`getFilter ${filter_id}`);
 
 
   let conn = null;
@@ -114,7 +115,7 @@ export function getFilter(filter_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

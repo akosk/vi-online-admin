@@ -8,6 +8,6 @@ const ContentTitle=(props) => {
         </div>
       </div>
     );
-}
+};
 
 export default ContentTitle;

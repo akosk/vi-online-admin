@@ -1,6 +1,8 @@
 import r from "rethinkdb";
 import async from "async" ;
 import c from './config';
+import log from './lib/nodelogger';
+
 const config = c.db;
 
 const data = {
@@ -175,7 +177,7 @@ const createTable = (name, next)=> {
 };
 
 const loadData = (name, next) => {
-  console.log(`loadData ${name}`);
+  log.debug(`loadData ${name}`);
   r.connect(config, (err, conn) => {
     r.table(name).insert(data[name]).run(conn, (err, res) => {
       conn.close();
@@ -186,7 +188,7 @@ const loadData = (name, next) => {
 };
 
 const createIndex = (name, next) => {
-  console.log(`loadData ${name}`);
+  log.debug(`loadData ${name}`);
   r.connect(config, (err, conn) => {
     r.db('vi_del_dunantul').table(name).indexCreate('user_id', r.row('user_id'))
      .run(conn, (err, res) => {
@@ -214,7 +216,7 @@ async.series({
   data: createData,
   index: createIndexes
 }, function (err, res) {
-  console.log(res);
+  log.debug(res);
 });
 
 

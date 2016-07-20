@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import userturnApi from '../api/userturnApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 import * as progressTypes from '../../common/progressTypes';
+import log from '../utils/logger';
 
 export function signUpToTurn(user, turn) {
   return function (dispatch, getState) {
@@ -29,10 +30,10 @@ export function getCurrentTurn(user_id) {
 }
 export function getUserTurn(user_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions / getUserTurn', user_id, turn_id);
+    log('Actions / getUserTurn', user_id, turn_id);
     dispatch(beginAjaxCall());
     return userturnApi.getUserTurn(user_id, turn_id).then(userturn => {
-      console.log(userturn);
+      log(userturn);
       dispatch(getUserTurnSuccess(userturn.data));
       return userturn.data;
     }).catch(error => {
@@ -44,7 +45,7 @@ export function getUserTurn(user_id, turn_id) {
 
 export function getSignupStatement(user_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions getSignupStatement', user_id, turn_id);
+    log('Actions getSignupStatement', user_id, turn_id);
     dispatch(beginAjaxCall());
     return userturnApi.getUserTurn(user_id, turn_id).then(result => {
       dispatch(getSignupStatementSuccess(result.data));
@@ -57,7 +58,7 @@ export function getSignupStatement(user_id, turn_id) {
 
 export function acceptSignupStatements(userturn_id) {
   return function (dispatch, getState) {
-    console.log('Actions acceptSignupStatements', userturn_id);
+    log('Actions acceptSignupStatements', userturn_id);
     dispatch(beginAjaxCall());
     return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED).then(result => {
       dispatch(acceptSignupStatementsSuccess(result.data));
@@ -70,7 +71,7 @@ export function acceptSignupStatements(userturn_id) {
 
 export function setProgress(userturn_id, progress) {
   return function (dispatch, getState) {
-    console.log('Actions setProgress', userturn_id,progress);
+    log('Actions setProgress', userturn_id,progress);
     dispatch(beginAjaxCall());
     return userturnApi.setProgress(userturn_id, progress).then(result => {
       dispatch(setProgressSuccess(result.data));
@@ -83,7 +84,7 @@ export function setProgress(userturn_id, progress) {
 
 export function acceptSignupStatement(userturn_id) {
   return function (dispatch, getState) {
-    console.log('Actions acceptSignupStatement', userturn_id);
+    log('Actions acceptSignupStatement', userturn_id);
     dispatch(beginAjaxCall());
     return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_STATEMENT_VALID).then(result => {
       dispatch(acceptSignupStatementSuccess(result.data));
@@ -96,7 +97,7 @@ export function acceptSignupStatement(userturn_id) {
 
 export function removeProgress(userturn_id,progress) {
   return function (dispatch, getState) {
-    console.log('Actions removeProgress', userturn_id,progress);
+    log('Actions removeProgress', userturn_id,progress);
     dispatch(beginAjaxCall());
     return userturnApi.removeProgress(userturn_id, progress).then(result => {
       dispatch(removeProgressSuccess(progress));
@@ -109,7 +110,7 @@ export function removeProgress(userturn_id,progress) {
 
 export function finalizeSignup(user_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions finalizeSignup', user_id, turn_id);
+    log('Actions finalizeSignup', user_id, turn_id);
     dispatch(beginAjaxCall());
     return userturnApi.finalizeSignup(user_id, turn_id).then(result => {
       if (result.data.errors) {

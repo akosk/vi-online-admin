@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 import usertestApi from '../api/usertestApi';
-import testApi from '../api/mockTestApi';
-import _ from 'lodash';
+import log from '../utils/logger';
 
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
@@ -20,7 +19,7 @@ export function getUserTestByIds(user_id, test_id) {
 
 export function loadUserSignupTest(user_id, test_id, turn_id) {
   return function (dispatch, getState) {
-    console.log('Actions loadUserSignupTest', user_id, test_id, turn_id);
+    log('Actions loadUserSignupTest', user_id, test_id, turn_id);
     dispatch(beginAjaxCall());
     return usertestApi.getUserTest(user_id, test_id, turn_id).then(result => {
       dispatch(loadUserSignupTestSuccess(result.data));

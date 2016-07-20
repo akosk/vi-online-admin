@@ -8,6 +8,8 @@ import ContentTitle from '../common/ContentTitle';
 import toastr from 'toastr';
 import * as progressTypes from '../../../common/progressTypes';
 
+import log from '../../utils/logger';
+
 class SignupAgreementsView extends Component {
 
   constructor(props, context) {
@@ -22,7 +24,7 @@ class SignupAgreementsView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next',nextProps)
+    log('next',nextProps);
     if (nextProps.currentTurn.id !== this.props.currentTurn.id) {
       this.props.getUserTurn(this.props.params.user_id, nextProps.currentTurn.id);
     }

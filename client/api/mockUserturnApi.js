@@ -1,6 +1,7 @@
 import delay from './delay';
 import _ from 'lodash';
 import turnApi from './mockTurnApi';
+import log from '../utils/logger';
 
 const userturns = [
   {
@@ -19,7 +20,7 @@ class UserturnApi {
         });
 
         const turn_id = userturn ? userturn.turn_id : undefined;
-        console.log('getUsersActiveTurnId', turn_id);
+        log('getUsersActiveTurnId', turn_id);
         resolve(turn_id);
       }, delay);
     });

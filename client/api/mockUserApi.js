@@ -1,11 +1,9 @@
 import delay from './delay';
 import _ from 'lodash';
+import log from '../utils/logger';
 
 import users from './mockUsers';
 
-// This file mocks a web API by working with the hard-coded data below.
-// It uses setTimeout to simulate the delay of an AJAX call.
-// All calls return promises.
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
@@ -18,7 +16,7 @@ const generateId = (user) => {
 
 class UserApi {
   static getAllUsers() {
-    console.log('UserAPI', 'getAllUsers');
+    log('UserAPI', 'getAllUsers');
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Object.assign([], users));
@@ -42,7 +40,7 @@ class UserApi {
         } else {
           const emailAlreadyExist = _.find(users, (o)=> o.email == user.email) !== undefined;
           if (emailAlreadyExist) {
-            console.log('Reject..');
+            log('Reject..');
             reject(`A <strong>${user.email}</strong> email címen már korábban regisztrált valaki.`);
             return;
           }

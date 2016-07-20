@@ -2,11 +2,13 @@ import * as types from './actionTypes';
 import userApi from '../api/userApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
+import log from '../utils/logger';
+
 export function saveRegistration(user) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return userApi.saveUser(user).then(response => {
-      console.log(response);
+      log(response);
       dispatch(registrationSuccess(user));
     }).catch(error => {
       dispatch(ajaxCallError(error));
@@ -28,7 +30,7 @@ export function saveUser(user) {
 }
 
 export function deleteSelectedUsers(ids) {
-  console.log('deleteSelectedUsers ',ids);
+  log('deleteSelectedUsers ',ids);
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return userApi.deleteUsers(ids).then(() => {

@@ -4,12 +4,12 @@
 import fs from 'fs';
 import cheerio from 'cheerio';
 import colors from 'colors';
-
+import log from './lib/nodelogger';
 /*eslint-disable no-console */
 
 fs.readFile('client/index.html', 'utf8', (err, markup) => {
   if (err) {
-    return console.log(err);
+    return log.debug(err);
   }
 
   const $ = cheerio.load(markup);
@@ -19,8 +19,8 @@ fs.readFile('client/index.html', 'utf8', (err, markup) => {
 
   fs.writeFile('dist/index.html', $.html(), 'utf8', function (err) {
     if (err) {
-      return console.log(err);
+      return log.debug(err);
     }
-    console.log('index.html written to /dist'.green);
+    log.debug('index.html written to /dist'.green);
   });
 });

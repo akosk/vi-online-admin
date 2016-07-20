@@ -9,7 +9,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import router from './router';
-
+import log from './lib/nodelogger';
 const port = 4000;
 const app = express();
 const compiler = webpack(config);
@@ -27,7 +27,7 @@ router(app);
 
 app.listen(port, function (err) {
   if (err) {
-    console.log("------ERROR------", err);
+    log.debug("------ERROR------", err);
   } else {
     open(`http://localhost:${port}`);
   }

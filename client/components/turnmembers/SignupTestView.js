@@ -5,12 +5,14 @@ import * as actions from '../../actions';
 import _ from 'lodash';
 import ContentTitle from '../common/ContentTitle';
 
+import log from '../../utils/logger';
+
 class SignupTestView extends Component {
 
 
   render() {
     const {competency_test, user}=this.props;
-    console.log('render',competency_test, user);
+    log('render',competency_test, user);
     return (
       <div>
         <ContentTitle title="Kompetencia teszt"/>

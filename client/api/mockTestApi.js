@@ -1,12 +1,8 @@
 import delay from './delay';
 import _ from 'lodash';
+import log from '../utils/logger';
 
 import tests from './mockTests';
-
-// This file mocks a web API by working with the hard-coded data below.
-// It uses setTimeout to simulate the delay of an AJAX call.
-// All calls return promises.
-
 
 class TestApi {
 
@@ -43,7 +39,7 @@ class TestApi {
         } else {
           const emailAlreadyExist = _.find(tests, (o)=> o.email == test.email) !== undefined;
           if (emailAlreadyExist) {
-            console.log('Reject..');
+            log('Reject..');
             reject(`A <strong>${test.email}</strong> email címen már korábban regisztrált valaki.`);
             return;
           }

@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import router from './router';
-
+import log from './lib/nodelogger';
 /*eslint-disable no-console */
 
 const port = 3000;
@@ -20,9 +20,9 @@ app.use(express.static('dist'));
 
 router(app,'production');
 
-console.log(`Production server. Listening on ${port}...`);
+log.debug(`Production server. Listening on ${port}...`);
 app.listen(port, function(err) {
   if (err) {
-    console.log(err);
+    log.debug(err);
   }
 });

@@ -9,6 +9,7 @@ import TextInput from '../common/TextInput';
 import FilterApi from '../../api/filterApi';
 import toastr from 'toastr';
 
+import log from '../../utils/logger';
 import * as actions from '../../actions/filterActions';
 import FilterFormElement from './FilterFormElement';
 import SelectFilterButton from './SelectFilterButton';
@@ -34,7 +35,7 @@ class FilterManager extends Component {
         { ...formInitialState }
       ],
       filter: { ...filterInitialState }
-    }
+    };
 
   }
 
@@ -45,13 +46,13 @@ class FilterManager extends Component {
   onRemoveClick = (index, parentIndex, e)=> {
     if (parentIndex === undefined) {
       this.state.filter.conditions.splice(index, 1);
-      console.log('before', this.state);
+      log('before', this.state);
       this.setState({
         filter: {
           conditions: this.state.filter.conditions
         }
       });
-      console.log('after', this.state);
+      log('after', this.state);
       return;
     } else {
       this.state.filter.conditions[parentIndex].splice(index, 1);
@@ -119,11 +120,11 @@ class FilterManager extends Component {
       {
         form: this.state.form
       }
-    )
+    );
   };
 
   onFormElementChange = (event, index, component) => {
-    console.log('onFormElementChange', event, index);
+    log('onFormElementChange', event, index);
     let form = this.state.form;
 
     if (component) {
@@ -138,13 +139,13 @@ class FilterManager extends Component {
     } else {
 
       const field = event.target.name;
-      console.log(event.target.type);
+      log(event.target.type);
       switch (event.target.type) {
         case 'checkbox':
           form[index][field] = event.target.checked;
           break;
         case 'select-one':
-          console.log('setting rel eq', form[index]);
+          log('setting rel eq', form[index]);
           form[index]['rel'] = '=';
           form[index][field] = event.target.value;
           break;
@@ -161,7 +162,7 @@ class FilterManager extends Component {
         ...this.state.filter,
         name: e.target.value
       }
-    })
+    });
   };
 
   onSaveFilterClick = (e)=> {
@@ -173,9 +174,9 @@ class FilterManager extends Component {
           });
         })
         .catch((err)=> {
-          console.log(err);
+          log(err);
           toastr.error('A szűrő mentése sikertelen.');
-        })
+        });
   }
 
   onDeleteFilterClick = (e)=> {
@@ -188,9 +189,9 @@ class FilterManager extends Component {
           });
         })
         .catch((err)=> {
-          console.log(err);
+          log(err);
           toastr.error('A szűrő törlése sikertelen.');
-        })
+        });
   }
 
 
@@ -219,6 +220,8 @@ class FilterManager extends Component {
   }
 
   render() {
+    log('hajjaj',this.state);
+
     const sentence = this.state.filter.conditions
                          .map((item, index)=><FilterElement key={index} index={index} item={item}
                                                             onRemove={this.onRemoveClick}/>);
@@ -235,6 +238,7 @@ class FilterManager extends Component {
     });
 
     return (
+
       <div >
         <BootstrapTable data={this.props.filters} striped={false} hover
                         bordered

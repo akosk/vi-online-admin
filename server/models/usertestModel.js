@@ -7,9 +7,10 @@ import * as userturnModel from './userturnModel';
 import * as progressTypes from '../../common/progressTypes';
 
 import {isTestValid} from '../../common/validation';
+import log from '../lib/nodelogger';
 
 export function getUserTest(user_id, test_id, turn_id) {
-  console.log('usertestModel/getUserTest', user_id, test_id, turn_id);
+  log.debug('usertestModel/getUserTest', user_id, test_id, turn_id);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -21,11 +22,11 @@ export function getUserTest(user_id, test_id, turn_id) {
                         .run(conn);
             })
             .then((usertests)=> {
-              console.log('usertestModel/getUserTest', usertests.id);
+              log.debug('usertestModel/getUserTest', usertests.id);
               return usertests.length > 0 ? usertests[0] : {};
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -45,11 +46,11 @@ export function insertUserTest(usertest) {
             })
             .then((result)=> {
               const usertest = result.changes[0].new_val;
-              console.log('Insert return:', usertest.id);
+              log.debug('Insert return:', usertest.id);
               return usertest;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -73,7 +74,7 @@ export function updateUserTest(usertest) {
               if (result.changes.length > 0) {
                 usertest = { ...usertest, ...result.changes[0].new_val };
               }
-              console.log(usertest);
+              log.debug(usertest);
               return usertest;
             })
             .then((usertest)=> {
@@ -91,7 +92,7 @@ export function updateUserTest(usertest) {
               } else return (usertest);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

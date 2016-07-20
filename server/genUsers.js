@@ -1,4 +1,4 @@
-
+import log from './lib/nodelogger';
 import r from "rethinkdb";
 import async from "async" ;
 import c from './config';
@@ -21,7 +21,7 @@ for (let i = 0; i <= 2000; i++) {
 }
 
 const loadData = (name, next) => {
-  console.log(`loadData ${name}`);
+  log.debug(`loadData ${name}`);
   r.connect(config, (err, conn) => {
     r.table(name).insert(data[name]).run(conn, (err, res) => {
       conn.close();
@@ -39,7 +39,7 @@ const createData = (next) => {
 async.series({
   data: createData
 }, function (err, res) {
-  console.log(res);
+  log.debug(res);
 });
 
 

@@ -16,7 +16,7 @@ class SignupDataApi {
   }
 
   //static getAllTurns() {
-  //  console.log('TurnAPI', 'getAllTurns');
+  //  log('TurnAPI', 'getAllTurns');
   //  return new Promise((resolve, reject) => {
   //    setTimeout(() => {
   //      resolve(Object.assign([], turns));

@@ -1,11 +1,9 @@
 import delay from './delay';
 import _ from 'lodash';
+import log from '../utils/logger';
 
 import turns from './mockTurns';
 
-// This file mocks a web API by working with the hard-coded data below.
-// It uses setTimeout to simulate the delay of an AJAX call.
-// All calls return promises.
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
@@ -29,7 +27,7 @@ class TurnApi {
   }
 
   static getAllTurns() {
-    console.log('TurnAPI', 'getAllTurns');
+    log('TurnAPI', 'getAllTurns');
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Object.assign([], turns));
@@ -53,7 +51,7 @@ class TurnApi {
         } else {
           const emailAlreadyExist = _.find(turns, (o)=> o.email == turn.email) !== undefined;
           if (emailAlreadyExist) {
-            console.log('Reject..');
+            log('Reject..');
             reject(`A <strong>${turn.email}</strong> email címen már korábban regisztrált valaki.`);
             return;
           }

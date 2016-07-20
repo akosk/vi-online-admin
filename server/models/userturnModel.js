@@ -2,8 +2,8 @@ import rdb from 'rethinkdb';
 import config from '../config';
 import * as filter from '../../common/filterSchema';
 import * as fieldTypes from '../../common/fieldTypes';
-import pool from '../lib/RethinkDbConnectionPool';
 import _ from 'lodash';
+import log from '../lib/nodelogger';
 
 
 const addOrFilter = (filterContent, filter) => {
@@ -12,10 +12,10 @@ const addOrFilter = (filterContent, filter) => {
   } else {
     return filter;
   }
-}
+};
 
 const appendFilter = (query, c, field) => {
-  console.log('appendFilter ', c, field);
+  log.debug('appendFilter ', c, field);
   switch (field.type) {
     case fieldTypes.SELECT:
       query = query.eq(`${c.value}`);
@@ -73,7 +73,7 @@ const appendFilter = (query, c, field) => {
       break;
   }
   return query;
-}
+};
 
 const addFilter = (table, f) => {
   if (!_.has(f, 'conditions')) return table;
@@ -85,7 +85,7 @@ const addFilter = (table, f) => {
 
   _.keys(conditionsByTable).forEach((t) => {
     const index = t === 'users' ? {} : { index: 'user_id' };
-    console.log(`${t} block with index: ${index}`);
+    log.debug(`${t} block with index: ${index}`);
     table = table.eqJoin("user_id", rdb.table(t), index);
     conditionsByTable[t].forEach((condition)=> {
       let filterContent;
@@ -94,7 +94,7 @@ const addFilter = (table, f) => {
         condition = [condition];
       }
       condition.forEach((c)=> {
-        console.log('c', c);
+        log.debug('c', c);
 
         const field = filter.findField(c.table, c.field);
 
@@ -103,7 +103,7 @@ const addFilter = (table, f) => {
         let path = field.rname.split(":");
 
         if (path.length > 1) {
-          console.log(': filter', path[0], path[1]);
+          log.debug(': filter', path[0], path[1]);
 
           query = rdb.row('right')(path[0]).contains(
             function (q) {
@@ -138,7 +138,7 @@ const addFilter = (table, f) => {
 
 
 export function getTurnMembers(turn_id, filter) {
-  console.log(`getTurnMembers`);
+  log.debug(`getTurnMembers`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -154,7 +154,7 @@ export function getTurnMembers(turn_id, filter) {
                 .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -188,7 +188,7 @@ export function getUserCurrentTurn(user_id) {
 
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -213,7 +213,7 @@ export function getUserTurn(user_id, turn_id) {
               return userturn;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -224,7 +224,7 @@ export function getUserTurn(user_id, turn_id) {
 
 export function setProgress(user_id, turn_id, progressName) {
 
-  console.log('setProgress', user_id, turn_id, progressName);
+  log.debug('setProgress', user_id, turn_id, progressName);
   const progress = {};
   progress[progressName] = {
     created_at: rdb.now()
@@ -254,7 +254,7 @@ export function setProgress(user_id, turn_id, progressName) {
               return {};
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -288,7 +288,7 @@ export function setProgressById(userturn_id, progressName) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -328,7 +328,7 @@ export function removeProgressById(userturn_id, progressName) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -337,7 +337,7 @@ export function removeProgressById(userturn_id, progressName) {
 
 
 export function insertUserturn(user_id, turn_id) {
-  console.log(`insertUserturn`, user_id, turn_id);
+  log.debug(`insertUserturn`, user_id, turn_id);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -348,7 +348,7 @@ export function insertUserturn(user_id, turn_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

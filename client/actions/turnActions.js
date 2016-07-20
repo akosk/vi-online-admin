@@ -1,11 +1,11 @@
 import * as types from './actionTypes';
 import turnApi from '../api/turnApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
-
+import log from '../utils/logger';
 
 
 export function deleteSelectedTurns(ids) {
-  console.log('deleteSelectedTurns ',ids);
+  log('deleteSelectedTurns ',ids);
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
     return turnApi.deleteTurns(ids).then(() => {

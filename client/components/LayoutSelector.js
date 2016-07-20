@@ -5,12 +5,13 @@ import _ from 'lodash';
 import UserLayout from './UserLayout';
 import NoLayout from './NoLayout';
 import LayoutContainer from './LayoutContainer';
-
+import log from '../utils/logger';
 
 class LayoutSelector extends Component {
 
   render() {
-    console.log(this.props.children);
+
+    log(this.props.children);
 
     if (this.props.children.type.name==='NotFoundRoutePage') {
       return (

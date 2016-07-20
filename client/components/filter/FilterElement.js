@@ -33,9 +33,9 @@ class FilterElement extends Component {
     if (Array.isArray(item)) {
       return (
         <span className="filter-wrapper">
-          { index > 0 && <span className="label label-green-600">{operation}</span>}
+          {index > 0 && <span className="label label-green-600">{operation}</span>}
           <span className="label label-green-800">(</span>
-          { item.map((subItem, subIndex)=><FilterElement
+          {item.map((subItem, subIndex)=><FilterElement
             key={`${index}.${subIndex}`}
             parentIndex={index}
             index={subIndex}
@@ -52,7 +52,7 @@ class FilterElement extends Component {
       let val;
       if (field.type === fieldTypes.SELECT) {
         val = _.find(field.options, (o)=> {
-          return o.value === item.value
+          return o.value === item.value;
         });
         val = val ? val.text : item.val;
       } else {
@@ -68,7 +68,7 @@ class FilterElement extends Component {
       };
       return (
         <span className="filter-wrapper">
-          { index > 0 && <span className={classnames(classes)}>{operation}</span> }
+          {index > 0 && <span className={classnames(classes)}>{operation}</span>}
         <span className={classnames(classes)}>
           {text}
           {this.props.edit &&

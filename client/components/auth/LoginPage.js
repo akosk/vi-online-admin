@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {browserHistory} from 'react-router';
 import { Panel } from 'react-bootstrap';
 import toastr from 'toastr';
+import log from '../../utils/logger';
 
 import LoginForm from './LoginForm';
 import * as actions from '../../actions';
@@ -68,7 +69,7 @@ class LoginPage extends Component {
     if (user.role === 'user') {
       this.props.getCurrentTurn(user.id)
           .then((currentTurn)=> {
-            console.log('LoginPage currentTurn',currentTurn);
+            log('LoginPage currentTurn',currentTurn);
               if (currentTurn) {
                 this.context.router.push(`/user/${currentTurn.slug}/dashboard`);
               } else {

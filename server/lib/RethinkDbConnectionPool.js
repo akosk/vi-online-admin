@@ -1,5 +1,6 @@
 import rdb from 'rethinkdb';
 import config from '../config';
+import log from '../lib/nodelogger';
 
 class RethinkDbConnectionPool {
   constructor() {
@@ -10,13 +11,13 @@ class RethinkDbConnectionPool {
   getConnection() {
     const {pool}=this;
     this.connections++;
-    console.log(`getConnection ${pool.length} in pool. ${this.connections} in use.`);
+    log.debug(`getConnection ${pool.length} in pool. ${this.connections} in use.`);
     if (pool.length===0) {
-      console.log(`creating new connection`);
+      log.debug(`creating new connection`);
       const connection =  /* await */  rdb.connect(config.db);
       return connection;
     } else {
-      console.log(`There is a connection in pool, new pool length: ${pool.length-1}`);
+      log.debug(`There is a connection in pool, new pool length: ${pool.length-1}`);
       return pool.pop();
     }
   }
@@ -24,7 +25,7 @@ class RethinkDbConnectionPool {
   closeConnection(connection) {
     this.connections--;
     this.pool.push(connection);
-    console.log(`closeConnection new pool length: ${this.pool.length}.  ${this.connections} in use.`);
+    log.debug(`closeConnection new pool length: ${this.pool.length}.  ${this.connections} in use.`);
   }
 
   closeAll() {

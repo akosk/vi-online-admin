@@ -1,10 +1,11 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
+import log from '../lib/nodelogger';
 
 
 export function updateTurn(turn) {
-  console.log(`updateTurn`, turn);
+  log.debug(`updateTurn`, turn);
 
 
   let conn = null;
@@ -20,11 +21,11 @@ export function updateTurn(turn) {
               if (result.changes.length>0) {
                 turn = {...turn,...result.changes[0].new_val};
               }
-              console.log('turn update return:', turn.id);
+              log.debug('turn update return:', turn.id);
               return turn;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -34,7 +35,7 @@ export function updateTurn(turn) {
 }
 
 export function insertTurn(turn) {
-  console.log(`insertTurn`, turn);
+  log.debug(`insertTurn`, turn);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -46,11 +47,11 @@ export function insertTurn(turn) {
             })
             .then((result)=> {
               const turn = result.changes[0].new_val;
-              console.log('turn insert return:', turn.id);
+              log.debug('turn insert return:', turn.id);
               return turn;
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -59,7 +60,7 @@ export function insertTurn(turn) {
 }
 
 export function deleteTurn(turn_id) {
-  console.log(`deleteTurn`);
+  log.debug(`deleteTurn`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -71,7 +72,7 @@ export function deleteTurn(turn_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -80,7 +81,7 @@ export function deleteTurn(turn_id) {
 }
 
 export function getAllTurns() {
-  console.log(`turnModel/getAllTurns`);
+  log.debug(`turnModel/getAllTurns`);
 
   let conn = null;
   return rdb.connect(config.db)
@@ -91,7 +92,7 @@ export function getAllTurns() {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();
@@ -101,7 +102,7 @@ export function getAllTurns() {
 }
 
 export function getTurn(turn_id) {
-  console.log(`getTurn ${turn_id}`);
+  log.debug(`getTurn ${turn_id}`);
 
 
   let conn = null;
@@ -114,7 +115,7 @@ export function getTurn(turn_id) {
                         .run(conn);
             })
             .error(function (err) {
-              console.log(err);
+              log.debug(err);
             })
             .finally(function () {
               if (conn) conn.close();

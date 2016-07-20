@@ -1,6 +1,7 @@
 import rdb from 'rethinkdb';
 import config from '../config';
 import * as model from '../models/testModel';
+import log from '../lib/nodelogger';
 
 class TestController {
 
@@ -11,7 +12,7 @@ class TestController {
            return res.send(tests);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });

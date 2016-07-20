@@ -19,7 +19,7 @@ export function verify(token, next) {
 
   const decoded = jwt.decode(token, secret);
   if (decoded.exp <= moment().format('x')) {
-    var expiredError = new Error('Token has expired');
+    const expiredError = new Error('Token has expired');
     expiredError.status = 401;
     return next(expiredError);
   }

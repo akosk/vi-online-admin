@@ -1,4 +1,5 @@
 import axios from 'axios';
+import log from '../utils/logger';
 
 class SignupDataApi {
 
@@ -9,7 +10,7 @@ class SignupDataApi {
   }
 
   static saveSignupData(signupData) {
-    console.log('Saving SignupData...', signupData);
+    log('Saving SignupData...', signupData);
     if (signupData.id) {
       return axios.post(`/signup-datas/${signupData.id}`, { ...signupData },
         { headers: { 'x-api-token': localStorage.getItem('token') } }

@@ -3,6 +3,7 @@ import config from '../config';
 import * as model from '../models/userModel';
 
 import {hash_password} from '../lib/auth';
+import log from '../lib/nodelogger';
 
 class UsersController {
 
@@ -20,22 +21,22 @@ class UsersController {
     if (user.id === undefined) {
       promise = hash_password(user.password)
         .then((hash)=> {
-          console.log('new hash:', hash);
+          log.debug('new hash:', hash);
           return model.insertUser({ ...user, password: hash, role: 'user' });
         });
 
     } else {
-      console.log('Módosítás');
+      log.debug('Módosítás');
       promise = model.updateUser(user);
       return res.send({ user });
     }
 
     promise.then((user)=> {
-             console.log('saveUser', user);
+             log.debug('saveUser', user);
              res.send({ user });
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });
@@ -48,7 +49,7 @@ class UsersController {
            return res.send(users);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -62,7 +63,7 @@ class UsersController {
            return res.send(user);
          })
          .catch((err)=> {
-           console.log(err);
+           log.debug(err);
            res.status(500);
            return res.send(err);
          });
@@ -74,11 +75,11 @@ class UsersController {
       return res.send('Bad request.');
     }
 
-    console.log(req.body);
+    log.debug(req.body);
     const {ids}=req.body;
 
     const promises = [];
-    for (var i = 0; i < ids.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
       promises.push(model.deleteUser(ids[i]));
     }
 
@@ -87,7 +88,7 @@ class UsersController {
              res.send('OK');
            })
            .catch((err)=> {
-             console.log(err);
+             log.debug(err);
              res.status(500);
              return res.send(err);
            });
