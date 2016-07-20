@@ -59,7 +59,10 @@ class FilterManager extends Component {
         this.state.filter.conditions[parentIndex] = this.state.filter.conditions[parentIndex][0];
       }
       this.setState({
-        filter: { conditions: this.state.filter.conditions }
+        filter: {
+          ...this.state.filter,
+          conditions: this.state.filter.conditions
+        }
       });
       return;
     }
@@ -72,7 +75,7 @@ class FilterManager extends Component {
 
   onAddOrConditionClick = (e) => {
     const newElement = this.state.form.length > 0 ?
-    {...formInitialState,table:this.state.form[0].table} :
+    { ...formInitialState, table: this.state.form[0].table } :
     { ...formInitialState };
     this.setState({
       form: [
@@ -141,8 +144,8 @@ class FilterManager extends Component {
           form[index][field] = event.target.checked;
           break;
         case 'select-one':
-          console.log('setting rel eq',form[index]);
-          form[index]['rel']='=';
+          console.log('setting rel eq', form[index]);
+          form[index]['rel'] = '=';
           form[index][field] = event.target.value;
           break;
         default:
@@ -249,7 +252,8 @@ class FilterManager extends Component {
             <div className="col-sm-4">
               {form}
               <div>
-                <button disabled={!this.state.form[0].table} onClick={this.onAddOrConditionClick} className="btn btn-block btn-primary"><i
+                <button disabled={!this.state.form[0].table} onClick={this.onAddOrConditionClick}
+                        className="btn btn-block btn-primary"><i
                   className="fa fa-plus"></i> 'Vagy' hozzáadása
                 </button>
                 <button
