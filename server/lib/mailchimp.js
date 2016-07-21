@@ -45,7 +45,6 @@ class MailChimp {
       ...member,
       status: 'subscribed'
     };
-    console.log('Member to post', listId, newMember);
     return axios.post(MailChimp.url(`/lists/${listId}/members`),
       newMember,
       { headers: MailChimp.headers() }
@@ -82,7 +81,6 @@ class MailChimp {
       email_address: member.email_address,
       status: member.status
     };
-    console.log('Member to post segment', listId, segmentId, newMember);
     return axios.post(MailChimp.url(`/lists/${listId}/segments/${segmentId}/members`),
       newMember,
       { headers: MailChimp.headers() }
