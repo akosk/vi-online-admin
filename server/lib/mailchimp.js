@@ -1,4 +1,5 @@
 import axios from 'axios';
+import log from '../lib/nodelogger';
 
 const extractData = (response) => {
   return response.data;
@@ -6,52 +7,96 @@ const extractData = (response) => {
 
 class MailChimp {
 
-  static API_KEY = '03c3ec2707ce6e2e8bbc17c5a8443fff-us12';
-  static API_URL = 'https://us12.api.mailchimp.com/3.0';
+  static API_KEY = '';
+
+  static url(path) {
+    log.debug(`MailChimp ${path}`);
+    const dc = MailChimp.API_KEY.split('-')[1]
+    return `https://${dc}.api.mailchimp.com/3.0${path}`
+  }
+
+  static headers() {
+    return { 'Authorization': `user ${MailChimp.API_KEY}` };
+  }
 
   static getLists() {
     return axios.get(
-      `${MailChimp.API_URL}/lists`,
-      {
-        headers: { 'Authorization': `user ${MailChimp.API_KEY}` }
-      }
+      MailChimp.url(`/lists`),
+      { headers: MailChimp.headers() }
     ).then((r)=>r.data);
   }
 
   static getList(listId) {
     return axios.get(
-      `${MailChimp.API_URL}/lists/${listId}`,
-      {
-        headers: { 'Authorization': `user ${MailChimp.API_KEY}` }
-      }
+      MailChimp.url(`/lists/${listId}`),
+      { headers: MailChimp.headers() }
     ).then((r)=>r.data);
   }
 
-  static getMembers(listId){
+  static getMembers(listId) {
     return axios.get(
-      `${MailChimp.API_URL}/lists/${listId}/members`,
-      {
-        headers: { 'Authorization': `user ${MailChimp.API_KEY}` }
-      }
+      MailChimp.url(`/lists/${listId}/members`),
+      { headers: MailChimp.headers() }
     ).then((r)=>r.data);
-
   }
 
   static postMember(listId, member) {
-    console.log(`${MailChimp.API_URL}/lists/${listId}/members`);
-    const newMember={
+    const newMember = {
       ...member,
       status: 'subscribed'
     };
-    console.log(newMember);
-    return axios.post(`${MailChimp.API_URL}/lists/${listId}/members`,
+    console.log('Member to post', listId, newMember);
+    return axios.post(MailChimp.url(`/lists/${listId}/members`),
       newMember,
-      { headers: { 'Authorization': `user ${MailChimp.API_KEY}` } }
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+
+  }
+
+  static getSegments(listId) {
+    return axios.get(
+      MailChimp.url(`/lists/${listId}/segments`),
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+  }
+
+  static postSegment(listId, segment) {
+    return axios.post(MailChimp.url(`/lists/${listId}/segments`),
+      {
+        ...segment,
+        static_segment: segment.static_segment || []
+      },
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+
+  }
+
+  static deleteSegment(listId, segmentId) {
+    return axios.delete(MailChimp.url(`/lists/${listId}/segments/${segmentId}`),
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+  }
+
+  static postMemberToSegment(listId, segmentId, member) {
+    const newMember = {
+      email_address: member.email_address,
+      status: member.status
+    };
+    console.log('Member to post segment', listId, segmentId, newMember);
+    return axios.post(MailChimp.url(`/lists/${listId}/segments/${segmentId}/members`),
+      newMember,
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+  }
+
+  static getSegmentMembers(listId, segmentId) {
+    return axios.get(
+      MailChimp.url(`/lists/${listId}/segments/${segmentId}/members`),
+      { headers: MailChimp.headers() }
     ).then((r)=>r.data);
 
   }
 
 }
-
 
 export default MailChimp;
