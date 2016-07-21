@@ -1,14 +1,16 @@
 const initialState = {
   auth: {
-    user: {
-      //id: "123",
-      //name: "Budapesti Boglárka",
-      //email: "bog@gmail.com",
-      //role: "user",
-      //token: "123456789ABCD"
+    user: {}
+  },
+  admin: {
+    portal: {
+      settings: {
+        mailchimp: {
+          api_key: ''
+        }
+      }
     }
   },
-  admin: {},
   users: [],
   userturns: [],
   turns: [],

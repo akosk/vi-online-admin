@@ -8,7 +8,7 @@ import userturns from './userturnsReducer';
 import tests from './testsReducer';
 import admin from './adminReducer';
 import filters from './filtersReducer';
-
+import {reducer as formReducer} from 'redux-form';
 
 
 const rootReducer = combineReducers({
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
   userturns,
   admin,
   filters,
+  form:formReducer,
   routing: routerReducer,
 });
 

@@ -3,7 +3,7 @@ import log from '../lib/nodelogger';
 
 const extractData = (response) => {
   return response.data;
-}
+};
 
 class MailChimp {
 
@@ -11,7 +11,7 @@ class MailChimp {
 
   static url(path) {
     log.debug(`MailChimp ${path}`);
-    const dc = MailChimp.API_KEY.split('-')[1]
+    const dc = MailChimp.API_KEY.split('-')[1];
     return `https://${dc}.api.mailchimp.com/3.0${path}`
   }
 

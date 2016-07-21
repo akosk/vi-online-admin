@@ -53,7 +53,7 @@ class TurnMembersPage extends Component {
   }
 
   onFilterClose(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     this.setState({ showFilterModal: false });
   }
 

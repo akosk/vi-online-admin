@@ -35,9 +35,9 @@ TextInput.defaultProps = {
 };
 
 TextInput.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   type: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,

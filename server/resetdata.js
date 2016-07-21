@@ -6,6 +6,15 @@ import log from './lib/nodelogger';
 const config = c.db;
 
 const data = {
+  site: [
+    {
+      id: 1,
+      name: 'Site config',
+      mailchimp: {
+        api_key: ''
+      }
+    }
+  ],
   users: [{
     "email": "admin@admin.hu",
     "id": "d49dda99-28ce-444a-a59a-ce5441b85459",
@@ -200,10 +209,10 @@ const createIndex = (name, next) => {
 };
 
 const createTables = (next) => {
-  async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests"], createTable, next);
+  async.map(["users", "turns", "tests", "signup_datas", "userturns", "usertests","filters","site"], createTable, next);
 };
 const createData = (next) => {
-  async.map(["users", "turns", "tests", "signup_datas", "userturns"], loadData, next);
+  async.map(["users", "turns", "tests", "signup_datas", "userturns","site"], loadData, next);
 };
 
 const createIndexes = (next) => {

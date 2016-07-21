@@ -108,6 +108,16 @@ export class UserLayout extends Component {
         ]
       },
       {
+        name: "Portál",
+        icon: "fa fa-cog",
+        items: [
+          {
+            name: 'Beállítások',
+            url: `/admin/settings`,
+          }
+        ]
+      },
+      {
         name: "Fejlesztés",
         icon: "fa fa-rocket",
         items: [

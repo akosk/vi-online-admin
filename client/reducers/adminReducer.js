@@ -15,7 +15,31 @@ export default function admin(state = initialState.admin, action) {
         ]
       };
 
+    case types.LOAD_PORTAL_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        portal: portal(state.portal, action)
+      };
+
+
     default:
       return state;
   }
 }
+
+const portal = (state = initialState.admin.portal.settings, action)=> {
+  switch (action.type) {
+
+
+    case types.LOAD_PORTAL_SETTINGS_SUCCESS:
+      return action.settings ? {
+        ...state,
+        settings: action.settings
+      }
+        : state;
+
+    default:
+      return state;
+  }
+
+};

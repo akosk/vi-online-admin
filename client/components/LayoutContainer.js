@@ -11,10 +11,6 @@ import AdminTurnMenu from './AdminTurnMenu';
 
 export class LayoutContainer extends Component {
 
-  constructor(props, context) {
-    super(props, context);
-    this.logout = this.logout.bind(this);
-  }
 
   static propTypes = {
     children: React.PropTypes.element.isRequired,
@@ -24,7 +20,7 @@ export class LayoutContainer extends Component {
     displayName: React.PropTypes.string.isRequired,
   };
 
-  logout() {
+  logout=()=> {
     this.props.logout();
     browserHistory.push('/');
   }

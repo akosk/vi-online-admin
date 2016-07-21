@@ -30,6 +30,7 @@ import SignupStatementView from './components/turnmembers/SignupStatementView';
 import SignupAgreementsView from './components/turnmembers/SignupAgreementsView';
 import SignupFinalizeView from './components/turnmembers/SignupFinalizeView';
 import UserTurnHomePage from './components/userturn/UserTurnHomePage';
+import SettingsPage from './components/portal/SettingsPage';
 
 import * as actions from './actions/';
 
@@ -117,7 +118,7 @@ const createRoutes = (store)=> {
           <Route path="signup-agreements" component={SignupAgreementsView}/>
           <Route path="signup-finalize" component={SignupFinalizeView}/>
         </Route>
-
+        <Route path="settings" component={SettingsPage}/>
 
         <Route path="github" component={GitHubIssuesPage}/>
       </Route>

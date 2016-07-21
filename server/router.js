@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import multipart from 'connect-multiparty';
 
+import GeneralController from './controllers/generalController';
 import UsersController from './controllers/usersController';
 import AuthController from './controllers/authController';
 import UserturnController from './controllers/userturnController';
@@ -65,6 +66,13 @@ const router = (app, mode = 'dev')=> {
   app.post('/filters', authorize, blocked, FilterController.saveFilter);
   app.get('/filters', authorize, blocked, FilterController.getAllFilters);
   app.delete('/filters/:id', authorize, blocked, FilterController.deleteFilter);
+
+  //General controller
+  app.get('/general/:table', authorize, blocked, GeneralController.findAll);
+  app.get('/general/:table/:id', authorize, blocked, GeneralController.find);
+  app.post('/general/:table', authorize, blocked, GeneralController.insert);
+  app.patch('/general/:table/:id', authorize, blocked, GeneralController.update);
+  app.delete('/general/:table/:id', authorize, blocked, GeneralController.remove);
 
   const indexPath = mode === 'dev' ? '../client/index.html' : '../dist/index.html';
   app.get('*', (req, res) => {
