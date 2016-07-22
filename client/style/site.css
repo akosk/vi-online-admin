@@ -6,6 +6,8 @@
   background: #4CAF50;
 }
 
+
+
 /*.navbar {*/
 /*height:95px;*/
 /*margin-bottom: 0px;*/
@@ -37,6 +39,10 @@
 body {
   height: 100vh;
   min-height: 100vh;
+}
+
+.body, .right_col {
+  height: 100vh;
 }
 
 .wide-modal {
@@ -73,6 +79,10 @@ body {
   min-height: 100vh;
 }
 
+#app>div {
+  height: 100vh;
+}
+
 .layout-enter {
   opacity: 0.01;
   transition: opacity 1s ease-in;
@@ -94,4 +104,8 @@ body {
 .nav hr {
   margin-top: 6px;
   margin-bottom: 6px;
+}
+
+.main_container {
+  height:100% !important;
 }
