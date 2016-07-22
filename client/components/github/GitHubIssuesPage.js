@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {Panel,Media,Label} from 'react-bootstrap';
+import moment from 'moment';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -13,10 +14,15 @@ const itemView = (item)=> {
           <img width={54} height={54} src={item.user.avatar_url} alt="Image" className="img-circle"/>
         </Media.Left>
         <Media.Body>
+
           <p><strong>#{item.number}</strong> {item.title}</p>
           <p>
             {item.labels.map((l)=><Label style={{backgroundColor:`#${l.color}`,color:'white'}}>{l.name}</Label>)}
           </p>
+          <em className="pull-right">
+            {item.closed_at ?
+              `Lezárva: ${moment(item.closed_at).format('LLL')}`
+              : `Nyitva: ${moment(item.created_at).format('LLL')}`}</em>
         </Media.Body>
       </Media>
       <hr style={{margin:0}}/>
@@ -39,7 +45,8 @@ class GitHubIssuesPage extends Component {
     );
     axios.get('http://api.github.com/repos/akosk/vi-online-admin/issues?state=closed').then(
       (data)=> {
-        this.setState({ done: data.data });
+
+        this.setState({ done: _.orderBy(data.data,'closed_at','desc') });
       }
     );
   }
