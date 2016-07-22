@@ -46,13 +46,12 @@ class FilterManager extends Component {
   onRemoveClick = (index, parentIndex, e)=> {
     if (parentIndex === undefined) {
       this.state.filter.conditions.splice(index, 1);
-      log('before', this.state);
       this.setState({
         filter: {
+          ...this.state.filter,
           conditions: this.state.filter.conditions
         }
       });
-      log('after', this.state);
       return;
     } else {
       this.state.filter.conditions[parentIndex].splice(index, 1);
@@ -206,7 +205,7 @@ class FilterManager extends Component {
       bgColor: "rgb(238, 193, 213)",
       onSelect: (row, isSelected)=> {
         this.setState({
-          filter: isSelected ? row : { ...filterInitialState }
+          filter: isSelected ? {...row} : { ...filterInitialState }
         });
       },
       onSelectAll: (isSelected)=> {
@@ -306,7 +305,7 @@ class FilterManager extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    filters: _.get(state, 'filters', [])
+    filters: _.cloneDeep( _.get(state, 'filters', []))
   };
 };
 

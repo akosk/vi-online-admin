@@ -4,16 +4,23 @@ import {Badge} from 'react-bootstrap';
 const Content = (props) => {
 
   const toolButtons = props.toolButtons ? props.toolButtons.map((item)=> {
+      let icon = {};
+      if (item.icon) {
+        icon = <i className={item.icon}></i>;
+      } else if (item.img) {
+        icon= <img src={item.img} style={{height:28}} />;
+      }
       return (
-        <li key={item.icon} style={{float:'right'}}>
-          <a onClick={item.onClick} href="#" style={{padding:'0px 10px 0px 10px', fontSize:'21px'}}><i
-            className={item.icon}></i></a>
+        <li key={item.icon} style={{ float: 'right' }}>
+          <a onClick={item.onClick} href="#" style={{ padding: '0px 10px 0px 10px', fontSize: '21px' }}>
+
+            {icon} </a>
         </li>);
     }
   ) : <div></div>;
 
   return (
-    <div role="main"  >
+    <div role="main">
 
       {props.category &&
       <div className="page-title">
@@ -32,7 +39,7 @@ const Content = (props) => {
             {props.title &&
             <div className="x_title">
               <h2>{props.title} {props.badge &&
-              <span className="badge bg-green" style={{color:"white"}}>{props.badge}</span>}</h2>
+              <span className="badge bg-green" style={{ color: "white" }}>{props.badge}</span>}</h2>
               <ul className="nav navbar-right panel_toolbox">
                 {toolButtons}
               </ul>

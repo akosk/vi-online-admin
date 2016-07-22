@@ -34,14 +34,14 @@ const SelectInput = ({name, label, onChange, defaultOption, value, error, helpTe
 };
 
 SelectInput.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   defaultOption: PropTypes.string,
   value: PropTypes.string,
   helpText: PropTypes.string,
   error: PropTypes.string,
-  disabéed: PropTypes.bool,
+  disabled: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.object)
 };
 

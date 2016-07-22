@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import userturnApi from '../api/userturnApi';
+import axios from 'axios';
 import log from '../utils/logger';
 import generalApi from '../api/generalApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
@@ -45,7 +46,7 @@ export function loadPortalSettings() {
 export function savePortalSettings(settings) {
   return function (dispatch) {
     dispatch(beginAjaxCall());
-    console.log('sett',settings);
+    console.log('sett', settings);
     let promise;
     if (settings.id) {
       promise = generalApi.update('site', settings)
@@ -70,4 +71,27 @@ export function loadPortalSettingsSuccess(settings) {
 }
 export function savePortalSettingsSuccess(settings) {
   return { type: types.SAVE_PORTAL_SETTINGS_SUCCESS, settings };
+}
+
+export const mailChimpExport = (users,filter_name)=> {
+  return (dispatch) => {
+    dispatch(beginAjaxCall());
+
+    const promise = axios.post('/mailchimp/export',
+      { users, filter_name },
+      { headers: { 'x-api-token': localStorage.getItem('token') } });
+
+    return promise
+      .then(result => {
+        dispatch(mailChimpExportSuccess());
+      })
+      .catch(error => {
+        throw(error);
+      });
+
+  };
+};
+
+export function mailChimpExportSuccess() {
+  return { type: types.MAILCHIMP_EXPORT_SUCCESS };
 }

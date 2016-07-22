@@ -52,6 +52,31 @@ class MailChimp {
 
   }
 
+  static postMembers(listId, members) {
+
+    const operations = members.map((m)=> {
+      return {
+        method: 'POST',
+        path: `/lists/${listId}/members`,
+        body: JSON.stringify({
+          ...m,
+          status: 'subscribed'
+        })
+      }
+    });
+
+    log.debug('Operations', operations);
+    const data = {
+      operations: operations
+    };
+    log.debug('Data', data);
+    return axios.post(MailChimp.url(`/batches`),
+      data,
+      { headers: MailChimp.headers() }
+    ).then((r)=>r.data);
+
+  }
+
   static getSegments(listId) {
     return axios.get(
       MailChimp.url(`/lists/${listId}/segments`),

@@ -12,6 +12,8 @@ import SignupDataController from './controllers/signupDataController';
 import UsertestsController from './controllers/usertestsController';
 import UploadController from './controllers/uploadController';
 import FilterController from './controllers/filterController';
+import MailChimpController from './controllers/mailChimpController';
+
 import {authorize,blocked} from './lib/auth';
 
 const router = (app, mode = 'dev')=> {
@@ -67,12 +69,16 @@ const router = (app, mode = 'dev')=> {
   app.get('/filters', authorize, blocked, FilterController.getAllFilters);
   app.delete('/filters/:id', authorize, blocked, FilterController.deleteFilter);
 
+
   //General controller
   app.get('/general/:table', authorize, blocked, GeneralController.findAll);
   app.get('/general/:table/:id', authorize, blocked, GeneralController.find);
   app.post('/general/:table', authorize, blocked, GeneralController.insert);
   app.patch('/general/:table/:id', authorize, blocked, GeneralController.update);
   app.delete('/general/:table/:id', authorize, blocked, GeneralController.remove);
+
+  //MailChimp
+  app.post('/mailchimp/export', authorize, blocked, MailChimpController.export);
 
   const indexPath = mode === 'dev' ? '../client/index.html' : '../dist/index.html';
   app.get('*', (req, res) => {

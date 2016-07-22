@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import TextInput from '../common/TextInput';
+import SelectInput from '../common/SelectInput';
 import classnames from 'classnames';
 import _ from 'lodash';
 
 class SettingsForm extends Component {
+
+
   render() {
-    const { fields: { mailchimp:{api_key} }, saving, onSave, onCancel, handleSubmit, submitting } = this.props;
+    const { fields: { mailchimp:{api_key, list_id} }, saving, onSave, onCancel, handleSubmit, submitting } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSave)}>
         <TextInput label="MailChimp API kulcs" {...api_key} />
+        <TextInput label="MailChimp lista id" {...list_id} />
 
         <button
           type="submit"
@@ -38,12 +42,13 @@ class SettingsForm extends Component {
 const settingsForm = reduxForm(
   {
     form: 'settings',
-    fields: ['mailchimp.api_key']
+    fields: ['mailchimp.api_key','mailchimp.list_id']
   },
   state => ({
     initialValues: {
       mailchimp:{
-        api_key: _.get(state, 'admin.portal.settings.mailchimp.api_key', '')
+        api_key: _.get(state, 'admin.portal.settings.mailchimp.api_key', ''),
+        list_id: _.get(state, 'admin.portal.settings.mailchimp.list_id', '')
       }
     }
   })
