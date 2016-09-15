@@ -1,6 +1,8 @@
 import config from '../config';
 import moment from 'moment';
 import jwt from 'jwt-simple';
+import log from '../lib/nodelogger';
+
 const secret = config.token_secret;
 
 
@@ -17,7 +19,15 @@ export function verify(token, next) {
     return next(notFoundError);
   }
 
-  const decoded = jwt.decode(token, secret);
+  let decoded;
+  try {
+    decoded = jwt.decode(token, secret);
+  } catch (e) {
+    const error = new Error('Bad token');
+    error.status = 401;
+    return next(error);
+  }
+
   if (decoded.exp <= moment().format('x')) {
     const expiredError = new Error('Token has expired');
     expiredError.status = 401;

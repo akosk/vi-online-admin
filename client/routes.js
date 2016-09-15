@@ -5,6 +5,7 @@ import _ from 'lodash';
 import LayoutSelector from './components/LayoutSelector';
 import HomePage from './components/home/HomePage';
 import LoginPage from './components/auth/LoginPage';
+import ChangePasswordPage from './components/auth/ChangePasswordPage';
 import RegistrationPage from './components/auth/RegistrationPage';
 import AdminHomePage from './components/home/AdminHomePage';
 import UsersPage from './components/users/UsersPage';
@@ -82,19 +83,19 @@ const createRoutes = (store)=> {
   };
 
 
-
   return (
     <Route path="/" component={LayoutSelector}>
       <IndexRoute component={HomePage} onEnter={requireGuest}/>
       <Route path="login" component={LoginPage}/>
+      <Route path="change-password/:id" component={ChangePasswordPage}/>
       <Route path="registration" component={RegistrationPage}/>
       <Route path="user" onEnter={(n,r)=>requireRole(n,r,'user')}>
         <Route path="select-turn" component={SelectTurnPage}/>
-        <Route path=":slug"  onEnter={initUserTurns}>
+        <Route path=":slug" onEnter={initUserTurns}>
           <Route path="dashboard" component={UserTurnHomePage}/>
           <Route path="signup-finalize" component={SignupFinalizePage}/>
           <Route path="signup-data" component={SignupDataPage}/>
-          <Route path="signup-test" component={SignupTestPage} />
+          <Route path="signup-test" component={SignupTestPage}/>
           <Route path="signup-statement" component={SignupStatementPage}/>
           <Route path="signup-agreements" component={SignupAgreementsPage}/>
         </Route>

@@ -6,6 +6,7 @@ import toastr from 'toastr';
 import log from '../../utils/logger';
 
 import LoginForm from './LoginForm';
+import LostPassword from './LostPassword';
 import * as actions from '../../actions';
 
 class LoginPage extends Component {
@@ -93,8 +94,10 @@ class LoginPage extends Component {
             saving={this.state.saving}
           />
 
+
         </Panel>
 
+        <LostPassword/>
       </div>
     );
   }

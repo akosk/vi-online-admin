@@ -26,10 +26,10 @@ const router = (app, mode = 'dev')=> {
   const gentelellaPath = path.join(__dirname, '../gentelella');
   app.use('/gentelella', express.static(gentelellaPath));
 
-
   app.post('/login', AuthController.login);
   app.post('/loginWithToken', AuthController.loginWithToken);
-
+  app.post('/send-password-reset-email', AuthController.sendPasswordResetEmail);
+  app.post('/change-password', AuthController.changePassword);
 
   app.get('/get-current-turn/:user_id', authorize, blocked, UserturnController.getCurrentTurn);
   app.get('/userturns/:user_id/:turn_id', authorize, blocked, UserturnController.getUserTurn);

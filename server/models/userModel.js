@@ -3,6 +3,31 @@ import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 import log from '../lib/nodelogger';
 
+export function getUserByPasswordResetId(id) {
+  log.debug(`getUserByPasswordResetId ${id}`);
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .filter({ 'password_reset': { id } })
+                        .filter(rdb.now().sub(rdb.row('password_reset')('created_at')).lt(60*60*24))
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((userArray)=> {
+              return userArray.length > 0 ? userArray[0] : null;
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
+}
 export function updateSignupStatementFile(user_id, turn_id, filename) {
   log.debug(`updateSignupStatementFile ${user_id} ${turn_id} ${filename}`);
 
@@ -75,7 +100,7 @@ export function getAllUsers() {
 }
 
 export function getUser(user_id) {
-  log.debug(`getUser`,user_id);
+  log.debug(`getUser`, user_id);
   let conn = null;
   return rdb.connect(config.db)
             .then((c)=> {
@@ -144,6 +169,36 @@ export function updateUser(user) {
             });
 
 }
+
+export function replaceUser(user) {
+  log.debug(`replaceUser`, user);
+
+
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .get(user.id)
+                        .replace(user, { return_changes: true })
+                        .run(conn);
+            })
+            .then((result)=> {
+              if (result.changes.length > 0) {
+                user = { ...user, ...result.changes[0].new_val };
+              }
+              log.debug('user replace return:', user.id);
+              return user;
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+}
+
 
 export function insertUser(user) {
   log.debug(`insertUser`, user);

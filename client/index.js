@@ -40,6 +40,7 @@ const routes = createRoutes(store);
 const token = localStorage.getItem('token');
 
 if (token) {
+
   authApi.loginWithToken(token)
          .then((authData)=> {
            if (authData.error) {
@@ -54,7 +55,6 @@ if (token) {
          });
 
 } else render();
-
 
 function render() {
   ReactDOM.render(

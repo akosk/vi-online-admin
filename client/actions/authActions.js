@@ -22,6 +22,28 @@ export function login(loginData) {
 
 }
 
+export function sendPasswordResetEmail(email){
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return authApi.sendPasswordResetEmail(email).then(() => {
+      return true;
+    }).catch(error => {
+      throw('Az új jelszó kérése során hiba lépett fel.');
+    });
+  };
+}
+
+export function changePassword(data){
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return authApi.changePassword(data).then(() => {
+      return true;
+    }).catch(resp => {
+      throw(resp.data.error);
+    });
+  };
+}
+
 
 
 export function loginSuccess(authData) {
