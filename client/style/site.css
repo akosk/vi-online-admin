@@ -41,8 +41,12 @@ body {
   min-height: 100vh;
 }
 
-.body, .right_col {
+.body {
   height: 100vh;
+}
+
+.right_col {
+  min-height: 100vh;
 }
 
 .wide-modal {
