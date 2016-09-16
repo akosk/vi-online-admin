@@ -4,6 +4,7 @@ import { Panel, Button } from 'react-bootstrap';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 import _ from 'lodash';
+import moment from 'lodash';
 
 import SignupDataForm from './SignupDataForm';
 import * as actions from '../../../actions';
@@ -19,10 +20,10 @@ class SignupDataPage extends Component {
       signupData: {
         name: this.props.user.name,
         vallalkozas_szekhelye: '',
-        tobbsegi_tulajdon_mas_vallalkozasban: '0',
+        tobbsegi_tulajdon_mas_vallalkozasban: '',
         birth_name: '',
-        birth_date: 644796000000,
-        birth_place: 'Miskolc',
+        birth_date: Date.now(),  //644796000000,
+        birth_place: '',
         mothers_name: '',
         permanent_address: '',
         temporary_address: '',
