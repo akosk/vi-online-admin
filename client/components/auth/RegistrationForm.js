@@ -3,7 +3,7 @@ import TextInput from '../common/TextInput';
 
 const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
   return (
-    <form>
+    <form autoComplete="off">
       <TextInput
         name="name"
         label="Név"
@@ -14,6 +14,7 @@ const RegistrationForm = ({registration, onSave, onChange, saving, errors}) => {
       <TextInput
         name="email"
         label="Email"
+        autocomplete="false"
         value={registration.email}
         onChange={onChange}
         error={errors.email}/>
