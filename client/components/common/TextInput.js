@@ -25,7 +25,7 @@ const TextInput = ({name, label, onChange, autocomplete, placeholder, value, dis
           disabled={disabled}
           value={value}
           onChange={onChange}/>
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="error">*{error}</div>}
       </div>
     </div>
   );

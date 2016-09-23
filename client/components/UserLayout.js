@@ -29,27 +29,33 @@ export class UserLayout extends Component {
           icon: "fa fa-hand-peace-o",
           items: [
             {
-              name: 'Jelentkezési lap',
-              url: `${turnRootUrl}/signup-data`,
-              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA_SAVED}`),
-              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA_VALID}`),
+              name: 'Alapinformációk, vállalkozási alapfeltételek',
+              url: `${turnRootUrl}/signup-data-1`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA1_SAVED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA1_VALID}`),
             },
             {
-              name: 'Kérdőív',
-              url: `${turnRootUrl}/signup-test`,
-              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_TEST_SAVED}`),
-              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_TEST_VALID}`),
+              name: 'Személyes adatok',
+              url: `${turnRootUrl}/signup-data-2`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA2_SAVED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA2_VALID}`),
+            },
+            {
+              name: 'Vállalkozásra vonatkozó információk',
+              url: `${turnRootUrl}/signup-data-3`,
+              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA3_SAVED}`),
+              completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA3_VALID}`),
+            },
 
-            },
+            //{
+            //  name: 'Jelentkezési nyilatkozat',
+            //  url: `${turnRootUrl}/signup-statement`,
+            //  inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_STATEMENT_UPLOADED}`),
+            //  completed:_.has(this.props.userturn,`progress.${progressTypes. SIGNUP_STATEMENT_VALID}`),
+						//
+            //},
             {
-              name: 'Jelentkezési nyilatkozat',
-              url: `${turnRootUrl}/signup-statement`,
-              inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_STATEMENT_UPLOADED}`),
-              completed:_.has(this.props.userturn,`progress.${progressTypes. SIGNUP_STATEMENT_VALID}`),
-
-            },
-            {
-              name: 'Egyéb nyilatkozatok',
+              name: 'Nyilatkozatok',
               url: `${turnRootUrl}/signup-agreements`,
               completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_AGREEMENTS_ACCEPTED}`),
             },

@@ -4,8 +4,8 @@ import config from '../config';
 import * as model from '../models/signupDataModel';
 import * as userturnModel from '../models/userturnModel';
 import * as progressTypes from '../../common/progressTypes';
-
-import {isSignupHasErrors} from '../../common/validation';
+import _ from 'lodash';
+import {isSignup1HasErrors} from '../../common/validation';
 import log from '../lib/nodelogger';
 
 class SignupDataController {
@@ -48,20 +48,26 @@ class SignupDataController {
       promise = model.insertSignupData(signupData);
     }
     promise.then((signupData)=> {
-             return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA_SAVED)
+             return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_SAVED)
                                  .then(()=> {
                                    return signupData;
                                  });
            })
            .then((signupData)=> {
-             if (isSignupHasErrors(signupData).length===0) {
-               return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA_VALID)
+             if (_.keys(isSignup1HasErrors(signupData)).length===0) {
+               log.debug('valid');
+               return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_VALID)
                                    .then(()=> {
                                      return signupData;
                                    });
 
              } else {
-               return signupData;
+               log.debug('not valid');
+               return userturnModel.removeProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_VALID)
+                                   .then(()=> {
+                                     return signupData;
+                                   });
+
              }
            })
            .then((signupData)=> {

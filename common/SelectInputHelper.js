@@ -2,6 +2,7 @@ import * as fieldTypes from './fieldTypes';
 export const ALTALANOSNAL_KEVESEBB = 'ALTALANOSNAL_KEVESEBB';
 export const ALTALANOS = 'ALTALANOS';
 export const ALTALANOS_OKJ = 'ALTALANOS_OKJ';
+export const SZAKMUNKAS_SZAKKOZEP = 'SZAKMUNKAS_SZAKKOZEP';
 export const ERETTSEGI = 'ERETTSEGI';
 export const FELSOFOKU_SZAKKEPZES = 'FELSOFOKU_SZAKKEPZES';
 export const FOISKOLA = 'FOISKOLA';
@@ -49,22 +50,140 @@ export function roleOptions() {
   ];
 }
 
+export function genderOptions() {
+  return [
+    {
+      value: 'M',
+      text: 'Férfi'
+    },
+    {
+      value: 'F',
+      text: 'Nő'
+    }
+  ];
+}
+
 export function kepzesiHelyszinOptions() {
   return [
     {
-      value: 'Szekszárd',
-      text: 'Szekszárd'
+      value: '0',
+      text: 'Nem tudok 3 héten át bejárni a képzésre'
     },
+    {
+      value: 'Pécs',
+      text: 'Pécs'
+    },
+
     {
       value: 'Kaposvár',
       text: 'Kaposvár'
     },
     {
+      value: 'Szekszárd',
+      text: 'Szekszárd'
+    }
+
+  ];
+}
+
+export function alternativeKepzesiHelyszinOptions() {
+  return [
+    {
+      value: '0',
+      text: 'Nem tudok másik városba átjárni a képzésre '
+    },
+    {
       value: 'Pécs',
       text: 'Pécs'
+    },
+
+    {
+      value: 'Kaposvár',
+      text: 'Kaposvár'
+    },
+    {
+      value: 'Szekszárd',
+      text: 'Szekszárd'
+    }
+
+  ];
+}
+
+export function honnanErtesultOptions() {
+  return [
+    {
+      text: 'Munkaügyi szervezettől (Kormányhivatal, Járási Hivatal, volt munkaügyi központ).',
+      value: 'munkaugyi_szervezettol',
+      extraQuestion:'Melyik hivataltól kapta az információt?'
+    },
+    {
+      text: 'Széchenyi Programiroda (SZPI) értesített.',
+      value: 'szechenyi_programiroda',
+      extraQuestion:'Ha emlékszik az ügyintéző nevére, kérjük, írja be, ha nem, írja be, melyik településen kapta az információt?'
+    },
+    {
+      text: 'Helyi, települési, megyei önkormányzattól kaptam a hírt.',
+      value: 'onkormanyzat',
+      extraQuestion:'Melyik önkörmányzattól kapta a hírt?'
+    },
+    {
+      text: 'Az iskolám, vagy más helyi szervezet, intézmény plakátjáról, vagy értesítéséből tudok a lehetőségről.',
+      value: 'helyi_szervezet',
+      extraQuestion:'Melyik iskolán vagy szervezeten keresztül értesült a lehetőségről?'
+    },
+    {
+      text: 'Helyi TV-ből, rádióból.',
+      value: 'helyi_tv_radio',
+      extraQuestion:'Melyik helyi TV-ből, vagy rádióból értesült a hírről?'
+    },
+    {
+      text: 'Helyi újságból.',
+      value: 'helyi_ujsag',
+      extraQuestion:'Melyik helyi újságból értesült a hírről?'
+    },
+    {
+      text: 'Országos TV-ből, rádióból.',
+      value: 'orszagos_tv_radio',
+      extraQuestion:'Melyik országos TV-ből, vagy rádióból értesült a hírről?'
+    },
+    {
+      text: 'Országos napi, vagy hetilapból.',
+      value: 'orszagos_ujsag',
+      extraQuestion:'Melyik országos újságból értesült a hírről?'
+    },
+    {
+      text: 'Interneten láttam az információt.',
+      value: 'internet',
+      extraQuestion:'Melyik honlapon, vagy melyik oldalon látta az információt'
+    },
+    {
+      text: 'Szüleim, vagy egy családtag hallottak a lehetőségről.',
+      value: 'rokon',
+      extraQuestion:'Milyen családtagtól?(apa, anya, unokatestvér) értesült a hírről?'
+    },
+    {
+      text: 'Egy barátom, ismerősöm értesített róla.',
+      value: 'barat',
+      extraQuestion:'Hogyan értesítette(szóban, telefonon, emailben) a barátja a hírről?'
+    },
+    {
+      text: 'Magam kerestem meg a pályázati lehetőséget.',
+      value: 'sajat_magam',
+      extraQuestion:'Hol talált róla információt(melyik honlapon, újságban, szervezetnél)?'
+    },
+    {
+      text: 'Pályázatíró cég értesített.',
+      value: 'palyazatiro_ceg',
+      extraQuestion:'Melyik cég értesítette?'
+    },
+    {
+      text: 'Egyéb.',
+      value: 'Egyeb',
+      extraQuestion:'Egyéb, éspedig?'
     }
   ];
 }
+
 
 
 export function megyekOptions() {
@@ -106,6 +225,10 @@ export function eduLevelOptions() {
     {
       value: ALTALANOS_OKJ,
       text: '8 általános és OKJ-s végzettség'
+    },
+    {
+      value: SZAKMUNKAS_SZAKKOZEP,
+      text: 'Szakmunkás, szakközépiskolai végzettség'
     },
     {
       value: ERETTSEGI,

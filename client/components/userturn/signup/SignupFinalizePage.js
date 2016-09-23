@@ -20,11 +20,23 @@ class SignupFinalizePage extends Component {
     const {progress}=this.props;
     let errors=[];
 
-    if (!progress[progressTypes.SIGNUP_DATA_SAVED]) {
-      errors.push('A jelentkezési lap még nincs kitöltve.');
+    if (!progress[progressTypes.SIGNUP_DATA1_SAVED]) {
+      errors.push('Az alapinformációk, vállalkozási alapfeltételek űrlap még nincs kitöltve.');
     }
-    if (!progress[progressTypes.SIGNUP_DATA_VALID]) {
-      errors.push('A jelentkezési lap hiányos.');
+    if (!progress[progressTypes.SIGNUP_DATA1_VALID]) {
+      errors.push('Az alapinformációk, vállalkozási alapfeltételek űrlap hiányos.');
+    }
+    if (!progress[progressTypes.SIGNUP_DATA2_SAVED]) {
+      errors.push('A személyes adatok űrlap még nincs kitöltve.');
+    }
+    if (!progress[progressTypes.SIGNUP_DATA2_VALID]) {
+      errors.push('A személyes adatok űrlap hiányos.');
+    }
+    if (!progress[progressTypes.SIGNUP_DATA3_SAVED]) {
+      errors.push('A vállalkozásra vonatkozó információk űrlap még nincs kitöltve.');
+    }
+    if (!progress[progressTypes.SIGNUP_DATA3_VALID]) {
+      errors.push('A vállalkozásra vonatkozó információk űrlap hiányos.');
     }
     if (!progress[progressTypes.SIGNUP_TEST_SAVED]) {
       errors.push('A kérdőív nincs kitöltve.');

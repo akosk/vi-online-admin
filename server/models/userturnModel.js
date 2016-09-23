@@ -335,6 +335,46 @@ export function removeProgressById(userturn_id, progressName) {
             });
 }
 
+export function removeProgress(user_id, turn_id, progressName) {
+
+  const progress = {};
+  progress[progressName] = {
+    created_at: rdb.now()
+  };
+
+
+  const without = {
+    progress: {}
+  };
+  without.progress[progressName] = true;
+
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .replace(
+                          rdb.row.without(without)
+                          ,
+                          { return_changes: true }
+                        )
+                        .run(conn);
+            })
+            .then((result)=> {
+              return rdb.table('userturns')
+                        .filter({ user_id, turn_id })
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
 
 export function insertUserturn(user_id, turn_id) {
   log.debug(`insertUserturn`, user_id, turn_id);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignupDataForm from '../userturn/signup/SignupDataForm';
+import SignupData1Form from '../userturn/signup/SignupData1Form';
 import * as actions from '../../actions';
 import _ from 'lodash';
 

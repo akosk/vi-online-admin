@@ -54,7 +54,7 @@ class TopNav extends Component {
         <div className="nav_menu">
           <nav className="" role="navigation">
             <div className="nav toggle">
-              <a id="menu_toggle"><i className="fa fa-bars"></i></a>
+
             </div>
 
             <ul className="nav navbar-nav navbar-right">
