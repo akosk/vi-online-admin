@@ -3,42 +3,32 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import SignupDataBase from './SignupDataBase';
-import SignupData2Form from './SignupData2Form';
-import {isSignup2HasErrors} from '../../../../common/validation';
+import SignupData3Form from './SignupData3Form';
+import {isSignup3HasErrors} from '../../../../common/validation';
 import * as actions from '../../../actions';
 import Content from '../../common/Content';
 import * as progressTypes from '../../../../common/progressTypes';
 
-class SignupData2Page extends SignupDataBase {
+class SignupData3Page extends SignupDataBase {
 
   constructor(props, context) {
     super(props, context);
 
-    this.validator=isSignup2HasErrors;
+    this.validator=isSignup3HasErrors;
 
     this.state = {
       signupData: {
-        name: props.user.name,
-        birth_name: '',
-        gender:{},
-        birth_date: Date.now(),  //644796000000,
-        birth_place: '',
-        mothers_name: '',
-        permanent_address_zip: '',
-        permanent_address_settlement: '',
-        permanent_address_street: '',
-        temporary_address: '',
-        postal_address: '',
-        phone: '',
-        email: props.user.email,
-        legmagasabb_iskolai_vegzettseg: '',
-        legmagasabb_iskolai_vegzettseg_eve: '',
-        allaskeresokent_regisztralt: {},
-        allaskeresokent_regisztralt_datuma: Date.now(),
-        palyakezdo_allaskereso: {},
-        adoazonosito_jel: '',
-        taj: '',
-        kisebbsegi_vagy_hatranyos:{}
+        miert_szeretne_vallalkozast_inditani:'',
+        mivel_foglalkozik_a_vallalkozas:'',
+        piackutatast_vegzett:{},
+        piackutatast_vegzett_bemutatas:'',
+        vallalkozas_formaja:{},
+        vallalkozas_szektora:{},
+        kivel_vallalkozik:{},
+        elso_12_honapban_alkalmazottat_vesz_fel:{},
+        harmadik_evben_hany_alkalmazott_lesz:'',
+        vallalkozast_legalabb_4_evig_fenntartja:{},
+        vallalkozast_legalább_4_evig_mukodteti:{}
       },
       errors: {},
       saving: false
@@ -48,9 +38,10 @@ class SignupData2Page extends SignupDataBase {
 
 
   render() {
+    console.log('errors>>>',this.state.errors);
     return (
-      <Content category="Jelentkezés" title="Személyes adatok">
-        <SignupData2Form
+      <Content category="Jelentkezés" title="Vállalkozástervezés">
+        <SignupData3Form
           onChange={this.updateSignupDataState}
           onSave={this.saveSignupData}
           signupData={this.state.signupData}
@@ -70,4 +61,4 @@ const mapStateToProps = (state)=>({
   finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`)
 });
 
-export default connect(mapStateToProps, actions)(SignupData2Page);
+export default connect(mapStateToProps, actions)(SignupData3Page);

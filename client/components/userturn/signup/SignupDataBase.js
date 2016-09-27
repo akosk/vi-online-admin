@@ -57,11 +57,14 @@ class SignupDataBase extends Component {
         signupData[field].end_at = component.endDate.valueOf();
       }
     } else {
-
       const field = event.target.name;
       keyName = field.split('.')[0];
-
       switch (event.target.type) {
+        case 'radio':
+          _.set(signupData, event.target.name, event.target.value);
+          console.log(event.target.value);
+          console.log(signupData);
+          break;
         case 'checkbox':
           _.set(signupData, field, event.target.checked);
           break;

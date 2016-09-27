@@ -5,8 +5,24 @@ import * as model from '../models/signupDataModel';
 import * as userturnModel from '../models/userturnModel';
 import * as progressTypes from '../../common/progressTypes';
 import _ from 'lodash';
-import {isSignup1HasErrors} from '../../common/validation';
+import {isSignup1HasErrors, isSignup2HasErrors, isSignup3HasErrors} from '../../common/validation';
 import log from '../lib/nodelogger';
+
+
+const validatorPromise = (signupData, validator, status)=> {
+  if (_.keys(validator(signupData)).length === 0) {
+    return userturnModel.setProgress(signupData.user_id, signupData.turn_id, status)
+                        .then(()=> {
+                          return signupData;
+                        });
+
+  } else {
+    return userturnModel.removeProgress(signupData.user_id, signupData.turn_id, status)
+                        .then(()=> {
+                          return signupData;
+                        });
+  }
+};
 
 class SignupDataController {
 
@@ -47,37 +63,54 @@ class SignupDataController {
       signupData.user_id = req.token.user.id;
       promise = model.insertSignupData(signupData);
     }
-    promise.then((signupData)=> {
-             return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_SAVED)
-                                 .then(()=> {
-                                   return signupData;
-                                 });
-           })
-           .then((signupData)=> {
-             if (_.keys(isSignup1HasErrors(signupData)).length===0) {
-               log.debug('valid');
-               return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_VALID)
-                                   .then(()=> {
-                                     return signupData;
-                                   });
-
-             } else {
-               log.debug('not valid');
-               return userturnModel.removeProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_VALID)
-                                   .then(()=> {
-                                     return signupData;
-                                   });
-
-             }
-           })
-           .then((signupData)=> {
-             res.send(signupData);
-           })
-           .catch((err)=> {
-             log.debug(err);
-             res.status(500);
-             return res.send(err);
-           });
+    promise
+      .then((signupData)=> {
+        if (signupData.honnan_ertesult!==undefined) {
+        return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_SAVED)
+                            .then(()=> {
+                              return signupData;
+                            });
+        } else {
+          return signupData;
+        }
+      })
+      .then((signupData)=> {
+        if (signupData.name!==undefined) {
+        return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA2_SAVED)
+                            .then(()=> {
+                              return signupData;
+                            });
+        } else {
+          return signupData;
+        }
+      })
+      .then((signupData)=> {
+        if (signupData.miert_szeretne_vallalkozast_inditani!==undefined) {
+        return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA3_SAVED)
+                            .then(()=> {
+                              return signupData;
+                            });
+        } else {
+          return signupData;
+        }
+      })
+      .then((signupData)=> {
+        return validatorPromise(signupData, isSignup1HasErrors, progressTypes.SIGNUP_DATA1_VALID);
+      })
+      .then((signupData)=> {
+        return validatorPromise(signupData, isSignup2HasErrors, progressTypes.SIGNUP_DATA2_VALID);
+      })
+      .then((signupData)=> {
+        return validatorPromise(signupData, isSignup3HasErrors, progressTypes.SIGNUP_DATA3_VALID);
+      })
+      .then((signupData)=> {
+        res.send(signupData);
+      })
+      .catch((err)=> {
+        log.debug(err);
+        res.status(500);
+        return res.send(err);
+      });
 
   }
 

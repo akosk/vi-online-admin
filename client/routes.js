@@ -20,6 +20,7 @@ import SelectTurnPage from './components/userturn/SelectTurnPage';
 import UserTurnContainer from './components/userturn/UserTurnContainer';
 import SignupData1Page from './components/userturn/signup/SignupData1Page';
 import SignupData2Page from './components/userturn/signup/SignupData2Page';
+import SignupData3Page from './components/userturn/signup/SignupData3Page';
 import SignupTestPage from './components/userturn/signup/SignupTestPage';
 import SignupStatementPage from './components/userturn/signup/SignupStatementPage';
 import SignupAgreementsPage from './components/userturn/signup/SignupAgreementsPage';
@@ -97,6 +98,7 @@ const createRoutes = (store)=> {
           <Route path="signup-finalize" component={SignupFinalizePage}/>
           <Route path="signup-data-1" component={SignupData1Page}/>
           <Route path="signup-data-2" component={SignupData2Page}/>
+          <Route path="signup-data-3" component={SignupData3Page}/>
           <Route path="signup-test" component={SignupTestPage}/>
           <Route path="signup-statement" component={SignupStatementPage}/>
           <Route path="signup-agreements" component={SignupAgreementsPage}/>

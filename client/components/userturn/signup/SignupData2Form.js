@@ -43,7 +43,6 @@ class SignupData2Form extends Component {
       }
     }
 
-
     return (
       <form >
 
@@ -53,7 +52,7 @@ class SignupData2Form extends Component {
           disabled
           value={signupData.name || ''}
           onChange={onChange}
-          error={errors.name}/>
+          error={_.get(errors,'name.error')}/>
 
 
         <TextInput
@@ -63,7 +62,7 @@ class SignupData2Form extends Component {
           disabled={finalized}
           helpText="Akkor kell kitölteni ha eltérő."
           onChange={onChange}
-          error={errors.birth_name}/>
+          error={_.get(errors,'birth_name.error')}/>
 
         <RadioGroupInput
           name="gender"
@@ -96,35 +95,35 @@ class SignupData2Form extends Component {
           label="Születési hely"
           value={signupData.birth_place || ''}
           onChange={onChange}
-          error={errors.birth_place}/>
+          error={_.get(errors,'birth_place.error')}/>
         <TextInput
           disabled={finalized}
           name="mothers_name"
           label="Anyja leánykori neve"
           value={signupData.mothers_name || ''}
           onChange={onChange}
-          error={errors.mothers_name}/>
+          error={_.get(errors,'mothers_name.error')}/>
         <TextInput
           disabled={finalized}
           name="permanent_address_zip"
           label="Állandó lakcím irányítószám"
           value={signupData.permanent_address_zip || ''}
           onChange={onChange}
-          error={errors.permanent_address_zip}/>
+          error={_.get(errors,'permanent_address_zip.error')}/>
         <TextInput
           disabled={finalized}
           name="permanent_address_settlement"
           label="Állandó lakcím település"
           value={signupData.permanent_address_settlement || ''}
           onChange={onChange}
-          error={errors.permanent_address_settlement}/>
+          error={_.get(errors,'permanent_address_settlement.error')}/>
         <TextInput
           disabled={finalized}
           name="permanent_address_street"
           label="Állandó lakcím utca és házszám"
           value={signupData.permanent_address_street || ''}
           onChange={onChange}
-          error={errors.permanent_address_street}/>
+          error={_.get(errors,'permanent_address_street.error')}/>
         <TextInput
           disabled={finalized}
           name="temporary_address"
@@ -132,7 +131,7 @@ class SignupData2Form extends Component {
           value={signupData.temporary_address || ''}
           onChange={onChange}
           helpText="Csak akkor kell kitölteni, ha eltér az állandó lakcímtől."
-          error={errors.temporary_address}/>
+          error={_.get(errors,'temporary_address.error')}/>
         <TextInput
           disabled={finalized}
           name="postal_address"
@@ -140,14 +139,14 @@ class SignupData2Form extends Component {
           value={signupData.postal_address || ''}
           onChange={onChange}
           helpText="Csak akkor kell kitölteni, ha eltér az állandó lakcímtől."
-          error={errors.postal_address}/>
+          error={_.get(errors,'postal_address')}/>
         <TextInput
           disabled={finalized}
           name="phone"
           label="Elérhetőségek (telefonszám)"
           value={signupData.phone || ''}
           onChange={onChange}
-          error={errors.phone}/>
+          error={_.get(errors,'phone.error')}/>
         <TextInput
           disabled={finalized}
           name="email"
@@ -155,7 +154,7 @@ class SignupData2Form extends Component {
           value={signupData.email || ''}
           disabled
           onChange={onChange}
-          error={errors.email}/>
+          error={_.get(errors,'email.error')}/>
         <SelectInput
           disabled={finalized}
           name="legmagasabb_iskolai_vegzettseg"
@@ -163,7 +162,8 @@ class SignupData2Form extends Component {
           value={signupData.legmagasabb_iskolai_vegzettseg || ''}
           defaultOption="Válasszon..."
           options={inputHelper.eduLevelOptions()}
-          onChange={onChange} error={errors['legmagasabb_iskolai_vegzettseg']}
+          onChange={onChange}
+          error={_.get(errors,'legmagasabb_iskolai_vegzettseg.error')}
         />
 
         <TextInput
@@ -172,7 +172,7 @@ class SignupData2Form extends Component {
           label='Legmagasabb iskolai végzettség éve'
           value={signupData.legmagasabb_iskolai_vegzettseg_eve || ''}
           onChange={onChange}
-          error={errors.legmagasabb_iskolai_vegzettseg_eve}/>
+          error={_.get(errors,'legmagasabb_iskolai_vegzettseg_eve.error')}/>
 
         <RadioGroupInput
           name="allaskeresokent_regisztralt"
@@ -222,22 +222,25 @@ class SignupData2Form extends Component {
           disabled={finalized}
           value={signupData.adoazonosito_jel || ''}
           onChange={onChange}
-          error={errors.adoazonosito_jel}/>
+          error={_.get(errors,'adoazonosito_jel.error')}/>
         <TextInput
           disabled={finalized}
           name="taj"
           label="Tajszám"
           value={signupData.taj  || ''}
           onChange={onChange}
-          error={errors.taj}/>
-        <SelectInput
-          disabled={finalized}
+          error={_.get(errors,'taj.error')}/>
+
+        <MultiCheckboxInput
           name="kisebbsegi_vagy_hatranyos"
-          label="Kisebbségi, vagy hátrányos helyzetbe tartozás"
-          value={signupData.kisebbsegi_vagy_hatranyos  || ''}
-          defaultOption="Válasszon..."
-          options={inputHelper.yesnoOptions()}
-          onChange={onChange} error={errors['kisebbsegi_vagy_hatranyos']}/>
+          label="Kisebbségi, vagy hátrányos helyzető csoporthoz tartozik-e?"
+          values={signupData.kisebbsegi_vagy_hatranyos || {}}
+          options={inputHelper.kisebbsegiOptions()}
+          disabled={finalized}
+          onChange={onChange}
+          error={_.get(errors,'kisebbsegi_vagy_hatranyos')}
+        />
+
 
 
         {!finalized &&

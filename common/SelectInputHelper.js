@@ -24,15 +24,17 @@ export function relationOptions(type = '') {
     : allRelationOptions;
 }
 
-export function yesnoOptions() {
+export function yesnoOptions(noExtraQuestion,yesExtraQuestion) {
   return [
     {
       value: '0',
-      text: 'Nem'
+      text: 'Nem',
+      extraQuestion:noExtraQuestion || undefined
     },
     {
       value: '1',
-      text: 'Igen'
+      text: 'Igen',
+      extraQuestion:yesExtraQuestion || undefined
     }
   ];
 }
@@ -181,6 +183,124 @@ export function honnanErtesultOptions() {
       value: 'Egyeb',
       extraQuestion:'Egyéb, éspedig?'
     }
+  ];
+}
+
+export function kisebbsegiOptions() {
+  return [
+    {
+      text: 'Kisebbség.',
+      value: 'kisebbseg'
+    },
+    {
+      text: 'Roma származásúnak vallom magam.',
+      value: 'roma'
+    },
+    {
+      text: 'Migráns.',
+      value: 'migrans'
+    },
+    {
+      text: 'Fogyatékkal élek.',
+      value: 'fogyatekkel_elek'
+    },
+    {
+      text: 'Egyéb hátranyos helyzetű csoportba tartozom.',
+      value: 'egyeb_hatranyos',
+      extraQuestion:'Melyik hátrányos helyzetű csoportba tartozik?'
+    },
+    {
+      text: 'Nyilatkozom, hogy a felsorolt hátrányos helyzetű csoportok egyikébe sem tartozom..',
+      value: 'nem_tartozom',
+    },
+  ];
+}
+
+export function vallalkozasFormajaOptions() {
+  return [
+    {
+      text: 'Korlátolt felelősségű társaság - GFO 113',
+      value: 'GFO113'
+    },
+    {
+      text: 'Betéti társaság - GFO 117',
+      value: 'GFO117'
+    },
+    {
+      text: 'Egyéni vállalkozó - GFO 231',
+      value: 'GFO231'
+    },
+    {
+      text: 'Egyéb önálló vállalkozó - GFO 232',
+      value: 'GFO232'
+    },
+    {
+      text: 'Más formában.',
+      value: 'mas_formaban',
+      extraQuestion:'Mégpedig?'
+    },
+    {
+      text: 'Még nem tudom.',
+      value: 'nem_tudom',
+    },
+  ];
+}
+
+
+
+export function vallalkozasSzektoraOptions() {
+  return [
+    {
+      text: 'Kereskedelem',
+      value: 'kereskedelem'
+    },
+    {
+      text: 'Szolgáltatás',
+      value: 'szolgaltatas'
+    },
+    {
+      text: 'Termelés',
+      value: 'termeles'
+    },
+    {
+      text: 'Innovatív vállalkozások',
+      value: 'innovativ_vallalkozasok'
+    },
+    {
+      text: 'Szoftverfejlesztés',
+      value: 'szoftverfejlesztes',
+    },
+    {
+      text: 'Még nem tudom.',
+      value: 'nem_tudom',
+    },
+  ];
+}
+
+
+export function kivelVallalkozikOptions() {
+  return [
+    {
+      text: 'Egyedül',
+      value: 'egyedul'
+    },
+    {
+      text: 'Családtag(ok)',
+      value: 'csaladtagok'
+    },
+    {
+      text: 'Barát(ok)',
+      value: 'baratok'
+    },
+    {
+      text: 'Korábbi munka/üzleti kapcsolat',
+      value: 'korabbi_munka'
+    },
+    {
+      text: 'Egyéb',
+      value: 'egyeb',
+      extraQuestion:'Éspedig?'
+    },
   ];
 }
 

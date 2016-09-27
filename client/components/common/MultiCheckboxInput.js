@@ -6,12 +6,12 @@ import _ from 'lodash';
 
 
 const MultiCheckboxInput = ({name, label, finalized, onChange, values, error, helpText, options, disabled}) => {
-console.log("error",error);
   const optionItems = options.map((option)=> {
     const value=_.get(values,option.value);
     //const value=_.find(values,(v)=>{
     //  return v.id===option.value;
     //});
+
     const checked=_.get(value,'checked',false) ;
     return (
       <div key={option.value}>
@@ -21,15 +21,15 @@ console.log("error",error);
           label={option.text}
           name={`${name}.${option.value}.checked`}
         />
-        { checked &&
+        { checked && option.extraQuestion!==undefined &&
         <TextInput
-          name={`${name}.${option.value}.value`}
+          name={`${name}.${option.value}.extra.value`}
           label={option.extraQuestion}
-          value={_.get(value,'value')}
+          value={_.get(value,'extra.value')}
           disabled={finalized}
           onChange={onChange}
           onChange={onChange}
-          error={_.get(error,`${option.value}.value.error`)}
+          error={_.get(error,`${option.value}.extra.error`)}
           />
         }
 

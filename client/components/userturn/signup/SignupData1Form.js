@@ -363,7 +363,7 @@ class SignupData1Form extends Component {
         <MultiCheckboxInput
           name="honnan_ertesult"
           label="Honnan értesült a pályázati lehetőségről?"
-          values={signupData.honnan_ertesult || []}
+          values={signupData.honnan_ertesult || {}}
           options={inputHelper.honnanErtesultOptions()}
           disabled={finalized}
           onChange={onChange}

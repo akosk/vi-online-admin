@@ -1,19 +1,32 @@
 import React from 'react';
 import Radio from './Radio';
+import TextInput from './TextInput';
+import _ from 'lodash';
 
 const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpText, options, disabled}) => {
-
   const optionItems = options.map((option)=> {
 
+    const checked = option.value === value.value;
     return (
       <div key={option.value}>
         <Radio
           onChange={onChange}
-          checked={option.value===value}
+          checked={checked}
           label={option.text}
-          name={name}
+          name={`${name}.value`}
           value={option.value}
         />
+        { checked && option.extraQuestion !== undefined &&
+        <TextInput
+          name={`${name}.extra.value`}
+          label={option.extraQuestion}
+          value={_.get(value,'extra.value')}
+          disabled={finalized}
+          onChange={onChange}
+          error={_.get(error,`extra.error`)}
+        />
+        }
+
       </div>
     );
   });
@@ -33,10 +46,8 @@ const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpTe
 
         { optionItems }
 
-        {error && <div className="error">*{error.error}</div>}
+        {_.get(error,'error') && <div className="error">*{error.error}</div>}
       </div>
-
-
 
 
     </div>

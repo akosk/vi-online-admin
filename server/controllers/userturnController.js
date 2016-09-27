@@ -6,6 +6,7 @@ import * as turnModel from '../models/turnModel';
 import * as usertestModel from '../models/usertestModel';
 import * as signupDataModel from '../models/signupDataModel';
 import * as progressTypes from '../../common/progressTypes';
+import {validateSignupFinalize} from '../../common/validation';
 import log from '../lib/nodelogger';
 
 class UserturnController {
@@ -86,78 +87,10 @@ class UserturnController {
 
 
   static validateSignup(user_id, turn_id) {
-    log.debug('validateSignup',user_id,turn_id);
     return model.getUserTurn(user_id, turn_id)
-                .then((ut)=> {
-                  return { userturn: ut };
-                })
-                .then((o)=> {
-                  return turnModel.getTurn(o.userturn.turn_id)
-                                  .then((turn)=> {
-                                    o.turn = turn;
-                                    return o;
-                                  });
-                })
-                .then((o)=> {
-                    return usertestModel.getUserTest(user_id, o.turn.competency_test.id, o.turn.id)
-                                        .then((usertest)=> {
-                                          o.usertest = usertest;
-                                          return o;
-                                        });
-
-                  }
-                )
-                .then((o)=> {
-                  return signupDataModel.getSignupDataByUserId(user_id)
-                                        .then((signupData)=> {
-                                          o.signupData = signupData;
-                                          return o;
-                                        });
-
-                })
-                .then((o)=> {
-                  const errors = [];
-                  const {userturn,usertest,signupData}=o;
-                  log.debug(usertest);
-                  if (userturn.signup_statement_file === undefined) {
-                    errors.push('Az aláírt nyilatkozat nincs feltöltve.');
-                  }
-                  if (usertest.id === undefined) {
-                    errors.push('A kérdőív nincs elmentve');
-                  } else {
-                    const emptyItem = _.find(usertest.questions, (item)=> {
-                      return item.value === '' || item.value === undefined || item.value === null;
-                    });
-                    if (emptyItem !== undefined) {
-                      errors.push('A kérdőív minden kérdésére válaszolnia kell.');
-                    }
-                  }
-
-                  if (signupData.id === undefined) {
-                    errors.push('A jelentkezési lap nincs elmentve');
-                  } else {
-                    if (!signupData.adoazonosito_jel) {
-                      errors.push('Az adóazonosító jel megadása kötelező');
-                    }
-                    if (!signupData.taj) {
-                      errors.push('A TAJ szám megadása kötelező');
-                    }
-                    if (!signupData.birth_date) {
-                      errors.push('Az születés dátumának megadása kötelező');
-                    }
-                    if (!signupData.vallalkozas_szekhelye) {
-                      errors.push('A vállalkozás székhelyének megadása kötelező');
-                    }
-                  }
-
-                  if (!_.has(userturn, `progress.${progressTypes.SIGNUP_AGREEMENTS_ACCEPTED}`)) {
-                    errors.push('A nyilatkozatok nincsennek elfogadva.');
-                  }
-
-                  return errors;
+                .then((userturn)=> {
+                  return validateSignupFinalize(userturn.progress);
                 });
-
-
   }
 
 

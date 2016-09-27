@@ -41,7 +41,7 @@ export class UserLayout extends Component {
               completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA2_VALID}`),
             },
             {
-              name: 'Vállalkozásra vonatkozó információk',
+              name: 'Vállalkozástervezés',
               url: `${turnRootUrl}/signup-data-3`,
               inProgress:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA3_SAVED}`),
               completed:_.has(this.props.userturn,`progress.${progressTypes.SIGNUP_DATA3_VALID}`),

@@ -5,10 +5,23 @@ import { Link } from 'react-router';
 import toastr from 'toastr';
 import _ from 'lodash';
 import Content from '../../common/Content';
+import classnames from 'classnames';
 
 import * as progressTypes from '../../../../common/progressTypes';
+import {validateSignupFinalize} from '../../../../common/validation';
 
 import * as actions from '../../../actions';
+
+
+const getIcon = (valid)=> <i className={classnames({
+                  'fa': true,
+                  'fa-check': valid,
+                  'fa-times': !valid,
+                  'text-success': valid,
+                  'text-danger': !valid
+                })} aria-hidden="true"></i>;
+
+
 class SignupFinalizePage extends Component {
   constructor(props, context) {
     super(props, context);
@@ -18,94 +31,75 @@ class SignupFinalizePage extends Component {
 
   finalize(event) {
     const {progress}=this.props;
-    let errors=[];
 
-    if (!progress[progressTypes.SIGNUP_DATA1_SAVED]) {
-      errors.push('Az alapinformációk, vállalkozási alapfeltételek űrlap még nincs kitöltve.');
-    }
-    if (!progress[progressTypes.SIGNUP_DATA1_VALID]) {
-      errors.push('Az alapinformációk, vállalkozási alapfeltételek űrlap hiányos.');
-    }
-    if (!progress[progressTypes.SIGNUP_DATA2_SAVED]) {
-      errors.push('A személyes adatok űrlap még nincs kitöltve.');
-    }
-    if (!progress[progressTypes.SIGNUP_DATA2_VALID]) {
-      errors.push('A személyes adatok űrlap hiányos.');
-    }
-    if (!progress[progressTypes.SIGNUP_DATA3_SAVED]) {
-      errors.push('A vállalkozásra vonatkozó információk űrlap még nincs kitöltve.');
-    }
-    if (!progress[progressTypes.SIGNUP_DATA3_VALID]) {
-      errors.push('A vállalkozásra vonatkozó információk űrlap hiányos.');
-    }
-    if (!progress[progressTypes.SIGNUP_TEST_SAVED]) {
-      errors.push('A kérdőív nincs kitöltve.');
-    }
-    if (!progress[progressTypes.SIGNUP_TEST_VALID]) {
-      errors.push('A kérdőív hiányos.');
-    }
+    const errors=validateSignupFinalize(progress);
 
-    if (!progress[progressTypes.SIGNUP_STATEMENT_UPLOADED]) {
-      errors.push('Az aláírt nyilatkozat nincs feltöltve.');
-    }
-    if (!progress[progressTypes.SIGNUP_STATEMENT_VALID]) {
-      errors.push('Az aláírt nyilatkozat még nincs elfogadva.');
-    }
-
-    if (!progress[progressTypes.SIGNUP_AGREEMENTS_ACCEPTED]) {
-      errors.push('Az egyéb nyilatkozatok nincsennek elfogadva.');
-    }
-
-    if (errors.length>0) {
-      this.setState({errors});
+    if (errors.length > 0) {
+      this.setState({ errors });
       return;
     }
     this.props.finalizeSignup(this.props.user.id, this.props.userturn.turn_id)
-        .then((errors)=>{
-          this.setState({errors});
+        .then((errors)=> {
+          this.setState({ errors });
         });
   }
 
 
   render() {
+    const turnRootUrl = `/user/${this.props.currentTurn.slug}`;
+
+    const data1Valid = _.get(this.props.userturn, `progress.${progressTypes.SIGNUP_DATA1_VALID}`);
+    const data2Valid = _.get(this.props.userturn, `progress.${progressTypes.SIGNUP_DATA2_VALID}`);
+    const data3Valid = _.get(this.props.userturn, `progress.${progressTypes.SIGNUP_DATA3_VALID}`);
+    const data4Valid = _.get(this.props.userturn, `progress.${progressTypes.SIGNUP_AGREEMENTS_ACCEPTED}`);
+
     return (
       <Content category="Jelentkezés" title="Jelentkezés véglegesítése">
 
-          {(!this.props.signupCompleted && !this.props.signupFinalized) &&
-          <div style={{marginBottom:24}}>
-              <h2> A jelentkezés véglegesítése előtt kérjük végezze el az alábbiakat:</h2>
-            <ol>
-              <li>Töltse ki a jelentkezési lapot.</li>
-              <li>Töltse ki a kérdőívet.</li>
-              <li>Töltse fel az aláírt jelentkezési nyilatkozatot.</li>
-              <li>Fogadja el a nyilatkozatokat.</li>
-            </ol>
+        {(!this.props.signupCompleted && !this.props.signupFinalized) &&
+        <div style={{marginBottom:24}}>
+          <h2> A jelentkezés véglegesítése előtt kérjük végezze el az alábbiakat:</h2>
+          <ol>
+            <li>Töltse ki az <Link to={`${turnRootUrl}/signup-data-1`}> alapinformációk, vállalkozási
+              alapfeltételek</Link> űrlapot.
+              {getIcon(data1Valid)}
+            </li>
+            <li>Töltse ki a <Link to={`${turnRootUrl}/signup-data-2`}> személyes adatok</Link> űrlapot.
+              {getIcon(data2Valid)}
+            </li>
+            <li>Töltse ki a <Link to={`${turnRootUrl}/signup-data-3`}>vállalkozástervezés</Link> űrlapot.
+              {getIcon(data3Valid)}
+            </li>
+            <li>Fogadja el a nyilatkozatokat.
+              {getIcon(data4Valid)}
+            </li>
+          </ol>
 
-            <div className="text-center">
-              <Button onClick={this.finalize} bsStyle="warning" bsSize="large">Jelentkezés véglegesítése</Button>
-            </div>
+          <div className="text-center">
+            <Button onClick={this.finalize} bsStyle="warning" bsSize="large">Jelentkezés véglegesítése</Button>
           </div>
-          }
+        </div>
+        }
 
-          {(this.props.signupFinalized && !this.props.signupCompleted) &&
-          <Alert bsStyle="warning">
-            A jelentkezés véglegesítéséhez még az adminisztrátor jóváhagyására is szükség van. Térjen vissza később.
-          </Alert>
-          }
+        {(this.props.signupFinalized && !this.props.signupCompleted) &&
+        <Alert bsStyle="warning">
+          A jelentkezés véglegesítéséhez még az adminisztrátor jóváhagyására is szükség van. Térjen vissza később.
+        </Alert>
+        }
 
-          {(this.props.signupCompleted) &&
-          <Alert bsStyle="success">
-            A jelentkezés véglegesítése megtörtént!
-          </Alert>
-          }
+        {(this.props.signupCompleted) &&
+        <Alert bsStyle="success">
+          A jelentkezés véglegesítése megtörtént!
+        </Alert>
+        }
 
-          {(this.state.errors) &&
-          <Alert bsStyle="danger">
-            <ul>
-              {this.state.errors.map((error)=><li key={error}>{error}</li>)}
-            </ul>
-          </Alert>
-          }
+        {(this.state.errors) &&
+        <Alert bsStyle="danger">
+          <ul>
+            {this.state.errors.map((error)=><li key={error}>{error}</li>)}
+          </ul>
+        </Alert>
+        }
 
       </Content>
     );
@@ -114,6 +108,7 @@ class SignupFinalizePage extends Component {
 
 const mapStateToProps = (state)=>({
   user: state.auth.user,
+  currentTurn: _.get(state, 'userturns.currentTurn', {}),
   userturn: _.get(state, 'userturns.userturn', null),
   progress: _.get(state, 'userturns.userturn.progress', {}),
   signupFinalized: _.get(state, 'userturns.userturn.progress.SIGNUP_FINALIZED', null),

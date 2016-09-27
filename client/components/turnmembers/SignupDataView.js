@@ -17,7 +17,7 @@ class SignupDataView extends Component {
       <div>
         <ContentTitle title="Jelentkezési lap"/>
 
-        <SignupDataForm
+        <SignupData1Form
           onChange={()=>{}}
           onSave={()=>{}}
           signupData={this.props.signupData}

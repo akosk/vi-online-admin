@@ -18,13 +18,13 @@ class SignupData1Page extends SignupDataBase {
     this.state = {
       signupData: {
         honnan_ertesult: {},
-        tobbsegi_tulajdon_mas_vallalkozasban: '',
-        vezeto_tisztsegviselo_mas_vallalkozasban: '',
-        korabban_vallalkozo: '',
+        tobbsegi_tulajdon_mas_vallalkozasban: {},
+        vezeto_tisztsegviselo_mas_vallalkozasban: {},
+        korabban_vallalkozo: {},
         vallalkozas_szekhelye_megye: '',
         vallalkozas_szekhelye_telepules: '',
-        kepzes_helye: '',
-        alternativ_kepzes_helye: ''
+        kepzes_helye: {},
+        alternativ_kepzes_helye: {}
 
       },
       errors: {},
