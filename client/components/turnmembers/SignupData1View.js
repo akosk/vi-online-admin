@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import ContentTitle from '../common/ContentTitle';
 
-class SignupDataView extends Component {
+class SignupData1View extends Component {
 
   componentDidMount() {
     this.props.getSignupDataByUserId(this.props.params.user_id);
@@ -15,7 +15,7 @@ class SignupDataView extends Component {
   render() {
     return (
       <div>
-        <ContentTitle title="Jelentkezési lap"/>
+        <ContentTitle title="Alapinformáció, vállalkozási alapfeltétel"/>
 
         <SignupData1Form
           onChange={()=>{}}
@@ -35,4 +35,4 @@ const mapStateToProps = (state)=>({
 });
 
 
-export default connect(mapStateToProps, actions)(SignupDataView);
+export default connect(mapStateToProps, actions)(SignupData1View);

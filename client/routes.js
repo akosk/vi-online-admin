@@ -27,7 +27,9 @@ import SignupAgreementsPage from './components/userturn/signup/SignupAgreementsP
 import SignupFinalizePage from './components/userturn/signup/SignupFinalizePage';
 import TurnMembersPage from './components/turnmembers/TurnMembersPage';
 import TurnMemberView from './components/turnmembers/TurnMemberView';
-import SignupDataView from './components/turnmembers/SignupDataView';
+import SignupData1View from './components/turnmembers/SignupData1View';
+import SignupData2View from './components/turnmembers/SignupData2View';
+import SignupData3View from './components/turnmembers/SignupData3View';
 import SignupTestView from './components/turnmembers/SignupTestView';
 import SignupStatementView from './components/turnmembers/SignupStatementView';
 import SignupAgreementsView from './components/turnmembers/SignupAgreementsView';
@@ -117,9 +119,9 @@ const createRoutes = (store)=> {
         </Route>
         <Route path="turnmembers" component={TurnMembersPage}/>
         <Route path="turnmembers/:user_id" component={TurnMemberView}>
-          <Route path="signup-data" component={SignupDataView}/>
-          <Route path="signup-test" component={SignupTestView}/>
-          <Route path="signup-statement" component={SignupStatementView}/>
+          <Route path="signup-data-1" component={SignupData1View}/>
+          <Route path="signup-data-2" component={SignupData2View}/>
+          <Route path="signup-data-3" component={SignupData3View}/>
           <Route path="signup-agreements" component={SignupAgreementsView}/>
           <Route path="signup-finalize" component={SignupFinalizeView}/>
         </Route>

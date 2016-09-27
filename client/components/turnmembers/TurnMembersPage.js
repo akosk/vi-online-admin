@@ -38,7 +38,7 @@ class TurnMembersPage extends Component {
   }
 
   viewIcon(id) {
-    return (<Link to={`/admin/turnmembers/${id}/signup-data`} onClick={(e)=>e.stopPropagation()}>
+    return (<Link to={`/admin/turnmembers/${id}/signup-data-1`} onClick={(e)=>e.stopPropagation()}>
       <span className="glyphicon glyphicon-eye-open"></span>
     </Link>);
   }

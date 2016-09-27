@@ -30,20 +30,20 @@ class TurnMemberView extends Component {
           <hr/>
 
           <Nav bsStyle="pills" stacked activeKey={1} onSelect={this.handleSelect}>
-            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-data`}>
-              <NavItem eventKey="1.1">Jelentkezési lap</NavItem>
+            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-data-1`}>
+              <NavItem eventKey="1.1">Alapinformáció, vállalkozási alapfeltétel</NavItem>
             </LinkContainer>
-            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-test`}>
-              <NavItem eventKey="1.2">Kompetencia teszt</NavItem>
+            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-data-2`}>
+              <NavItem eventKey="1.2">Személyes adatok</NavItem>
             </LinkContainer>
-            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-statement`}>
-              <NavItem eventKey="1.3">Jelentkezési nyilatkozatok</NavItem>
+            <LinkContainer to={`/admin/turnmembers/${user_id}/signup-data-3`}>
+              <NavItem eventKey="1.3">Vállalkozástervezés</NavItem>
             </LinkContainer>
             <LinkContainer to={`/admin/turnmembers/${user_id}/signup-agreements`}>
-              <NavItem eventKey="1.3">Egyéb nyilatkozat</NavItem>
+              <NavItem eventKey="1.4">Nyilatkozat</NavItem>
             </LinkContainer>
             <LinkContainer to={`/admin/turnmembers/${user_id}/signup-finalize`}>
-              <NavItem eventKey="1.3">Véglegesítés</NavItem>
+              <NavItem eventKey="1.5">Véglegesítés</NavItem>
             </LinkContainer>
           </Nav>
 
