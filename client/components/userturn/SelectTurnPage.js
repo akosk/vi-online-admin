@@ -49,19 +49,6 @@ class SelectTurnPage extends Component {
     return (
       <Content category="Jelentkezés" title="Képzés kiválasztása">
 
-        <div>
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium at corporis dolor, fuga molestiae
-            possimus quod reprehenderit? Dolorum explicabo magnam, non nostrum obcaecati quis recusandae! Aliquam animi
-            at natus quidem.
-          </div>
-          <div>Ab accusantium aliquid aperiam, eaque ex expedita facilis, fuga harum hic illum iure laboriosam maiores
-            minima modi molestiae nam natus, nisi quam quas quia quo rerum temporibus totam veniam voluptate?
-          </div>
-          <div>Alias at consequatur corporis cumque debitis deleniti deserunt, dolores eos ipsa iste laudantium mollitia
-            nam nisi nulla odit perferendis quaerat quia quisquam reiciendis, reprehenderit sapiente totam unde veniam
-            vitae voluptates.
-          </div>
-        </div>
 
         {turn.id &&
 
