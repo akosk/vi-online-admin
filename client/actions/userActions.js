@@ -12,7 +12,7 @@ export function saveRegistration(user) {
       dispatch(registrationSuccess(user));
     }).catch(error => {
       dispatch(ajaxCallError(error));
-      throw(error);
+      throw(error.data);
     });
   };
 }

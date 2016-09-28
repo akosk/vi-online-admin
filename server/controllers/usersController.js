@@ -19,7 +19,17 @@ class UsersController {
     let promise = null;
 
     if (user.id === undefined) {
-      promise = hash_password(user.password)
+      promise =
+
+        model.getUserByEmail(user.email)
+        .then((user)=>{
+          if (user) {
+            return Promise.reject('Már van ilyen email című felhasználó!');
+          }
+        })
+        .then(()=>{
+          return hash_password(user.password)
+        })
         .then((hash)=> {
           log.debug('new hash:', hash);
           return model.insertUser({ ...user, password: hash, role: 'user' });
