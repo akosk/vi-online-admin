@@ -10,7 +10,7 @@ import router from './router';
 import log from './lib/nodelogger';
 /*eslint-disable no-console */
 
-const port = 3000;
+const port = 80;
 const app = express();
 
 app.use(helmet());
