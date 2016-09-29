@@ -382,10 +382,9 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.tobbsegi_tulajdon_mas_vallalkozasban}/>
 
-        { signupData.tobbsegi_tulajdon_mas_vallalkozasban == 1 &&
+        { _.get(signupData,'tobbsegi_tulajdon_mas_vallalkozasban.value') == 1 &&
         <div className="alert alert-danger" role="alert">
-          Amennyiben a programba lépéskor (képzés megkezdésekor) egyéni vállalkozó, vagy más vállalkozásban többségi
-          tulajdona van, az útmutató előírásai miatt nem vehet részt a programban.
+          Amennyiben a programba lépéskor (képzés megkezdésekor) egyéni vállalkozó, vagy más vállalkozásban többségi tulajdona van, az útmutató előírásai miatt nem vehet részt a programban.
         </div>
         }
 
@@ -399,10 +398,9 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.vezeto_tisztsegviselo_mas_vallalkozasban}/>
 
-        { signupData.vezeto_tisztsegviselo_mas_vallalkozasban == 1 &&
+        { _.get(signupData,'vezeto_tisztsegviselo_mas_vallalkozasban.value') == 1 &&
         <div className="alert alert-danger" role="alert">
-          Amennyiben a programba lépéskor (képzés megkezdésekor) más vállalkozásban vezető tisztségviselői posztot
-          betölt, az útmutató előírásai miatt nem vehet részt a programban.
+          Amennyiben a programba lépéskor (képzés megkezdésekor) más vállalkozásban vezető tisztségviselői posztot betölt, az útmutató előírásai miatt nem vehet részt a programban.
         </div>
         }
 
