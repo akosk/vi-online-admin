@@ -32,7 +32,7 @@ const TextAreaInput = ({name, label, onChange, autocomplete, placeholder, value,
           </textarea>
         {maxCharacters &&
         <div className="pull-right">
-          {maxCharacters}/{value? value.length:'0'}
+          {maxCharacters}/{value ? value.length : '0'}
         </div>
         }
         {error && <div className="error">*{error}</div>}
@@ -57,7 +57,7 @@ TextAreaInput.propTypes = {
   helpText: PropTypes.string,
   rows: PropTypes.string,
   error: PropTypes.string,
-  maxCharacters:PropTypes.number
+  maxCharacters: PropTypes.number
 
 };
 

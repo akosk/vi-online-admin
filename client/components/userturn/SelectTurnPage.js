@@ -41,7 +41,10 @@ class SelectTurnPage extends Component {
   }
 
   componentDidMount() {
-    this.props.loadTurns();
+    this.props.getCurrentTurn(this.props.user.id).then((x)=> {
+      return this.props.loadTurns();
+    })
+
   }
 
   render() {
@@ -68,15 +71,28 @@ class SelectTurnPage extends Component {
                 </tbody>
               </table>
 
+
+              { !this.props.currentTurn.id &&
               <div className="text-center">
                 <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezek a képzésre</button>
               </div>
+              }
+
+              { this.props.currentTurn.id &&
+              <div className="text-center">
+                <div className="alert alert-info">
+                Ön jelentkezett erre a képzésre
+
+                </div>
+                <Link to=''>
+                  <span className="btn btn-primary">Tovább a képzésemre</span>
+                </Link>
+              </div>
+              }
             </Panel>
           </div>
         </div>
         }
-
-
 
 
       </Content>
@@ -87,7 +103,8 @@ class SelectTurnPage extends Component {
 const mapStateToProps = (state)=>({
   user: state.auth.user,
   turn: state.turns[0] || {},
-  slug: _.get(state, 'userturns.currentTurn.slug','')
+  slug: _.get(state, 'userturns.currentTurn.slug', ''),
+  currentTurn: _.get(state, 'userturns.currentTurn', {})
 });
 
 export default connect(mapStateToProps, actions)(SelectTurnPage);
