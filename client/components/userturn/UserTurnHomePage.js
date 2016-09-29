@@ -9,9 +9,8 @@ class UserTurnHomePage extends Component {
     return (
       <Content title="Irányítópult">
 
-        <h3>TODO: A felhasználó itt láthatja, hogy hol jár a képzésben, mit tett eddig.</h3>
+        <h3 className="text-center">Üdvözöljük!</h3>
 
-        <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis dicta dolorem ducimus facere, impedit labore maxime possimus unde. Aspernatur corporis ducimus eaque eos ex maiores provident ratione vero. Unde.</h4>
       </Content>
     );
   }

@@ -102,7 +102,6 @@ const createRoutes = (store)=> {
           <Route path="signup-data-2" component={SignupData2Page}/>
           <Route path="signup-data-3" component={SignupData3Page}/>
           <Route path="signup-test" component={SignupTestPage}/>
-          <Route path="signup-statement" component={SignupStatementPage}/>
           <Route path="signup-agreements" component={SignupAgreementsPage}/>
         </Route>
       </Route>
