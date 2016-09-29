@@ -70,7 +70,7 @@ class SignupFinalizePage extends Component {
             <li>Töltse ki a <Link to={`${turnRootUrl}/signup-data-3`}>vállalkozástervezés</Link> űrlapot.
               {getIcon(data3Valid)}
             </li>
-            <li>Fogadja el a nyilatkozatokat.
+            <li>Fogadja el a <Link to={`${turnRootUrl}/signup-agreements`}>nyilatkozatokat </Link>.
               {getIcon(data4Valid)}
             </li>
           </ol>
