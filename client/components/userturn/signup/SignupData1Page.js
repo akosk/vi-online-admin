@@ -24,7 +24,10 @@ class SignupData1Page extends SignupDataBase {
         vallalkozas_szekhelye_megye: '',
         vallalkozas_szekhelye_telepules: '',
         kepzes_helye: {},
-        alternativ_kepzes_helye: {}
+        alternativ_kepzes_helye: {},
+        megfelelo_idopont: {},
+        vonatberlet: {}
+
 
       },
       errors: {},

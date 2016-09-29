@@ -305,6 +305,47 @@ export function kivelVallalkozikOptions() {
 }
 
 
+export function megfeleloIdopontOptions() {
+  return [
+    {
+      text: 'Nem tudok 3 héten át bejárni a képzésre',
+      value: 'nem_tudok_bejarni'
+    },
+    {
+      text: '2016. októbere vagy novembere',
+      value: '2016_okt_nov'
+    },
+    {
+      text: '2017. február vagy március',
+      value: '2017_feb_mar'
+    },
+    {
+      text: '2017. szeptember vagy október',
+      value: '2017_szep_okt'
+    }
+  ];
+}
+
+
+export function vonatberletOptions() {
+  return [
+    {
+      text: 'Megoldom a képzésre való eljutást, nem kérek bérletet',
+      value: 'nem_kerek'
+    },
+    {
+      text: 'Csak akkor kérek bérletet, ha nem az elsődlegesen bejelölt megyeszékhelyen jutok be a képzésbe',
+      value: 'kerek_ha_mas_megyeszekhely'
+    },
+    {
+      text: 'Igen, a képzésre utazáshoz igénylek bérletet. A 30 napos vasúti vagy buszbérlet ára a lakóhelyemről az elsődlegesen megjelölt képzési helyszínig (megyeszékhelyig)',
+      value: 'kerek',
+      extraQuestion:'Vonat vagy buszbérlet közül annak az árát írja be, amelyikkel utazni szeretne. Ha nem tudja a pontos összeget, írja be, kb. mennyibe kerülhet a 30 napos bérlet? (Ft)'
+    }
+  ];
+}
+
+
 
 export function megyekOptions() {
   return [

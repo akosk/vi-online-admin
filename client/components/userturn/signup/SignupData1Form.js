@@ -470,6 +470,31 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.alternativ_kepzes_helye}/>
 
+
+        <RadioGroupInput
+          name="megfelelo_idopont"
+          label="Melyik időpont lenne Önnek legmegfelelőbb a programba lépésre és a 90 órás vállalkozói képzés megkezdésére?"
+          helpText="Ha szeretne támogatást igényelni, akkor amíg nem végzi el a képzést, és nem kapja meg az üzleti tervére a jóváhagyást, ne alapítsa meg a vállalkozását!"
+          value={signupData.megfelelo_idopont || ''}
+          defaultOption="Válasszon..."
+          options={inputHelper.megfeleloIdopontOptions()}
+          disabled={finalized}
+          onChange={onChange}
+          error={errors.megfelelo_idopont}
+        />
+
+        <RadioGroupInput
+          name="vonatberlet"
+          label="Szeretne-e a a 90 órás vállalkozói képzés idejére busz- vagy vonatbérletet kérni?"
+          helpText="Csak akor kérhet bérletet, ha nem azon a településen lakik, ahol  képzés történik. Csak helyközi bérlet igényelhető, helyi bérlet nem. A bérletet a képzés első napján veheti át, és a képzés utolsó napján le kell adni!"
+          value={signupData.vonatberlet || ''}
+          defaultOption="Válasszon..."
+          options={inputHelper.vonatberletOptions()}
+          disabled={finalized}
+          onChange={onChange}
+          error={errors.vonatberlet}
+        />
+
         {!finalized &&
         <input
           type="submit"

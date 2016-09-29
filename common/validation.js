@@ -64,6 +64,18 @@ export const isSignup1HasErrors = function (signupData) {
     _.set(errors, 'alternativ_kepzes_helye.error',
       'A mező kitöltése kötelező');
   }
+
+  if (!_.get(signupData, 'megfelelo_idopont.value')) {
+    _.set(errors, 'megfelelo_idopont.error',
+      'A mező kitöltése kötelező');
+  }
+
+  if (!_.get(signupData, 'vonatberlet.value')) {
+    _.set(errors, 'vonatberlet.error',
+      'A mező kitöltése kötelező');
+  }
+
+
   console.log('validation 1 ', errors);
   return errors;
 };
