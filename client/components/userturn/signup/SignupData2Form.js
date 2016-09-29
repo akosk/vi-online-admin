@@ -44,9 +44,11 @@ class SignupData2Form extends Component {
         birthDateError = 'Amennyiben az első turnus kezdetéig nem tölti be a 18. életévét, most nem tud részt venni a programban, mivel a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be. Amennyiben egy éven belül 18 éves lesz, be szeretne lépni a programba, és jelenleg még nem regisztrált álláskereső, nem is tanul, nem is dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél. Jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként! Ezt követően tud majd jelentkezni a következő turnusba!';
         break;
       case validation.TURN_USER_18_25:
-        birthDateError = 'Ön a képzés várható kezdetekor 18-25 éves korú lesz, így akkor léphet a programba, ha rendelkezik legalább 8 általános iskolai végzettséggel, és legalább egy hónapja álláskeresőként regisztrált a munkaügyi szervezetnél.' +
-          '(Amennyiben legalább fél éve regisztrált álláskereső, előnyt élvez a programba kerülésnél.)' +
-          'Amennyiben még nem regisztrált álláskereső, és nem tanul, nem dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél, jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként!';
+        birthDateError = <p>
+          Ön a képzés várható kezdetekor 18-25 éves korú lesz, így akkor léphet a programba, ha rendelkezik legalább 8 általános iskolai végzettséggel, és legalább egy hónapja álláskeresőként
+          regisztrált a munkaügyi szervezetnél. (Amennyiben legalább fél éve regisztrált álláskereső, előnyt élvez a programba kerülésnél.) Amennyiben
+          még nem regisztrált álláskereső, és nem tanul, nem dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél, jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként!
+        </p>;
         break;
       case validation.TURN_USER_25_30:
         birthDateError = 'Ön a programba lépéskor várhatóan 25-30 éves korú lesz, így akkor léphet a programba, ha felsőfokú végzettséggel rendelkezik (megkapta az oklevelét), és pályakezdő álláskeresőnek minősül (végzettsége megszerzését követően nincs több munkaviszonya 360 napnál), illetve legalább 1 hónapja regisztrált állláskereső. A pályakezdő álláskeresői státuszáról érdeklődjön a munkaügyi szervezetnél!';
@@ -140,7 +142,7 @@ class SignupData2Form extends Component {
         <TextInput
           disabled={finalized}
           name="temporary_address"
-          label="Tartókodási hely"
+          label="Tartózkodási hely"
           value={signupData.temporary_address || ''}
           onChange={onChange}
           helpText="Csak akkor kell kitölteni, ha eltér az állandó lakcímtől."
@@ -268,7 +270,7 @@ class SignupData2Form extends Component {
         <TextInput
           disabled={finalized}
           name="taj"
-          label="Tajszám"
+          label="TAJ-szám"
           value={signupData.taj  || ''}
           onChange={onChange}
           error={_.get(errors,'taj.error')}/>

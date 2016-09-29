@@ -205,7 +205,7 @@ export function kisebbsegiOptions() {
       value: 'fogyatekkel_elek'
     },
     {
-      text: 'Egyéb hátranyos helyzetű csoportba tartozom.',
+      text: 'Egyéb hátrányos helyzetű csoportba tartozom.',
       value: 'egyeb_hatranyos',
       extraQuestion:'Melyik hátrányos helyzetű csoportba tartozik?'
     },

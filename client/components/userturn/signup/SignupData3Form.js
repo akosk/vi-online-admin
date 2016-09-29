@@ -34,7 +34,7 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.miert_szeretne_vallalkozast_inditani || ''}
           onChange={onChange}
-          maxCharacters={1000}
+          maxCharacters={1200}
           error={_.get(errors,'miert_szeretne_vallalkozast_inditani.error')
 
           }

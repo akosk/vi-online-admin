@@ -203,20 +203,20 @@ export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
 
 export const getTurnUserData = (turn, birthdate)=> {
   var mBirthDate = moment(birthdate);
-  var mTurnStart = moment(turn);
-console.log(mTurnStart.format());
-console.log(mTurnStart.subtract(17,'y').add(1,'d').format());
-console.log(mTurnStart.subtract(18,'y').add(1,'d').format());
-console.log(mTurnStart.subtract(25,'y').add(1,'d').format());
-console.log(mTurnStart.subtract(30,'y').add(1,'d').format());
 
-  if (mTurnStart.subtract(18,'y').add(1,'d') <= mBirthDate) {
+console.log(moment(turn).format());
+console.log(moment(turn).subtract(17,'y').add(1,'d').format());
+console.log(moment(turn).subtract(18,'y').add(1,'d').format());
+console.log(moment(turn).subtract(25,'y').add(1,'d').format());
+console.log(moment(turn).subtract(30,'y').add(1,'d').format());
+
+  if (moment(turn).subtract(18,'y').add(1,'d') <= mBirthDate) {
     return TURN_USER_UNDER_18;
-  } else if (mTurnStart.subtract(19,'y').add(1,'d') <= mBirthDate) {
+  } else if (moment(turn).subtract(19,'y').add(1,'d') <= mBirthDate) {
     return TURN_USER_ALMOST_18;
-  } else if (mTurnStart.subtract(25,'y').add(1,'d') <= mBirthDate) {
+  } else if (moment(turn).subtract(25,'y').add(1,'d') <= mBirthDate) {
     return TURN_USER_18_25;
-  } else if (mTurnStart.subtract(30,'y').add(1,'d') <= mBirthDate) {
+  } else if (moment(turn).subtract(30,'y').add(1,'d') <= mBirthDate) {
     return TURN_USER_25_30;
   }
 

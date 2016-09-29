@@ -65,7 +65,7 @@ class HomePage extends Component {
               </li>
               <li>
                 A programba más vállalkozásban többségi üzletrésztulajdonnal (50% feletti) nem rendelkező fiatalok
-                jelentkezhetnek
+                jelentkezhetnek.
               </li>
               <li>
                 A jelentkező fiatalok közül azok kerülnek kiválasztásra, akik vállalkozás indításához megalapozott
