@@ -208,7 +208,7 @@ class SignupData2Form extends Component {
           disabled={finalized}
           name="allaskeresokent_regisztralt_datuma"
           onChange={onChange}
-          helpText="A progaramba akkor kerülhet be, ha meglévő regisztrációja fennmarad 2016.09.01-ig."
+          helpText="A progaramba akkor kerülhet be, ha meglévő regisztrációja fennmarad addig, amíg a programba hivatalosan bevonjuk."
           label="Álláskeresőként mikor regisztrálta magát?"
           value={signupData.allaskeresokent_regisztralt_datuma || ''}
           singleDatePicker>
