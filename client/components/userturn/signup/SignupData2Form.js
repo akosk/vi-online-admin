@@ -27,8 +27,10 @@ class SignupData2Form extends Component {
 
     let birthDateError = '';
     if (moment("1999-10-01") <= moment(signupData.birth_date)) {
-      birthDateError = 'Ön a jelenlegi programunkban nem tud részt venni, mivel nem töltötte be a 18. életévét, a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be.' +
-        'Örömmel vettük érdeklődését a program iránt, kérjük, amennyiben vállalkozni szeretne, iratkozzon fel GINOP-5.2.2 általános hírlevelünkre a <a href="" target="_blank">www.vallalkozzitthon.hu</a> oldalon, ahol vállalkozásindítási témában további információkat talál.';
+      birthDateError = <p>
+        Ön a jelenlegi programunkban nem tud részt venni, mivel nem töltötte be a 18. életévét, a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be.
+        Örömmel vettük érdeklődését a program iránt, kérjük, amennyiben vállalkozni szeretne, iratkozzon fel GINOP-5.2.2 általános hírlevelünkre
+        a <a href="http://www.vallalkozzitthon.hu" target="_blank" style={{color:'white'}}>www.vallalkozzitthon.hu</a> oldalon, ahol vállalkozásindítási témában további információkat talál</p>;
     } else if (moment("1998-10-07") <= moment(signupData.birth_date)) {
       birthDateError = 'Amennyiben az első turnus kezdetéig nem tölti be a 18. életévét, most nem tud részt venni a programban, mivel a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be. Amennyiben egy éven belül 18 éves lesz, be szeretne lépni a programba, és jelenleg még nem regisztrált álláskereső, nem is tanul, nem is dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél. Jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként! Ezt követően tud majd jelentkezni a következő turnusba!';
     } else if (moment("1991-10-17") <= moment(signupData.birth_date)) {
