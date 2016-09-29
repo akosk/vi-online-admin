@@ -189,7 +189,7 @@ export function honnanErtesultOptions() {
 export function kisebbsegiOptions() {
   return [
     {
-      text: 'Kisebbség.',
+      text: 'Kisebbségi csoporthoz tartozom.',
       value: 'kisebbseg'
     },
     {
@@ -197,7 +197,7 @@ export function kisebbsegiOptions() {
       value: 'roma'
     },
     {
-      text: 'Migráns.',
+      text: 'Migráns/bevándorló vagyok.',
       value: 'migrans'
     },
     {
