@@ -32,7 +32,7 @@ class SignupFinalizePage extends Component {
   finalize(event) {
     const {progress}=this.props;
 
-    const errors=validateSignupFinalize(progress);
+    const errors = validateSignupFinalize(progress);
 
     if (errors.length > 0) {
       this.setState({ errors });
@@ -75,8 +75,28 @@ class SignupFinalizePage extends Component {
             </li>
           </ol>
 
+          <div className="alert alert-warning">
+
+            <p className="text-block">
+              A fenti menüpontokban megadott adatokkal a Vállalkozz Itthon Junior - Fiatalok Vállalkozóvá válásának
+              támogatása Dél-Dunántúlon (GINOP-5.2.2-14-2015-00020 jelű) programra jelentkezem, a programban részt
+              kívánok venni.
+            </p>
+
+            <p className="text-block">
+              Vállalom, hogy amennyiben a fenti menüpontokban megadott adataimban bármilyen változás bekövetkezik, azt 8
+              napon belül e-mailben, vagy ebben a rendszerben jelzem a FIVOSZ Konzorcium felé.
+            </p>
+
+            <p className="text-block">
+              Amennyiben a Támogatási Szerződés megkötéséig úgy döntök, hogy mégsem veszek részt a programban, azt 3
+              napon
+              belül e-mailben jelzem a FIVOSZ Konzorcium számára.
+            </p>
+          </div>
+
           <div className="text-center">
-            <Button onClick={this.finalize} bsStyle="warning" bsSize="large">Jelentkezés véglegesítése</Button>
+            <Button onClick={this.finalize} bsStyle="danger" bsSize="large">Jelentkezés véglegesítése</Button>
           </div>
         </div>
         }
