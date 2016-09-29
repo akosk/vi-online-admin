@@ -102,7 +102,7 @@ class SignupStatementPage extends Component {
                 <li>A GINOP-5.2.3-16 konstrukcióban támogatott vállalkozásomban személyes közreműködőként részt veszek. (Személyes közreműködés a gazdasági társaság valamely tevékenységi körének megvalósításában való személyes, tagi részvételt jelenti.)</li>
                 <li>Mindent megteszek annak érdekében, hogy a vállalkozás fenntartását a fenti projekt lebonyolítását követő legalább 3 évig biztosítsam</li>
                 <li>Vállalkozásommal kapcsolatban a FIVOSZ Konzorcium felé fennáló adatszolgáltatási kötelezettségemet vállalkozásom sikeres nyomonkövetése érdekében teljesítem a vállalkozás megalapítását követő négy évig
-                  Tudomásul veszem, hogy a programban való részvételi feltételeknek való megfelelésről a Támogatási Szerződés megkötésekor – amely várhatóan 2016. 10. 17. és 2016. 11. 21. közötti időtartamra fog esni- írásban, büntetőjogi felelősség mellett ismételten nyilatkoznom kell.</li>
+                  Tudomásul veszem, hogy a programban való részvételi feltételeknek való megfelelésről a Támogatási Szerződés megkötésekor írásban, büntetőjogi felelősség mellett ismételten nyilatkoznom kell.</li>
               </ol>
             </p>
 
