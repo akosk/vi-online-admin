@@ -30,7 +30,8 @@ class TopNav extends Component {
   logout(e) {
     e.preventDefault();
     this.props.logout();
-    browserHistory.push('/');
+    window.location='/';
+    //browserHistory.push('/');
   }
 
   selectTurn(id, e) {
