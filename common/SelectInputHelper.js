@@ -346,6 +346,20 @@ export function vonatberletOptions() {
 }
 
 
+export function allaskeresokentRegisztraltOptions() {
+  return [
+    {
+      text: 'Igen, megszakítás nélkül álláskeresőként vagyok regisztrálva.',
+      value: '1'
+    },
+    {
+      text: 'Nem',
+      value: '0'
+    }
+  ];
+}
+
+
 
 export function megyekOptions() {
   return [

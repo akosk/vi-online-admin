@@ -178,29 +178,42 @@ class SignupData2Form extends Component {
 
         <RadioGroupInput
           name="allaskeresokent_regisztralt"
-          label="Álláskeresőként regisztrált-e?"
+          label="Ön regisztrált álláskereső jelenleg?"
           value={signupData.allaskeresokent_regisztralt || ''}
-          options={inputHelper.yesnoOptions()}
+          options={inputHelper.allaskeresokentRegisztraltOptions()}
           disabled={finalized}
-          helpText="A programba elsősorban a tartós (min. 6 hónapja) álláskeresők vonhatók be
-             vagy a min. 1 hónapja álláskeresőként regisztrált fiatal.
-            Felhívjuk figyelmét, hogy amennyiben még nem
-            regisztrált álláskereső, keresse fel a lakcíme szerint illetékes Kormányhivatal Foglalkoztatási Osztályát
-            (volt Munkaügyi Központ kirendeltsége)."
+          helpText=""
 
           onChange={onChange}
           error={errors.allaskeresokent_regisztralt}/>
 
+        {
+          _.get(signupData,'allaskeresokent_regisztralt.value')=='1'&&
+          <div className="alert alert-danger" role="alert">
+            A programba  a legalább egy hónapja álláskeresőként regisztrált fiatalok vonhatók be,  a tartós (legalább 6 hónapja) álláskeresők előnyt élveznek.
+            Fontos, hogy a programba lépésig regisztrált álláskereső maradjon, ezért az együttműködési, megjelenési kötelezettségének tegyen eleget a munkaügyi szervezetnél!
+          </div>
+        }
+
+        {
+          _.get(signupData,'allaskeresokent_regisztralt.value')=='0'&&
+          <div className="alert alert-danger" role="alert">
+            Felhívjuk figyelmét, hogy amennyiben még nem regisztrált álláskereső, és részt kíván venni a programban, keresse fel a lakcíme szerint illetékes Kormányhivatal Foglalkoztatási Osztályát (volt Munkaügyi Központ kirendeltsége), és regisztráljon álláskeresőként, továbbá jelezze, hogy részt kíván venni a GINOP-5.2.2 -Fiatalok vállalkozóvá válását támogató programban!
+          </div>
+        }
+
+
+        { _.get(signupData,'allaskeresokent_regisztralt.value')=='1' &&
         <DateRangePickerInput
           disabled={finalized}
           name="allaskeresokent_regisztralt_datuma"
           onChange={onChange}
           helpText="A progaramba akkor kerülhet be, ha meglévő regisztrációja fennmarad 2016.09.01-ig."
-          label="Álláskeresőként regisztrált dátuma"
+          label="Álláskeresőként mikor regisztrálta magát?"
           value={signupData.allaskeresokent_regisztralt_datuma || ''}
           singleDatePicker>
         </DateRangePickerInput>
-
+        }
 
 
         <RadioGroupInput
