@@ -17,6 +17,10 @@ const addOrFilter = (filterContent, filter) => {
 const appendFilter = (query, c, field) => {
   log.debug('appendFilter ', c, field);
   switch (field.type) {
+    //case fieldTypes.MULTICHECKBOX:
+    //  console.log('MULTICHECKBOX>>> c.value>>>', c.value);
+    //  query = query(c.value)('checked').eq(`${c.value}`);
+    //  break;
     case fieldTypes.SELECT:
       query = query.eq(`${c.value}`);
       break;

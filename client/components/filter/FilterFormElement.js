@@ -34,6 +34,7 @@ class FilterFormElement extends Component {
             onChange={this.onChange}
           />);
           break;
+        case fieldTypes.MULTICHECKBOX:
         case fieldTypes.SELECT:
 
 

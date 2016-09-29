@@ -52,98 +52,6 @@ export const findTable = (tableName) => {
 export const schema = [
 
   {
-    rname: "usertests",
-    name: "Kompetencia tesztek",
-    "fields": [
-      {
-        rname: 'questions:q_0',
-        name: "Mely településen lesz leendő vállakozásának székhelye",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_1',
-        name: "Tervezett vállalkozási forma",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_2',
-        name: "Milyen szektorban tervezi indítani vállalkozását",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_3',
-        name: "Leendő vállalkozás tervezett tevékenységi területe",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_4',
-        name: "Miért szeretne vállalkozást indítani",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_5',
-        name: "Kivel/Kikkel tervezi vállalkozását létrehozni",
-        type: types.STRING
-      },
-      {
-        rname: 'questions:q_6',
-        name: "Vállalja-e, hogy vállalkozását megalapítástól kezdve legalább 4 évig fenntartja?",
-        type: types.SELECT,
-        options:inputHelper.yesnoOptions()
-      },
-      {
-        rname: 'questions:q_7',
-        name: "Vállalja-e, hogy személyes közreműködőként részt vesz a vállalkozásának működtetésében az alapítást követően legalább 4 évig?",
-        type: types.SELECT,
-        options:inputHelper.yesnoOptions()
-      },
-      {
-        rname: 'questions:q_8',
-        name: "Kérjük, válassza ki az Önre illőt!",
-        type: types.STRING,
-      },
-      {
-        rname: 'questions:q_9',
-        name: "Más vállalkozásban többségi tulajdonnal rendelkezem*",
-        type: types.SELECT,
-        options:inputHelper.yesnoOptions()
-      },
-      {
-        rname: 'questions:q_10',
-        name: "A képzés és tanácsadások választott helyszíne",
-        type: types.STRING,
-      },
-      {
-        rname: 'questions:q_11',
-        name: "Rendelkezem a vállalkozás indításához szükséges üzleti ötlettel",
-        type: types.SELECT,
-        options:inputHelper.yesnoOptions()
-      },
-      {
-        rname: 'questions:q_12',
-        name: "Üzleti ötletem az alábbi tevékenységi körhöz kapcsolódik",
-        type: types.STRING,
-      },
-      {
-        rname: 'questions:q_13',
-        name: "Üzleti ötletem hatóköre",
-        type: types.STRING,
-      },
-      {
-        rname: 'questions:q_14',
-        name: "Kialakítani kívánt piaci kapcsolataim száma a fizikai befejezésig",
-        type: types.STRING,
-      },
-      {
-        rname: 'questions:q_15',
-        name: "A projekt fizikai befejezését követő első lezárt, teljes üzleti évben realizált nettó árbevételem",
-        type: types.STRING,
-      },
-
-    ]
-  },
-
-  {
     rname: "users",
     name: "Felhasználók",
     "fields": [
@@ -168,12 +76,13 @@ export const schema = [
 
   {
     rname: "signup_datas",
-    name: "Jelentkezési lap",
+    name: "Alapinformáció, vállalkozási alapfeltétel",
     "fields": [
       {
-        rname: "adoazonosito_jel",
-        name: "Adóazonosító jel",
-        type: types.STRING
+        rname: "honnan_ertesult",
+        name: "Honnan értesült",
+        type: types.MULTICHECKBOX,
+        options:inputHelper.honnanErtesultOptions()
       },
       {
         rname: "allaskeresokent_regisztralt",
