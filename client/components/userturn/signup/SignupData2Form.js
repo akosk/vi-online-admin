@@ -9,6 +9,8 @@ import MultiTextInput from '../../common/MultiTextInput';
 import RadioGroupInput from '../../common/RadioGroupInput';
 import DateRangePickerInput from '../../common/DateRangePickerInput';
 import * as inputHelper from '../../../../common/SelectInputHelper';
+import * as validation from '../../../../common/validation';
+
 
 class SignupData2Form extends Component {
 
@@ -23,29 +25,35 @@ class SignupData2Form extends Component {
 
 
   render() {
-    const {signupData,onChange, errors,finalized,saving,onSave}=this.props;
+    const {signupData,onChange, errors,finalized,saving,onSave,currentTurn}=this.props;
+
 
     let birthDateError = '';
-    if (moment("1999-10-01") <= moment(signupData.birth_date)) {
-      birthDateError = <p>
-        Ön a jelenlegi programunkban nem tud részt venni, mivel nem töltötte be a 18. életévét, a pályázati útmutató
-        szerint a programba csak 18 év felettiek léphetnek be.
-        Örömmel vettük érdeklődését a program iránt, kérjük, amennyiben vállalkozni szeretne, iratkozzon fel GINOP-5.2.2
-        általános hírlevelünkre
-        a <a href="http://www.vallalkozzitthon.hu" target="_blank" style={{color:'white'}}>www.vallalkozzitthon.hu</a>
-        oldalon, ahol vállalkozásindítási témában további információkat talál</p>;
-    } else if (moment("1998-10-07") <= moment(signupData.birth_date)) {
-      birthDateError = 'Amennyiben az első turnus kezdetéig nem tölti be a 18. életévét, most nem tud részt venni a programban, mivel a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be. Amennyiben egy éven belül 18 éves lesz, be szeretne lépni a programba, és jelenleg még nem regisztrált álláskereső, nem is tanul, nem is dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél. Jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként! Ezt követően tud majd jelentkezni a következő turnusba!';
-    } else if (moment("1991-10-17") <= moment(signupData.birth_date)) {
-      birthDateError = 'Ön a képzés várható kezdetekor 18-25 éves korú lesz, így akkor léphet a programba, ha rendelkezik legalább 8 általános iskolai végzettséggel, és legalább egy hónapja álláskeresőként regisztrált a munkaügyi szervezetnél.' +
-        '(Amennyiben legalább fél éve regisztrált álláskereső, előnyt élvez a programba kerülésnél.)' +
-        'Amennyiben még nem regisztrált álláskereső, és nem tanul, nem dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél, jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként!';
-    } else {
-      if (moment("1986-10-10") <= moment(signupData.birth_date)) {
+    switch (validation.getTurnUserData(currentTurn.start_at, signupData.birth_date)) {
+      case validation.TURN_USER_UNDER_18:
+        birthDateError = <p>
+          Ön a jelenlegi programunkban nem tud részt venni, mivel nem töltötte be a 18. életévét, a pályázati útmutató
+          szerint a programba csak 18 év felettiek léphetnek be.
+          Örömmel vettük érdeklődését a program iránt, kérjük, amennyiben vállalkozni szeretne, iratkozzon fel
+          GINOP-5.2.2
+          általános hírlevelünkre
+          a <a href="http://www.vallalkozzitthon.hu" target="_blank" style={{color:'white'}}>www.vallalkozzitthon.hu</a>
+          oldalon, ahol vállalkozásindítási témában további információkat talál</p>;
+        break;
+      case validation.TURN_USER_ALMOST_18:
+        birthDateError = 'Amennyiben az első turnus kezdetéig nem tölti be a 18. életévét, most nem tud részt venni a programban, mivel a pályázati útmutató szerint a programba csak 18 év felettiek léphetnek be. Amennyiben egy éven belül 18 éves lesz, be szeretne lépni a programba, és jelenleg még nem regisztrált álláskereső, nem is tanul, nem is dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél. Jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként! Ezt követően tud majd jelentkezni a következő turnusba!';
+        break;
+      case validation.TURN_USER_18_25:
+        birthDateError = 'Ön a képzés várható kezdetekor 18-25 éves korú lesz, így akkor léphet a programba, ha rendelkezik legalább 8 általános iskolai végzettséggel, és legalább egy hónapja álláskeresőként regisztrált a munkaügyi szervezetnél.' +
+          '(Amennyiben legalább fél éve regisztrált álláskereső, előnyt élvez a programba kerülésnél.)' +
+          'Amennyiben még nem regisztrált álláskereső, és nem tanul, nem dolgozik, mielőbb jelentkezzen a lakhelye szerint illetékes munkaügyi szervezetnél, jelezze, hogy a GINOP-5.2.2-es programban szeretne részt venni, és ha a feltételek adottak, regisztráljon az Ifjúsági Garanciaprogramba álláskeresőként!';
+        break;
+      case validation.TURN_USER_25_30:
         birthDateError = 'Ön a programba lépéskor várhatóan 25-30 éves korú lesz, így akkor léphet a programba, ha felsőfokú végzettséggel rendelkezik (megkapta az oklevelét), és pályakezdő álláskeresőnek minősül (végzettsége megszerzését követően nincs több munkaviszonya 360 napnál), illetve legalább 1 hónapja regisztrált állláskereső. A pályakezdő álláskeresői státuszáról érdeklődjön a munkaügyi szervezetnél!';
-      } else {
+        break;
+      case validation.TURN_USER_OVERAGE:
         birthDateError = 'Sajnos a programra nem tud jelentkezni, mivel a program kezdetére betölti a 30. életévét, így az útmutató szerint nem pályázhat.';
-      }
+        break;
     }
 
     return (

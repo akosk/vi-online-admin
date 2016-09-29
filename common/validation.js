@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import * as progressTypes from '../common/progressTypes';
 
 
@@ -98,8 +99,7 @@ export const isSignup2HasErrors = function (signupData) {
   });
 
 
-  if (_.get(signupData,'allaskeresokent_regisztralt.value')=='1' &&
-    !signupData.allaskeresokent_regisztralt_telepules) {
+  if (_.get(signupData, 'allaskeresokent_regisztralt.value') == '1' && !signupData.allaskeresokent_regisztralt_telepules) {
     _.set(errors, `allaskeresokent_regisztralt_telepules.error`,
       'A mező kitöltése kötelező');
   }
@@ -195,8 +195,33 @@ export const validateSignupFinalize = function (progress) {
   return errors;
 };
 
+export const TURN_USER_UNDER_18 = "TURN_USER_UNDER_18";
+export const TURN_USER_ALMOST_18 = "TURN_USER_ALMOST_18";
+export const TURN_USER_18_25 = "TURN_USER_18_25";
+export const TURN_USER_25_30 = "TURN_USER_25_30";
+export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
 
+export const getTurnUserData = (turn, birthdate)=> {
+  var mBirthDate = moment(birthdate);
+  var mTurnStart = moment(turn);
+console.log(mTurnStart.format());
+console.log(mTurnStart.subtract(17,'y').add(1,'d').format());
+console.log(mTurnStart.subtract(18,'y').add(1,'d').format());
+console.log(mTurnStart.subtract(25,'y').add(1,'d').format());
+console.log(mTurnStart.subtract(30,'y').add(1,'d').format());
 
+  if (mTurnStart.subtract(18,'y').add(1,'d') <= mBirthDate) {
+    return TURN_USER_UNDER_18;
+  } else if (mTurnStart.subtract(19,'y').add(1,'d') <= mBirthDate) {
+    return TURN_USER_ALMOST_18;
+  } else if (mTurnStart.subtract(25,'y').add(1,'d') <= mBirthDate) {
+    return TURN_USER_18_25;
+  } else if (mTurnStart.subtract(30,'y').add(1,'d') <= mBirthDate) {
+    return TURN_USER_25_30;
+  }
+
+  return TURN_USER_OVERAGE
+}
 
 //export const isSignupHasErrors = function (signupData) {
 //  const errors=[];
@@ -214,3 +239,5 @@ export const validateSignupFinalize = function (progress) {
 //  }
 //  return errors;
 //};
+
+

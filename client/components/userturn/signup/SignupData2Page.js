@@ -52,6 +52,7 @@ class SignupData2Page extends SignupDataBase {
     return (
       <Content category="Jelentkezés" title="Személyes adatok">
         <SignupData2Form
+          currentTurn={this.props.currentTurn}
           onChange={this.updateSignupDataState}
           onSave={this.saveSignupData}
           signupData={this.state.signupData}
@@ -67,6 +68,7 @@ class SignupData2Page extends SignupDataBase {
 const mapStateToProps = (state)=>({
   user: state.auth.user,
   signupData: _.get(state, 'userturns.signupData', {}),
+  currentTurn: _.get(state, 'userturns.currentTurn', {}),
   userturn: _.get(state, 'userturns.userturn', false),
   finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`)
 });
