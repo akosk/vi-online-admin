@@ -299,6 +299,35 @@ export function setProgressById(userturn_id, progressName) {
             });
 }
 
+export function setAgreementNoteById(userturn_id, note) {
+
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .update({
+                            agreement_note:note
+                          },
+                          { return_changes: true }
+                        )
+                        .run(conn);
+            })
+            .then((result)=> {
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .coerceTo('object')
+                        .run(conn);
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+}
+
 export function removeProgressById(userturn_id, progressName) {
 
   const progress = {};

@@ -58,6 +58,31 @@ class UserturnController {
 
   }
 
+  static setAgreementNote(req, res) {
+    if (!req.body) {
+      res.status(400);
+      return res.send('Bad request.');
+    }
+
+    const {userturn_id} =req.params;
+    const {note} = req.body;
+    log.debug(`setAgreementNote ${userturn_id} ${note}`);
+
+    return model.setAgreementNoteById(userturn_id, note)
+                .then((userturn)=> {
+                  log.debug('UserturnController/setAgreementNote success', userturn);
+                  res.send(userturn);
+                })
+                .catch((err)=> {
+                  if (err.errors) {
+                    return res.send({ errors: err.errors });
+                  }
+                  log.debug(err);
+                  res.status(500);
+                  return res.send(err);
+                });
+  }
+
   static removeProgress(req, res) {
     if (!req.body) {
       res.status(400);

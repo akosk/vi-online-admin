@@ -25,6 +25,13 @@ class UserturnApi {
     );
   }
 
+  static setAgreementNote(userturn_id, note) {
+    return axios.post(`/set-agreement-note/${userturn_id}`,
+      { note },
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
   static removeProgress(userturn_id, progress) {
     return axios.post(`/remove-progress/${userturn_id}`,
       { progress },

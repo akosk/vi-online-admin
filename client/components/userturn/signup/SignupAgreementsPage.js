@@ -19,33 +19,66 @@ class SignupStatementPage extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state={
-      megjegyzes:''
+    this.state = {
+      megjegyzes: this.props.userturn.agreement_note || ''
     };
 
-    this.onAcceptStatementsChange = this.onAcceptStatementsChange.bind(this);
+    this.saveNote = _.throttle(
+      this.saveNote.bind(this)
+      , 1000);
   }
 
   componentDidMount() {
     this.props.getSignupStatement(this.props.user.id, this.props.currentTurn.id);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('next', nextProps);
+    if (nextProps.userturn.agreement_note !== this.state.megjegyzes) {
+      this.setState({
+        megjegyzes: nextProps.userturn.agreement_note
+      });
+    }
+  }
 
-  onAcceptStatementsChange(e) {
+
+  onAcceptStatementsChange = (e)=> {
     e.preventDefault();
-    if (this.props.progress[progressTypes.SIGNUP_AGREEMENTS_ACCEPTED]) return;
+    const progress = e.target.name;
 
-    this.props.acceptSignupStatements(
-      this.props.userturn.id)
+    if (this.props.progress[e.target.name]
+      || !_.includes([
+          progressTypes.SIGNUP_AGREEMENT1_ACCEPTED,
+          progressTypes.SIGNUP_AGREEMENT2_ACCEPTED,
+          progressTypes.SIGNUP_AGREEMENT3_ACCEPTED]
+        , progress)
+    ) return;
+
+
+    this.props.acceptSignupStatements(this.props.userturn.id, progress)
         .then(()=> {
           toastr.success('A nyilatkozat elfogadása megtörtént.');
+          if (
+            this.props.progress[progressTypes.SIGNUP_AGREEMENT1_ACCEPTED] &&
+            this.props.progress[progressTypes.SIGNUP_AGREEMENT2_ACCEPTED] &&
+            this.props.progress[progressTypes.SIGNUP_AGREEMENT3_ACCEPTED]
+          ) {
+            return this.props.acceptSignupStatements(this.props.userturn.id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED)
+          }
+
         })
         .catch(()=> {
           toastr.error('A nyilatkozat elfogadása sikertelen, próbálja újra!');
         });
   }
 
+  saveNote(note) {
+    this.props.setAgreementNote(this.props.userturn.id, note);
+  }
+
   noteChanged = (e)=> {
+    this.saveNote(e.target.value);
+
     this.setState({
       megjegyzes: e.target.value
     });
@@ -55,22 +88,10 @@ class SignupStatementPage extends Component {
     const {megjegyzes}=this.state;
 
     return (
-      <Content category="Jelentkezés" title="Egyéb nyilatkozatok">
-
-
+      <Content category="Jelentkezés" title="Nyilatkozatok">
         <div>
 
-
-          <div >
-            <Checkbox checked={this.props.progress[progressTypes.SIGNUP_AGREEMENTS_ACCEPTED]!==undefined}
-                      onChange={this.onAcceptStatementsChange}>
-              <strong>Elfogadom a lenti nyilatkozatokat</strong>
-            </Checkbox>
-          </div>
-
-
           <div className="well well-small"><h4>Adatkezelési nyilatkozat</h4>
-
 
             <p className="text-block">
               A Fiatal Vállalkozók Országos Szövetsége (továbbiakban FIVOSZ), és Konzorciumi Partnerei számára kiemelt
@@ -96,6 +117,11 @@ class SignupStatementPage extends Component {
               megadott e-mailes elérhetőségen.
             </p>
 
+            <Checkbox name={progressTypes.SIGNUP_AGREEMENT1_ACCEPTED}
+                      checked={this.props.progress[progressTypes.SIGNUP_AGREEMENT1_ACCEPTED]!==undefined}
+                      onChange={this.onAcceptStatementsChange}>
+              <strong>Elfogadom a nyilatkozatot</strong>
+            </Checkbox>
 
           </div>
 
@@ -109,34 +135,42 @@ class SignupStatementPage extends Component {
             <p className="text-block">
               A jelentkezési feltételeknek a Támogatási Szerződés megkötésének tervezett időpontjában
               előreláthatóan megfelelek, azaz
-              <ol>
-                <li>18. életévemet már betöltöm, de a 30. életévemet még nem</li>
-                <li>A fenti időpontban más vállalkozásban közvetlen vagy közvetett többségi befolyást biztosító
-                  részesedéssel nem rendelkezem, illetve más vállalkozásnak egyedüli vagy többségi tulajdonosa nem
-                  vagyok, más vállalkozásban nem töltök be vezető tisztségviselői posztot.
-                </li>
-                <li>Cégalapításra jogosult vagyok, továbbá nincs folyamatban semmi olyan eljárás, amelynek
-                  eredményeképpen ne lehetnék jogosult célalapításra.
-                </li>
-              </ol>
             </p>
+            <ol>
+              <li>18. életévemet már betöltöm, de a 30. életévemet még nem</li>
+              <li>A fenti időpontban más vállalkozásban közvetlen vagy közvetett többségi befolyást biztosító
+                részesedéssel nem rendelkezem, illetve más vállalkozásnak egyedüli vagy többségi tulajdonosa nem
+                vagyok, más vállalkozásban nem töltök be vezető tisztségviselői posztot.
+              </li>
+              <li>Cégalapításra jogosult vagyok, továbbá nincs folyamatban semmi olyan eljárás, amelynek
+                eredményeképpen ne lehetnék jogosult célalapításra.
+              </li>
+            </ol>
+
             <p className="text-block">
               Vállalom, hogy:
-              <ol>
-                <li>A GINOP-5.2.3-16 konstrukcióban támogatott vállalkozásomban személyes közreműködőként részt veszek.
-                  (Személyes közreműködés a gazdasági társaság valamely tevékenységi körének megvalósításában való
-                  személyes, tagi részvételt jelenti.)
-                </li>
-                <li>Mindent megteszek annak érdekében, hogy a vállalkozás fenntartását a fenti projekt lebonyolítását
-                  követő legalább 3 évig biztosítsam
-                </li>
-                <li>Vállalkozásommal kapcsolatban a FIVOSZ Konzorcium felé fennáló adatszolgáltatási kötelezettségemet
-                  vállalkozásom sikeres nyomonkövetése érdekében teljesítem a vállalkozás megalapítását követő négy évig
-                  Tudomásul veszem, hogy a programban való részvételi feltételeknek való megfelelésről a Támogatási
-                  Szerződés megkötésekor írásban, büntetőjogi felelősség mellett ismételten nyilatkoznom kell.
-                </li>
-              </ol>
             </p>
+            <ol>
+              <li>A GINOP-5.2.3-16 konstrukcióban támogatott vállalkozásomban személyes közreműködőként részt veszek.
+                (Személyes közreműködés a gazdasági társaság valamely tevékenységi körének megvalósításában való
+                személyes, tagi részvételt jelenti.)
+              </li>
+              <li>Mindent megteszek annak érdekében, hogy a vállalkozás fenntartását a fenti projekt lebonyolítását
+                követő legalább 3 évig biztosítsam
+              </li>
+              <li>Vállalkozásommal kapcsolatban a FIVOSZ Konzorcium felé fennáló adatszolgáltatási kötelezettségemet
+                vállalkozásom sikeres nyomonkövetése érdekében teljesítem a vállalkozás megalapítását követő négy évig
+                Tudomásul veszem, hogy a programban való részvételi feltételeknek való megfelelésről a Támogatási
+                Szerződés megkötésekor írásban, büntetőjogi felelősség mellett ismételten nyilatkoznom kell.
+              </li>
+            </ol>
+
+            <Checkbox
+              name={progressTypes.SIGNUP_AGREEMENT2_ACCEPTED}
+              checked={this.props.progress[progressTypes.SIGNUP_AGREEMENT2_ACCEPTED]!==undefined}
+              onChange={this.onAcceptStatementsChange}>
+              <strong>Elfogadom a nyilatkozatot</strong>
+            </Checkbox>
 
           </div>
 
@@ -145,40 +179,47 @@ class SignupStatementPage extends Component {
 
             <p className="text-block">
               A programba kerülésem érdekében vállalom, hogy:
-              <ol>
-                <li>A vállalkozói kompetenciatesztet internetes felületen, vagy papír alapon kitöltöm</li>
-                <li>Az alapozó képzésen és tájékoztatáson részt veszek</li>
-                <li>A programmal kapcsolatban e-mail-ben érkező híreket/hírleveleket figyelemmel kísérem</li>
-              </ol>
             </p>
+            <ol>
+              <li>A vállalkozói kompetenciatesztet internetes felületen, vagy papír alapon kitöltöm</li>
+              <li>Az alapozó képzésen és tájékoztatáson részt veszek</li>
+              <li>A programmal kapcsolatban e-mail-ben érkező híreket/hírleveleket figyelemmel kísérem</li>
+            </ol>
+
             <p className="text-block">
               A programba kerülésem esetén vállalom, hogy:
-              <ol>
-                <li>A programba kerülésem esetén a részvételemmel kapcsolatos Támogatói Szerződést a programot szervező,
-                  Fiatal Vállalkozók Országos Szövetsége által vezetett Konzorciummal aláírom. A Konzorcium tagjai:
-                  <ul>
-                    <li> Fiatal Vállalkozók Országos Szövetsége (FIVOSZ)</li>
-                    <li>Magyar Iparszövetség (OKISZ)</li>
-                    <li>Kereskedők és Vendéglátók Országos Érdekképviseleti Szövetsége (KISOSZ)</li>
-                  </ul>
-                </li>
-                <li>Az általam a fentiekben jelölt megyeszékhelyen a Dél-Dunántúl régióban a maximum 1 hónap
-                  időtartamban szervezett 90 órás vállalkozói képzésen személyesen részt veszek, az arra vonatkozó
-                  felnőttképzési szerződést megkötöm.
-                </li>
-                <li>Minden tőlem telhetőt megteszek a képzés sikeres elvégzése, a képzési tanúsítvány megszerzése
-                  érdekében
-                </li>
-                <li>A képzés időtartama alatt, és azt követően a megadott határidőig a vállalkozásomra vonatkozó üzleti
-                  tervet összeállítom
-                </li>
-                <li>Az üzleti terv FIVOSZ Konzorcium általi elfogadását követően vállalkozást alapítok, melynek
-                  székhelye a Dél-Dunántúl régióban (Baranya, Somogy vagy Tolna megye) lesz.
-                </li>
-                <li>A létrejött vállalkozással a GINOP-5.2.3 pályázati felhívás keretében pályázatot adok be.</li>
-              </ol>
             </p>
+            <ol>
+              <li>A programba kerülésem esetén a részvételemmel kapcsolatos Támogatói Szerződést a programot szervező,
+                Fiatal Vállalkozók Országos Szövetsége által vezetett Konzorciummal aláírom. A Konzorcium tagjai:
+                <ul>
+                  <li> Fiatal Vállalkozók Országos Szövetsége (FIVOSZ)</li>
+                  <li>Magyar Iparszövetség (OKISZ)</li>
+                  <li>Kereskedők és Vendéglátók Országos Érdekképviseleti Szövetsége (KISOSZ)</li>
+                </ul>
+              </li>
+              <li>Az általam a fentiekben jelölt megyeszékhelyen a Dél-Dunántúl régióban a maximum 1 hónap
+                időtartamban szervezett 90 órás vállalkozói képzésen személyesen részt veszek, az arra vonatkozó
+                felnőttképzési szerződést megkötöm.
+              </li>
+              <li>Minden tőlem telhetőt megteszek a képzés sikeres elvégzése, a képzési tanúsítvány megszerzése
+                érdekében
+              </li>
+              <li>A képzés időtartama alatt, és azt követően a megadott határidőig a vállalkozásomra vonatkozó üzleti
+                tervet összeállítom
+              </li>
+              <li>Az üzleti terv FIVOSZ Konzorcium általi elfogadását követően vállalkozást alapítok, melynek
+                székhelye a Dél-Dunántúl régióban (Baranya, Somogy vagy Tolna megye) lesz.
+              </li>
+              <li>A létrejött vállalkozással a GINOP-5.2.3 pályázati felhívás keretében pályázatot adok be.</li>
+            </ol>
 
+            <Checkbox
+              name={progressTypes.SIGNUP_AGREEMENT3_ACCEPTED}
+              checked={this.props.progress[progressTypes.SIGNUP_AGREEMENT3_ACCEPTED]!==undefined}
+              onChange={this.onAcceptStatementsChange}>
+              <strong>Elfogadom a nyilatkozatot</strong>
+            </Checkbox>
           </div>
 
 

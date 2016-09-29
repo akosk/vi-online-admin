@@ -45,6 +45,15 @@ export default function userturns(state = initialState.userturns, action) {
           signupStatementFileName: action.filename
         }
       };
+
+    case types.SET_AGREEMENT_NOTE_SUCCESS:
+      return {
+        ...state,
+        userturn: {
+          ...state.userturn,
+          agreement_note: action.note
+        }
+      };
     case types.GET_SIGNUP_STATEMENT_SUCCESS:
       return {
         ...state,

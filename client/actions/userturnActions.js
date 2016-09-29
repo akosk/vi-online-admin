@@ -56,11 +56,11 @@ export function getSignupStatement(user_id, turn_id) {
   };
 }
 
-export function acceptSignupStatements(userturn_id) {
+export function acceptSignupStatements(userturn_id, progress) {
   return function (dispatch, getState) {
-    log('Actions acceptSignupStatements', userturn_id);
+    log('Action acceptSignupStatements', userturn_id,progress);
     dispatch(beginAjaxCall());
-    return userturnApi.setProgress(userturn_id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED).then(result => {
+    return userturnApi.setProgress(userturn_id, progress).then(result => {
       dispatch(acceptSignupStatementsSuccess(result.data));
     }).catch(error => {
       dispatch(ajaxCallError(error));
@@ -75,6 +75,19 @@ export function setProgress(userturn_id, progress) {
     dispatch(beginAjaxCall());
     return userturnApi.setProgress(userturn_id, progress).then(result => {
       dispatch(setProgressSuccess(result.data));
+    }).catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
+  };
+}
+
+export function setAgreementNote(userturn_id, note) {
+  return function (dispatch, getState) {
+    log('Action setAgreementNote', userturn_id,note);
+    dispatch(beginAjaxCall());
+    return userturnApi.setAgreementNote(userturn_id, note).then(result => {
+      dispatch(setAgreementNoteSuccess(note));
     }).catch(error => {
       dispatch(ajaxCallError(error));
       throw(error);
@@ -141,6 +154,10 @@ export function loadUser(user_id) {
 
 function setProgressSuccess(data) {
   return { type: types.SET_PROGRESS_SUCCESS, data };
+}
+
+function setAgreementNoteSuccess(note) {
+  return { type: types.SET_AGREEMENT_NOTE_SUCCESS, note };
 }
 
 function loadUserSuccess(user) {
