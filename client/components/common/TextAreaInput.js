@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react';
 
-const TextAreaInput = ({name, label, onChange, autocomplete, placeholder, value, disabled, error, helpText, type, rows, pre}) => {
+const TextAreaInput = ({name, label, onChange, autocomplete, placeholder, value, disabled, error, helpText, type, rows, pre, maxCharacters}) => {
   let wrapperClass = 'form-group';
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
+
 
   return (
     <div className={wrapperClass}>
@@ -25,8 +26,15 @@ const TextAreaInput = ({name, label, onChange, autocomplete, placeholder, value,
           disabled={disabled}
           value={value}
           rows={rows}
-          onChange={onChange}>
+          onChange={onChange}
+          maxLength={maxCharacters}
+        >
           </textarea>
+        {maxCharacters &&
+        <div className="pull-right">
+          {maxCharacters}/{value.length}
+        </div>
+        }
         {error && <div className="error">*{error}</div>}
       </div>
     </div>
@@ -48,7 +56,9 @@ TextAreaInput.propTypes = {
   value: PropTypes.string,
   helpText: PropTypes.string,
   rows: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.string,
+  maxCharacters:PropTypes.number
+
 };
 
 export default TextAreaInput;

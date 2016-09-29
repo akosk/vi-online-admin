@@ -229,6 +229,7 @@ class SignupStatementPage extends Component {
               name="megjegyzes"
               label=""
               value={megjegyzes}
+              maxCharacters={300}
               onChange={this.noteChanged}
             />
 

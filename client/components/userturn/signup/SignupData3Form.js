@@ -25,7 +25,6 @@ class SignupData3Form extends Component {
 
   render() {
     const {signupData,onChange, errors,finalized,saving,onSave}=this.props;
-
     return (
       <form >
 
@@ -35,7 +34,12 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.miert_szeretne_vallalkozast_inditani || ''}
           onChange={onChange}
-          error={_.get(errors,'miert_szeretne_vallalkozast_inditani.error')}/>
+          maxCharacters={1000}
+          error={_.get(errors,'miert_szeretne_vallalkozast_inditani.error')
+
+          }
+
+        />
 
         <TextAreaInput
           name="mivel_foglalkozik_a_vallalkozas"
@@ -43,6 +47,7 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.mivel_foglalkozik_a_vallalkozas || ''}
           onChange={onChange}
+          maxCharacters={1000}
           error={_.get(errors,'mivel_foglalkozik_a_vallalkozas.error')}/>
 
         <RadioGroupInput
@@ -62,6 +67,7 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.piackutatast_vegzett_bemutatas || ''}
           onChange={onChange}
+          maxCharacters={1000}
           error={_.get(errors,'piackutatast_vegzett_bemutatas.error')}/>
 
         <RadioGroupInput
