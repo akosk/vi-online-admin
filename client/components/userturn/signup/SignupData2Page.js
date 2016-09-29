@@ -35,6 +35,7 @@ class SignupData2Page extends SignupDataBase {
         legmagasabb_iskolai_vegzettseg_eve: '',
         allaskeresokent_regisztralt: {},
         allaskeresokent_regisztralt_datuma: Date.now(),
+        allaskeresokent_regisztralt_telepules: '',
         palyakezdo_allaskereso: {},
         adoazonosito_jel: '',
         taj: '',

@@ -97,6 +97,13 @@ export const isSignup2HasErrors = function (signupData) {
     }
   });
 
+
+  if (_.get(signupData,'allaskeresokent_regisztralt.value')=='1' &&
+    !signupData.allaskeresokent_regisztralt_telepules) {
+    _.set(errors, `allaskeresokent_regisztralt_telepules.error`,
+      'A mező kitöltése kötelező');
+  }
+
   const kisebbsegiKeys = _.keys(signupData.kisebbsegi_vagy_hatranyos);
 
   let checkedCount = 0;
