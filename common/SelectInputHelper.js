@@ -114,6 +114,10 @@ export function alternativeKepzesiHelyszinOptions() {
 export function honnanErtesultOptions() {
   return [
     {
+      text: 'Hírlevélből (pl. vallalkozzitthon.hu, Széchenyi Programiroda, fivosz.hu, iskola, pályázatíró hírlevele...).',
+      value: 'hirlevelbol',
+      extraQuestion:'Kérjük, írja le, mely szervezettől érkezett a hírlevél?'
+    },    {
       text: 'Munkaügyi szervezettől (Kormányhivatal, Járási Hivatal, volt munkaügyi központ).',
       value: 'munkaugyi_szervezettol',
       extraQuestion:'Melyik hivataltól kapta az információt?'
