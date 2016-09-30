@@ -92,20 +92,20 @@ export function alternativeKepzesiHelyszinOptions() {
   return [
     {
       value: '0',
-      text: 'Nem tudok másik városba átjárni a képzésre '
+      text: 'Nem tudok másik városba átjárni a képzésre'
     },
     {
-      value: 'Pécs',
-      text: 'Pécs'
+      value: 'Pecs',
+      text: 'Igen, Pécsre át tudnék járni'
     },
 
     {
-      value: 'Kaposvár',
-      text: 'Kaposvár'
+      value: 'Kaposvar',
+      text: 'Igen, Kaposvárra át tudnék járni'
     },
     {
-      value: 'Szekszárd',
-      text: 'Szekszárd'
+      value: 'Szekszard',
+      text: 'Igen, Szekszárdra át tudnék járni'
     }
 
   ];
