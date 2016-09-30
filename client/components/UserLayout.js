@@ -77,7 +77,7 @@ export class UserLayout extends Component {
         icon: "fa fa-hand-peace-o",
         items: [
           {
-            name: 'Képzés választás',
+            name: 'Turnus választás',
             url: `/user/select-turn`,
           },
         ]

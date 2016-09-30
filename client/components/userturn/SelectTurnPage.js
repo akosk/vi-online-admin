@@ -50,7 +50,7 @@ class SelectTurnPage extends Component {
   render() {
     const {turn}=this.props;
     return (
-      <Content category="Jelentkezés" title="Képzés kiválasztása">
+      <Content category="Jelentkezés" title="Turnus kiválasztása">
 
 
         {turn.id &&
@@ -74,7 +74,7 @@ class SelectTurnPage extends Component {
 
               { !this.props.currentTurn.id &&
               <div className="text-center">
-                <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezek a képzésre</button>
+                <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezem a programra</button>
               </div>
               }
 
