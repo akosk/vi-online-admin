@@ -174,6 +174,13 @@ export const isSignup3HasErrors = function (signupData) {
       'A mező kitöltése kötelező');
   }
 
+  if (_.get(signupData, 'piackutatast_vegzett.value') === '1'
+    && _.get(signupData, 'piackutatast_vegzett_bemutatas', '') == ''
+  ) {
+    _.set(errors, `piackutatast_vegzett_bemutatas`,
+      'A mező kitöltése kötelező');
+  }
+
 
   console.log('validation 3 ', errors);
   console.log('signupData ', signupData);
