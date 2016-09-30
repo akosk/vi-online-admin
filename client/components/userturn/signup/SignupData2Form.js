@@ -288,12 +288,22 @@ class SignupData2Form extends Component {
 
 
         {!finalized &&
-        <input
-          type="submit"
-          disabled={saving}
-          value={saving ? 'Mentés...' : 'Mentés'}
-          className="btn btn-primary"
-          onClick={onSave}/>
+        <div>
+          <input
+            name="save"
+            type="submit"
+            disabled={saving}
+            value={saving ? 'Mentés...' : 'Mentés'}
+            className="btn btn-primary"
+            onClick={onSave}/>
+          <input
+            name="next"
+            type="submit"
+            disabled={saving}
+            value={saving ? 'Tovább...' : 'Tovább'}
+            className="btn btn-primary"
+            onClick={onSave}/>
+        </div>
         }
       </form>
     );

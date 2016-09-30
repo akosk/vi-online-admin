@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import toastr from 'toastr';
+import {browserHistory} from 'react-router';
 import _ from 'lodash';
 
 class SignupDataBase extends Component {
@@ -25,6 +26,7 @@ class SignupDataBase extends Component {
   }
 
   saveSignupData = (event)=> {
+    const btnName=event.target.name;
     event.preventDefault();
 
     this.setState({ saving: true });
@@ -34,6 +36,11 @@ class SignupDataBase extends Component {
           this.props.getUserTurn(this.props.user.id, this.props.userturn.turn_id);
           toastr.success('A mentés sikeresen megtörtént.');
           this.setState({ saving: false });
+          if (btnName==='next') {
+            browserHistory.push(this.nextUrl);
+          } else {
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+          }
         })
         .catch(error => {
           toastr.error(error);

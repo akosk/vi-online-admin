@@ -13,7 +13,7 @@ class SignupData3Page extends SignupDataBase {
 
   constructor(props, context) {
     super(props, context);
-
+    this.nextUrl=`/user/${this.props.slug}/signup-agreements`;
     this.validator=isSignup3HasErrors;
 
     this.state = {

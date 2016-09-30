@@ -13,7 +13,7 @@ class SignupData1Page extends SignupDataBase {
 
   constructor(props, context) {
     super(props, context);
-
+    this.nextUrl=`/user/${this.props.slug}/signup-data-2`;
     this.validator=isSignup1HasErrors;
     this.state = {
       signupData: {
@@ -56,6 +56,7 @@ const mapStateToProps = (state)=>({
   user: state.auth.user,
   signupData: _.get(state, 'userturns.signupData', {}),
   userturn: _.get(state, 'userturns.userturn', false),
+  slug: _.get(state, 'userturns.currentTurn.slug', 'default'),
   finalized: _.has(state, `userturns.userturn.progress.${progressTypes.SIGNUP_FINALIZED}`)
 });
 
