@@ -278,6 +278,7 @@ class SignupData2Form extends Component {
         <MultiCheckboxInput
           name="kisebbsegi_vagy_hatranyos"
           label="Kisebbségi, vagy hátrányos helyzetű csoporthoz tartozik-e?"
+          helpText="Kisebbségi csoportba tartozásról a későbbiekben külön nyilatkozatot kérünk, a megadott adatokat senkinek nem adjuk ki, a program során statisztikai célokat szolgálnak."
           values={signupData.kisebbsegi_vagy_hatranyos || {}}
           options={inputHelper.kisebbsegiOptions()}
           disabled={finalized}
