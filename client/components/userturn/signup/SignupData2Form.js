@@ -29,7 +29,7 @@ class SignupData2Form extends Component {
 
 
     let birthDateError = '';
-    switch (validation.getTurnUserData(currentTurn.start_at, signupData.birth_date)) {
+    switch (validation.getTurnUserData(currentTurn.training_start_at, signupData.birth_date)) {
       case validation.TURN_USER_UNDER_18:
         birthDateError = <p>
           Ön a jelenlegi programunkban nem tud részt venni, mivel nem töltötte be a 18. életévét, a pályázati útmutató

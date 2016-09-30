@@ -32,10 +32,18 @@ const TurnForm = ({turn, onSave, onChange, onCancel, saving, tests, errors}) => 
 
 
       <DateRangePickerInput
-        name="start_at"
+        name="turn_start_at"
         onChange={onChange}
-        label="Kezdés dátuma"
-        value={turn.start_at}
+        label="Turnus kezdés dátuma"
+        value={turn.turn_start_at}
+        singleDatePicker>
+      </DateRangePickerInput>
+
+      <DateRangePickerInput
+        name="training_start_at"
+        onChange={onChange}
+        label="Képzés kezdés dátuma"
+        value={turn.training_start_at}
         singleDatePicker>
       </DateRangePickerInput>
 

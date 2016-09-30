@@ -149,7 +149,8 @@ function mapStateToProps(state, ownProps) {
   const turnId = ownProps.params.id;
   let turn = {
     name: '', slug: '', active: false,
-    start_at: Date.now(),
+    turn_start_at: Date.now(),
+    training_start_at: Date.now(),
     competency_test: {}
   };
 

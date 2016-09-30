@@ -6,9 +6,11 @@ import moment from 'moment';
 import toastr from 'toastr';
 import _ from 'lodash';
 
+
 import * as actions from '../../actions';
 import {checkboxToTextFormatter} from'../../utils/formatters';
 import Content from '../common/Content';
+import TurnView from './TurnView';
 
 class SelectTurnPage extends Component {
 
@@ -19,12 +21,11 @@ class SelectTurnPage extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.signUpToTurn = this.signUpToTurn.bind(this);
   }
 
-  signUpToTurn() {
+  signUpToTurn = (turn)=> {
     this.setState({ saving: true });
-    this.props.signUpToTurn(this.props.user, this.props.turn)
+    this.props.signUpToTurn(this.props.user, turn)
         .then(()=> {
             toastr.success('A jelentkezés sikeres');
             this.redirect();
@@ -48,52 +49,29 @@ class SelectTurnPage extends Component {
   }
 
   render() {
-    const {turn}=this.props;
+    const {activeTurns}=this.props;
     return (
       <Content category="Jelentkezés" title="Turnus kiválasztása">
 
 
-        {turn.id &&
+        {!this.props.currentTurn.id && activeTurns.map(turn=>
+          <TurnView
+            key={turn.id}
+            turn={turn}
+            signUpToTurn={this.signUpToTurn}
+          />
+        )}
 
-        <div className="row">
-          <div className="col-sm-8 col-sm-offset-2">
-            <Panel className="panel" header={turn.name}>
-              <table className="table table-bordered">
-                <tbody>
-                <tr>
-                  <th >Kezdés időpontja</th>
-                  <td>{moment(turn.start_at).format('LL').toString()}</td>
-                </tr>
-                <tr>
-                  <th >Aktív</th>
-                  <td>{checkboxToTextFormatter(turn.active)}</td>
-                </tr>
-                </tbody>
-              </table>
-
-
-              { !this.props.currentTurn.id &&
-              <div className="text-center">
-                <button className="btn btn-primary" onClick={this.signUpToTurn}>Jelentkezem a programra</button>
-              </div>
-              }
-
-              { this.props.currentTurn.id &&
-              <div className="text-center">
-                <div className="alert alert-info">
-                Ön jelentkezett erre a képzésre
-
-                </div>
-                <Link to=''>
-                  <span className="btn btn-primary">Tovább a képzésemre</span>
-                </Link>
-              </div>
-              }
-            </Panel>
+        { this.props.currentTurn.id &&
+        <div className="text-center">
+          <div className="alert alert-info">
+            <h2>Ön már választott korábban képzést.</h2>
           </div>
+          <Link to=''>
+            <span className="btn btn-primary">Tovább a képzésemre</span>
+          </Link>
         </div>
         }
-
 
       </Content>
     );
@@ -102,7 +80,10 @@ class SelectTurnPage extends Component {
 
 const mapStateToProps = (state)=>({
   user: state.auth.user,
-  turn: state.turns[0] || {},
+  turns: state.turns || [],
+  activeTurns: state.turns.filter((t)=> {
+    return t.active && t.turn_start_at <= Date.now();
+  }),
   slug: _.get(state, 'userturns.currentTurn.slug', ''),
   currentTurn: _.get(state, 'userturns.currentTurn', {})
 });
