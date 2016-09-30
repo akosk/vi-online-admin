@@ -76,6 +76,11 @@ export const isSignup1HasErrors = function (signupData) {
       'A mező kitöltése kötelező');
   }
 
+  if (_.get(signupData, 'vonatberlet.value')=='kerek' && !_.get(signupData, 'vonatberlet.extra.value')) {
+    _.set(errors, 'vonatberlet.extra.error',
+      'A mező kitöltése kötelező');
+  }
+
 
   console.log('validation 1 ', errors);
   return errors;
@@ -204,11 +209,6 @@ export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
 export const getTurnUserData = (turn, birthdate)=> {
   var mBirthDate = moment(birthdate);
 
-console.log(moment(turn).format());
-console.log(moment(turn).subtract(17,'y').add(1,'d').format());
-console.log(moment(turn).subtract(18,'y').add(1,'d').format());
-console.log(moment(turn).subtract(25,'y').add(1,'d').format());
-console.log(moment(turn).subtract(30,'y').add(1,'d').format());
 
   if (moment(turn).subtract(18,'y').add(1,'d') <= mBirthDate) {
     return TURN_USER_UNDER_18;
