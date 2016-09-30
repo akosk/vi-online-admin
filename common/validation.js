@@ -174,6 +174,13 @@ export const isSignup3HasErrors = function (signupData) {
       'A mező kitöltése kötelező');
   }
 
+ if (_.get(signupData, 'vallalkozas_formaja.value') === 'mas_formaban'
+    && _.get(signupData, 'vallalkozas_formaja.extra.value', '') == ''
+  ) {
+    _.set(errors, `vallalkozas_formaja.extra.error`,
+      'A mező kitöltése kötelező');
+  }
+
   if (_.get(signupData, 'piackutatast_vegzett.value') === '1'
     && _.get(signupData, 'piackutatast_vegzett_bemutatas', '') == ''
   ) {
