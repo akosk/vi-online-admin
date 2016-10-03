@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Panel, Button, Checkbox } from 'react-bootstrap';
-import { Link } from 'react-router';
+import { Link} from 'react-router';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import toastr from 'toastr';
@@ -237,6 +237,10 @@ class SignupStatementPage extends Component {
 
           </div>
 
+        </div>
+
+        <div>
+          <Link to={`/user/${this.props.currentTurn.slug}/signup-finalize`}> <Button bsStyle="primary">Tovább</Button></Link>
         </div>
 
       </Content>
