@@ -20,10 +20,6 @@ const TurnView = ({turn, signUpToTurn}) => {
           <table className="table table-bordered">
             <tbody>
             <tr>
-              <th>Turnus kezdés időpontja</th>
-              <td>{moment(turn.turn_start_at).format('LL').toString()}</td>
-            </tr>
-            <tr>
               <th>Képzés kezdés időpontja</th>
               <td>{moment(turn.training_start_at).format('LL').toString()}</td>
             </tr>
