@@ -397,8 +397,11 @@ export function removeProgress(user_id, turn_id, progressName) {
             .then((result)=> {
               return rdb.table('userturns')
                         .filter({ user_id, turn_id })
-                        .coerceTo('object')
+                        .coerceTo('array')
                         .run(conn);
+            })
+            .then((result)=> {
+              return result.length > 0 ? result[0] : {};
             })
             .error(function (err) {
               log.debug(err);

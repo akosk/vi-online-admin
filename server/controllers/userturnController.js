@@ -137,9 +137,12 @@ class UserturnController {
                           return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_FINALIZED);
                         }
                       )
+                      .then((userturn)=>{
+                        return model.removeProgress(user_id, turn_id, progressTypes.SIGNUP_REJECTED);
+                      })
 
                       .then((userturn)=> {
-                        log.debug('userturn', userturn);
+                        log.debug('userturn>>>>>>>', userturn);
                         res.send(userturn);
                       })
                       .catch((err)=> {

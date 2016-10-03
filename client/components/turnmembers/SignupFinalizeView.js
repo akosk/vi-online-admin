@@ -60,6 +60,9 @@ class SignupFinalizeView extends Component {
     } else {
       this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
           .then(()=> {
+            return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_FINALIZED);
+          })
+          .then(()=> {
             return this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
           })
           .then(()=> {

@@ -113,6 +113,12 @@ class SignupFinalizePage extends Component {
         </Alert>
         }
 
+        {(this.props.signupRejected) &&
+        <Alert bsStyle="danger">
+          A jelentkezését az adminisztrátor elutasította! Az űrlapok módosítása után újra véglegesítheti a jelentkezését.
+        </Alert>
+        }
+
         {(this.state.errors) &&
         <Alert bsStyle="danger">
           <ul>
@@ -131,6 +137,7 @@ const mapStateToProps = (state)=>({
   currentTurn: _.get(state, 'userturns.currentTurn', {}),
   userturn: _.get(state, 'userturns.userturn', null),
   progress: _.get(state, 'userturns.userturn.progress', {}),
+  signupRejected: _.get(state, 'userturns.userturn.progress.SIGNUP_REJECTED', null),
   signupFinalized: _.get(state, 'userturns.userturn.progress.SIGNUP_FINALIZED', null),
   signupCompleted: _.get(state, 'userturns.userturn.progress.SIGNUP_COMPLETED', null)
 
