@@ -1,12 +1,20 @@
 import React, {PropTypes} from 'react';
+import _ from 'lodash';
 
-const TextInput = ({name, label, onChange, autocomplete, placeholder, value, disabled, error, helpText, type, pre}) => {
+
+const TextInput = ({name, label, onChange, autocomplete, placeholder, value, disabled, error, helpText, type, numeric, pre}) => {
   let wrapperClass = 'form-group';
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
 
+  const onChangeNumeric = (e)=> {
+    if (e.target.value=='' || /^\d+$/.exec(e.target.value)) {
+      onChange(e);
+    }
+  };
   return (
+
     <div className={wrapperClass}>
       <label htmlFor={name}>{label}
         {helpText &&
@@ -24,7 +32,7 @@ const TextInput = ({name, label, onChange, autocomplete, placeholder, value, dis
           autoComplete={autocomplete}
           disabled={disabled}
           value={value}
-          onChange={onChange}/>
+          onChange={numeric ? onChangeNumeric : onChange}/>
         {error && <div className="error">*{error}</div>}
       </div>
     </div>
@@ -32,7 +40,8 @@ const TextInput = ({name, label, onChange, autocomplete, placeholder, value, dis
 };
 
 TextInput.defaultProps = {
-  type: 'text'
+  type: 'text',
+  numeric: false
 };
 
 TextInput.propTypes = {
@@ -44,6 +53,7 @@ TextInput.propTypes = {
   disabled: PropTypes.bool,
   value: PropTypes.string,
   helpText: PropTypes.string,
+  numeric: PropTypes.bool,
   error: PropTypes.string
 };
 

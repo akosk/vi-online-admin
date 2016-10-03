@@ -61,7 +61,7 @@ class SignupData3Form extends Component {
           onChange={onChange}
           error={errors.piackutatast_vegzett}/>
 
-        { _.get(signupData,'piackutatast_vegzett.value')=='1' &&
+        { _.get(signupData, 'piackutatast_vegzett.value') == '1' &&
         <TextAreaInput
           name="piackutatast_vegzett_bemutatas"
           label="Ha végzett piackutatást, mutassa be röviden (maximum 1000 karakterben) a piackutatás eredményét!"
@@ -104,7 +104,11 @@ class SignupData3Form extends Component {
           name="elso_12_honapban_alkalmazottat_vesz_fel"
           label="Tervezi-e, hogy már az első 12 hónapban alkalmazottat vesz fel?"
           value={signupData.elso_12_honapban_alkalmazottat_vesz_fel || {}}
-          options={inputHelper.yesnoOptions('','Hány alkalmazottat tervez felvenni? (csak számot írjon, napi 8 órás munkaidőre számítva)')}
+          options={inputHelper.yesnoOptions(
+          '',
+          'Hány alkalmazottat tervez felvenni? (csak számot írjon, napi 8 órás munkaidőre számítva)',
+          {numeric:true})
+          }
           disabled={finalized}
           onChange={onChange}
           error={errors.elso_12_honapban_alkalmazottat_vesz_fel}/>
@@ -115,6 +119,7 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.harmadik_evben_hany_alkalmazott_lesz || ''}
           helpText="Csak számot írjon, napi 8 órás munkaidőre számítva."
+          numeric={true}
           onChange={onChange}
           error={_.get(errors,'harmadik_evben_hany_alkalmazott_lesz.error')}/>
 

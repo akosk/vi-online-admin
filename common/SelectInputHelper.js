@@ -24,17 +24,21 @@ export function relationOptions(type = '') {
     : allRelationOptions;
 }
 
-export function yesnoOptions(noExtraQuestion,yesExtraQuestion) {
+export function yesnoOptions(noExtraQuestion, yesExtraQuestion, yesExtraOptions) {
   return [
     {
       value: '0',
       text: 'Nem',
-      extraQuestion:noExtraQuestion || undefined
+      extraQuestion: noExtraQuestion || undefined
     },
     {
       value: '1',
       text: 'Igen',
-      extraQuestion:yesExtraQuestion || undefined
+      extraQuestion: yesExtraQuestion || undefined,
+      extraOptions: {
+        numeric:true
+      }
+
     }
   ];
 }
@@ -116,76 +120,76 @@ export function honnanErtesultOptions() {
     {
       text: 'Hírlevélből (pl. vallalkozzitthon.hu, Széchenyi Programiroda, fivosz.hu, iskola, pályázatíró hírlevele...).',
       value: 'hirlevelbol',
-      extraQuestion:'Kérjük, írja le, mely szervezettől érkezett a hírlevél?'
-    },    {
+      extraQuestion: 'Kérjük, írja le, mely szervezettől érkezett a hírlevél?'
+    }, {
       text: 'Munkaügyi szervezettől (Kormányhivatal, Járási Hivatal, volt munkaügyi központ).',
       value: 'munkaugyi_szervezettol',
-      extraQuestion:'Melyik hivataltól kapta az információt?'
+      extraQuestion: 'Melyik hivataltól kapta az információt?'
     },
     {
       text: 'Széchenyi Programiroda (SZPI) értesített.',
       value: 'szechenyi_programiroda',
-      extraQuestion:'Ha emlékszik az ügyintéző nevére, kérjük, írja be, ha nem, írja be, melyik településen kapta az információt?'
+      extraQuestion: 'Ha emlékszik az ügyintéző nevére, kérjük, írja be, ha nem, írja be, melyik településen kapta az információt?'
     },
     {
       text: 'Helyi, települési, megyei önkormányzattól kaptam a hírt.',
       value: 'onkormanyzat',
-      extraQuestion:'Melyik önkörmányzattól kapta a hírt?'
+      extraQuestion: 'Melyik önkörmányzattól kapta a hírt?'
     },
     {
       text: 'Az iskolám, vagy más helyi szervezet, intézmény plakátjáról, vagy értesítéséből tudok a lehetőségről.',
       value: 'helyi_szervezet',
-      extraQuestion:'Melyik iskolán vagy szervezeten keresztül értesült a lehetőségről?'
+      extraQuestion: 'Melyik iskolán vagy szervezeten keresztül értesült a lehetőségről?'
     },
     {
       text: 'Helyi TV-ből, rádióból.',
       value: 'helyi_tv_radio',
-      extraQuestion:'Melyik helyi TV-ből, vagy rádióból értesült a hírről?'
+      extraQuestion: 'Melyik helyi TV-ből, vagy rádióból értesült a hírről?'
     },
     {
       text: 'Helyi újságból.',
       value: 'helyi_ujsag',
-      extraQuestion:'Melyik helyi újságból értesült a hírről?'
+      extraQuestion: 'Melyik helyi újságból értesült a hírről?'
     },
     {
       text: 'Országos TV-ből, rádióból.',
       value: 'orszagos_tv_radio',
-      extraQuestion:'Melyik országos TV-ből, vagy rádióból értesült a hírről?'
+      extraQuestion: 'Melyik országos TV-ből, vagy rádióból értesült a hírről?'
     },
     {
       text: 'Országos napi, vagy hetilapból.',
       value: 'orszagos_ujsag',
-      extraQuestion:'Melyik országos újságból értesült a hírről?'
+      extraQuestion: 'Melyik országos újságból értesült a hírről?'
     },
     {
       text: 'Interneten láttam az információt.',
       value: 'internet',
-      extraQuestion:'Melyik honlapon, vagy melyik oldalon látta az információt'
+      extraQuestion: 'Melyik honlapon, vagy melyik oldalon látta az információt'
     },
     {
       text: 'Szüleim, vagy egy családtag hallottak a lehetőségről.',
       value: 'rokon',
-      extraQuestion:'Milyen családtagtól?(apa, anya, unokatestvér) értesült a hírről?'
+      extraQuestion: 'Milyen családtagtól?(apa, anya, unokatestvér) értesült a hírről?'
     },
     {
       text: 'Egy barátom, ismerősöm értesített róla.',
       value: 'barat',
-      extraQuestion:'Hogyan értesítette(szóban, telefonon, emailben) a barátja a hírről?'
+      extraQuestion: 'Hogyan értesítette(szóban, telefonon, emailben) a barátja a hírről?'
     },
     {
       text: 'Magam kerestem meg a pályázati lehetőséget.',
       value: 'sajat_magam',
-      extraQuestion:'Hol talált róla információt(melyik honlapon, újságban, szervezetnél)?'
+      extraQuestion: 'Hol talált róla információt(melyik honlapon, újságban, szervezetnél)?'
     },
     {
       text: 'Pályázatíró cég értesített.',
       value: 'palyazatiro_ceg',
-      extraQuestion:'Melyik cég értesítette?'
+      extraQuestion: 'Melyik cég értesítette?'
     },
     {
       text: 'Egyéb.',
       value: 'Egyeb',
-      extraQuestion:'Egyéb, éspedig?'
+      extraQuestion: 'Egyéb, éspedig?'
     }
   ];
 }
@@ -211,7 +215,7 @@ export function kisebbsegiOptions() {
     {
       text: 'Egyéb hátrányos helyzetű csoportba tartozom.',
       value: 'egyeb_hatranyos',
-      extraQuestion:'Melyik hátrányos helyzetű csoportba tartozik?'
+      extraQuestion: 'Melyik hátrányos helyzetű csoportba tartozik?'
     },
     {
       text: 'Nyilatkozom, hogy a felsorolt hátrányos helyzetű csoportok egyikébe sem tartozom..',
@@ -241,7 +245,7 @@ export function vallalkozasFormajaOptions() {
     {
       text: 'Más formában.',
       value: 'mas_formaban',
-      extraQuestion:'Mégpedig?'
+      extraQuestion: 'Mégpedig?'
     },
     {
       text: 'Még nem tudom.',
@@ -249,7 +253,6 @@ export function vallalkozasFormajaOptions() {
     },
   ];
 }
-
 
 
 export function vallalkozasSzektoraOptions() {
@@ -303,7 +306,7 @@ export function kivelVallalkozikOptions() {
     {
       text: 'Egyéb',
       value: 'egyeb',
-      extraQuestion:'Éspedig?'
+      extraQuestion: 'Éspedig?'
     },
   ];
 }
@@ -344,7 +347,10 @@ export function vonatberletOptions() {
     {
       text: 'Igen, a képzésre utazáshoz igénylek bérletet. A 30 napos vasúti vagy buszbérlet ára a lakóhelyemről az elsődlegesen megjelölt képzési helyszínig (megyeszékhelyig)',
       value: 'kerek',
-      extraQuestion:'Vonat vagy buszbérlet közül annak az árát írja be, amelyikkel utazni szeretne. Ha nem tudja a pontos összeget, írja be, kb. mennyibe kerülhet a 30 napos bérlet? (Ft)'
+      extraQuestion: 'Vonat vagy buszbérlet közül annak az árát írja be, amelyikkel utazni szeretne. Ha nem tudja a pontos összeget, írja be, kb. mennyibe kerülhet a 30 napos bérlet? (Ft)',
+      extraOptions: {
+        numeric: true
+      }
     }
   ];
 }
@@ -362,7 +368,6 @@ export function allaskeresokentRegisztraltOptions() {
     }
   ];
 }
-
 
 
 export function megyekOptions() {

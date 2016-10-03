@@ -124,6 +124,7 @@ class SignupData2Form extends Component {
           label="Állandó lakcím irányítószám"
           value={signupData.permanent_address_zip || ''}
           onChange={onChange}
+          numeric={true}
           error={_.get(errors,'permanent_address_zip.error')}/>
         <TextInput
           disabled={finalized}
@@ -266,6 +267,7 @@ class SignupData2Form extends Component {
           disabled={finalized}
           value={signupData.adoazonosito_jel || ''}
           onChange={onChange}
+          numeric={true}
           error={_.get(errors,'adoazonosito_jel.error')}/>
         <TextInput
           disabled={finalized}
@@ -273,6 +275,7 @@ class SignupData2Form extends Component {
           label="TAJ-szám"
           value={signupData.taj  || ''}
           onChange={onChange}
+          numeric={true}
           error={_.get(errors,'taj.error')}/>
 
         <MultiCheckboxInput

@@ -20,9 +20,10 @@ const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpTe
         <TextInput
           name={`${name}.extra.value`}
           label={option.extraQuestion}
-          value={_.get(value,'extra.value')}
+          value={_.get(value,'extra.value') || ''}
           disabled={finalized}
           onChange={onChange}
+          numeric={_.get(option,'extraOptions.numeric')}
           error={_.get(error,`extra.error`)}
         />
         }
