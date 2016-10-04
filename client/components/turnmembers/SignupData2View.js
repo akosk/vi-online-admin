@@ -18,6 +18,7 @@ class SignupData2View extends Component {
         <ContentTitle title="Személyes adatok"/>
 
         <SignupData2Form
+          currentTurn={this.props.adminTurn}
           onChange={()=>{}}
           onSave={()=>{}}
           signupData={this.props.signupData}
@@ -32,6 +33,7 @@ class SignupData2View extends Component {
 
 const mapStateToProps = (state)=>({
   signupData: _.get(state, 'userturns.signupData', {}),
+  adminTurn: _.get(state, 'admin.turn', {}),
 });
 
 
