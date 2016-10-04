@@ -2,6 +2,7 @@ import rdb from 'rethinkdb';
 import config from '../config';
 import pool from '../lib/RethinkDbConnectionPool';
 import log from '../lib/nodelogger';
+import _ from "lodash";
 
 export function getUserByPasswordResetId(id) {
   log.debug(`getUserByPasswordResetId ${id}`);
@@ -12,7 +13,7 @@ export function getUserByPasswordResetId(id) {
               conn = c;
               return rdb.table('users')
                         .filter({ 'password_reset': { id } })
-                        .filter(rdb.now().sub(rdb.row('password_reset')('created_at')).lt(60*60*24))
+                        .filter(rdb.now().sub(rdb.row('password_reset')('created_at')).lt(60 * 60 * 24))
                         .coerceTo('array')
                         .run(conn);
             })
@@ -222,6 +223,34 @@ export function insertUser(user) {
             .finally(function () {
               if (conn) conn.close();
             });
+
+}
+
+export function updateUserLoginInfo(user, data) {
+
+  if (!user.login) {
+    user.login = [];
+  }
+
+  let entry = _.find(user.login, (i)=> {
+    return i.ip == data.ip;
+  });
+
+
+  if (!entry) {
+    entry = {
+      ip:data.ip,
+      first_access: rdb.now(),
+      access_count: 0
+    };
+    user.login.push(entry)
+  }
+
+  entry.last_access = rdb.now();
+  entry.access_count = entry.access_count + 1;
+
+
+  return replaceUser(user);
 
 }
 

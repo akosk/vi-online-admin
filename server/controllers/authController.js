@@ -1,6 +1,7 @@
 import {authenticate} from '../lib/auth';
 import {generate,verify} from '../lib/token';
 import config from '../config';
+import _ from "lodash";
 import * as model from '../models/userModel';
 import log from '../lib/nodelogger';
 import uuid from 'uuid';
@@ -31,7 +32,7 @@ class AuthController {
 
       }
 
-      if (password!==password2) {
+      if (password !== password2) {
         res.status(400);
         return res.send({ error: 'A két jelszó nem egyezik.' });
       }
@@ -142,6 +143,8 @@ class AuthController {
       return res.send('Bad request.');
     }
 
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
     try {
       const {token}=req.body;
 
@@ -149,8 +152,13 @@ class AuthController {
         throw err;
       });
 
+      let user = null;
       model.getUserByEmail(data.user.email)
-           .then((user)=> {
+           .then((u)=> {
+             user = u;
+             return model.updateUserLoginInfo(user, { ip })
+           })
+           .then(()=> {
              if (user.blocked) {
                throw new Error('A felhasználó tiltva van.');
              }
@@ -175,15 +183,18 @@ class AuthController {
       return res.send('Bad request.');
     }
 
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const {email,password}=req.body;
     try {
       if (!(email || password) || email.length < 3) {
         throw new Error('Az email cím és jelszó megadása kötelező');
       }
 
+      let user = null;
+      let authenticated = false;
       model.getUserByEmail(email)
-           .then((user)=> {
-             log.debug('login/1', user);
+           .then((u)=> {
+             user = u;
              if (!user) {
                throw new Error('Az email cím vagy jelszó nem megfelelő');
              }
@@ -194,10 +205,14 @@ class AuthController {
              return user;
            })
            .then((user)=> {
-             log.debug('login/2', user);
              return authenticate(password, user.password)
-               .then((authenticated)=> {
-                 log.debug('login/3', authenticated);
+               .then((a)=> {
+                 authenticated = a;
+                 if (authenticated) {
+                   return model.updateUserLoginInfo(user, { ip })
+                 }
+               })
+               .then(()=> {
                  if (authenticated) {
                    return res.send({
                      user,
@@ -206,11 +221,11 @@ class AuthController {
                  } else {
                    throw new Error('Az email cím vagy jelszó nem megfelelő');
                  }
-
                });
            })
+
            .catch((err)=> {
-             log.debug('login/err');
+             log.debug('Login error.');
              return res.send({ error: err.message });
            });
     } catch (err) {
