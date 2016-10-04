@@ -5,6 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-85204925-1');
 
 import moment from 'moment';
 moment.locale('hu');
@@ -57,9 +59,16 @@ if (token) {
 } else render();
 
 function render() {
+
+  const logPageView = ()=> {
+    window.scrollTo(0, 0);
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
+  }
+
   ReactDOM.render(
     <Provider store={store}>
-      <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory} routes={routes}/>
+      <Router onUpdate={logPageView } history={browserHistory} routes={routes}/>
     </Provider>,
     document.getElementById('app')
   );

@@ -20,7 +20,7 @@
     "build:html": "babel-node server/buildHtml.js",
     "prebuild": "npm-run-all clean-dist test lint build:html",
     "build": "babel-node server/build.js",
-    "updateprod":"pm2 stop all && git pull && npm update && npm run build && pm2 start all"
+    "updateprod": "pm2 stop all && git pull && npm update && npm run build && pm2 start all"
   },
   "author": "Ákos Kiszely",
   "license": "MIT",
@@ -60,6 +60,7 @@
     "react-dom": "15.0.2",
     "react-dropzone": "^3.5.0",
     "react-easy-transition": "0.0.5",
+    "react-ga": "^2.1.2",
     "react-icheck": "^0.3.3",
     "react-redux": "4.4.5",
     "react-router": "2.4.0",
