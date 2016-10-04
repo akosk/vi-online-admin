@@ -29,6 +29,7 @@ class ChangePasswordPage extends Component {
     const id = this.props.params.id;
     return this.props.changePassword({ id, ...values })
                .then(()=> toastr.success('A jelszó módosítása megtörtént'))
+               .then(()=> this.context.router.push('/'))
                .catch(err=>toastr.error(err))
   };
 
