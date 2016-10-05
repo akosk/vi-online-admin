@@ -7,6 +7,8 @@ import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-85204925-1');
+//import raven from 'raven';
+import config from '../server/config';
 
 import moment from 'moment';
 moment.locale('hu');
@@ -19,10 +21,20 @@ import {loginSuccess} from './actions/authActions';
 
 import '../node_modules/toastr/build/toastr.min.css';
 import './style/site.css';
-
 let outdatedBrowserFork = require("outdated-browser-rework");
 import "outdated-browser-rework/outdated-browser-rework.scss";
 import log from './utils/logger';
+
+import Raven from 'raven-js';
+import {sentry_url, logException} from './sentry';
+Raven
+  .config(sentry_url,
+    {
+      "level": "warning",
+      "server_name": config.server_name
+    }
+  )
+  .install();
 
 
 outdatedBrowserFork({
@@ -57,6 +69,7 @@ if (token) {
          });
 
 } else render();
+
 
 function render() {
 

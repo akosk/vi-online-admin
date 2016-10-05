@@ -38,7 +38,6 @@ class SignupData3Page extends SignupDataBase {
 
 
   render() {
-    console.log('errors>>>',this.state.errors);
     return (
       <Content category="Jelentkezés" title="Vállalkozástervezés">
         <SignupData3Form

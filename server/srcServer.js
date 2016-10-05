@@ -7,12 +7,16 @@ import open from 'open';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import {attachRaven} from './sentry';
+
 
 import router from './router';
 import log from './lib/nodelogger';
 const port = 4000;
 const app = express();
 const compiler = webpack(config);
+
+attachRaven(app);
 
 //app.use(morgan('combined'));
 app.use(helmet());

@@ -16,6 +16,7 @@ import MailChimpController from './controllers/mailChimpController';
 
 import {authorize,blocked} from './lib/auth';
 
+
 const router = (app, mode = 'dev')=> {
 
   app.use('/images', express.static(path.join(__dirname, '../client/images')));
@@ -54,6 +55,7 @@ const router = (app, mode = 'dev')=> {
   app.post('/finalize-signup', authorize, blocked, UserturnController.finalizeSignup);
 
   app.get('/users/:user_id', authorize, blocked, UsersController.getUser);
+
   app.get('/users', authorize, blocked, UsersController.getAllUsers);
   app.post('/users', UsersController.saveUser);
 

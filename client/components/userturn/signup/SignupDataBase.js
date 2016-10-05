@@ -69,8 +69,6 @@ class SignupDataBase extends Component {
       switch (event.target.type) {
         case 'radio':
           _.set(signupData, event.target.name, event.target.value);
-          console.log(event.target.value);
-          console.log(signupData);
           break;
         case 'checkbox':
           _.set(signupData, field, event.target.checked);

@@ -5,6 +5,7 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import {attachRaven} from './sentry';
 
 import router from './router';
 import log from './lib/nodelogger';
@@ -12,6 +13,8 @@ import log from './lib/nodelogger';
 
 const port = 80;
 const app = express();
+
+attachRaven(app);
 
 app.use(helmet());
 app.use(compression());

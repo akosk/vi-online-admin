@@ -46,7 +46,6 @@ export function loadPortalSettings() {
 export function savePortalSettings(settings) {
   return function (dispatch) {
     dispatch(beginAjaxCall());
-    console.log('sett', settings);
     let promise;
     if (settings.id) {
       promise = generalApi.update('site', settings)

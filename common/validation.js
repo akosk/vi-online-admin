@@ -82,7 +82,6 @@ export const isSignup1HasErrors = function (signupData) {
   }
 
 
-  console.log('validation 1 ', errors);
   return errors;
 };
 
@@ -127,7 +126,6 @@ export const isSignup2HasErrors = function (signupData) {
       'Legalább egy válasz megadása kötelező');
   }
 
-  console.log('validation 2 ', errors);
   return errors;
 };
 
@@ -189,8 +187,6 @@ export const isSignup3HasErrors = function (signupData) {
   }
 
 
-  console.log('validation 3 ', errors);
-  console.log('signupData ', signupData);
   return errors;
 };
 

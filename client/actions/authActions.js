@@ -1,4 +1,5 @@
 import {browserHistory} from 'react-router';
+import Raven from 'raven-js';
 import * as types from './actionTypes';
 import authApi from '../api/authApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
@@ -47,6 +48,10 @@ export function changePassword(data){
 
 
 export function loginSuccess(authData) {
+  Raven.setUserContext({
+    email: authData.user.email,
+    id: authData.user.id
+  });
   return { type: types.LOGIN_SUCCESS, authData };
 }
 

@@ -52,6 +52,8 @@
     "nodemailer": "^2.6.0",
     "outdated-browser-rework": "^1.0.0",
     "passport": "^0.3.2",
+    "raven": "^0.12.1",
+    "raven-js": "^3.7.0",
     "react": "15.0.2",
     "react-addons-css-transition-group": "^15.1.0",
     "react-bootstrap": "^0.29.4",

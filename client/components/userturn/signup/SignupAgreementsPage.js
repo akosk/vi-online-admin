@@ -33,7 +33,6 @@ class SignupStatementPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next', nextProps);
     if (nextProps.userturn.agreement_note !== this.state.megjegyzes) {
       this.setState({
         megjegyzes: nextProps.userturn.agreement_note
