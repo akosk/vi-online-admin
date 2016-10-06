@@ -13,21 +13,20 @@ class TurnMemberView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      showAvatar: false,
-      prevDisplayName: this.props.displayName
+      showAvatar: false
     }
   }
 
+
   componentDidMount() {
-    this.props.loadUser(this.props.params.user_id).then();
+    this.props.loadUser(this.props.params.user_id).then(()=> {
+        this.setState({
+          showAvatar: true
+        })
+      }
+    );
   }
 
-
-  imageLoaded=(e)=>{
-    this.setState({
-      showAvatar:e.target.src.indexOf(this.state.prevDisplayName)===-1
-    });
-  }
 
   render() {
     const {user_id}=this.props.params;
@@ -39,7 +38,6 @@ class TurnMemberView extends Component {
             <div className="text-center">
 
               <img
-                onLoad={this.imageLoaded}
                 src={`https://robohash.org/${this.props.displayName}`}
                 style={{height:100,width:'auto'}}
                 className={classnames({
