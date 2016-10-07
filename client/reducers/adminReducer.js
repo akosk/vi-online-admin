@@ -8,7 +8,7 @@ export default function admin(state = initialState.admin, action) {
     case types.ADMIN_SELECT_TURN:
       return { ...state, turn: action.turn };
 
-    case types.LOAD_TURN_MEMBERS_SUCCESS:
+    case types.LOAD_TURN_MEMBERS_SUCCESS:{
       // Default order: finalizing date
       const sorted=_.reverse(
         _.sortBy(action.users, [function(o) { return _.get(o,`progress.SIGNUP_FINALIZED.created_at`,''); }])
@@ -19,6 +19,7 @@ export default function admin(state = initialState.admin, action) {
           ...sorted
         ]
       };
+    }
 
     case types.LOAD_PORTAL_SETTINGS_SUCCESS:
       return {
