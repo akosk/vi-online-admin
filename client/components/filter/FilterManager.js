@@ -76,7 +76,7 @@ class FilterManager extends Component {
 
   onAddOrConditionClick = (e) => {
     const newElement = this.state.form.length > 0 ?
-    { ...formInitialState, table: this.state.form[0].table } :
+    { ...formInitialState, table: this.state.form[0].table, tableId: this.state.form[0].tableId } :
     { ...formInitialState };
     this.setState({
       form: [
@@ -281,7 +281,7 @@ class FilterManager extends Component {
 
               <button
                 onClick={this.onSaveFilterClick}
-                disabled={!this.state.filter.name}
+                disabled={!this.state.filter.name || _.get(this.state,'filter.conditions',[]).length==0}
                 className="btn btn-block btn-primary">
                 <i className="fa fa-save"></i> Szűrű mentése
               </button>
