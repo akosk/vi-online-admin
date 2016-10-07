@@ -173,7 +173,8 @@ export function getTurnMembers(turn_id, filter) {
               table = addFilter(table, filter);
               return table
                 .eqJoin("user_id", rdb.table("users"))
-                .map(rdb.row("right"))
+                //.map(rdb.row("right"))
+                .zip()
                 .coerceTo('array')
                 .run(conn);
             })

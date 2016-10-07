@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {Modal, Panel, Badge, Button} from 'react-bootstrap';
