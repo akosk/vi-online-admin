@@ -77,11 +77,11 @@ function render() {
     window.scrollTo(0, 0);
     ReactGA.set({ page: window.location.pathname });
     ReactGA.pageview(window.location.pathname);
-  }
+  };
 
   ReactDOM.render(
     <Provider store={store}>
-      <Router onUpdate={logPageView } history={browserHistory} routes={routes}/>
+      <Router onUpdate={logPageView} history={browserHistory} routes={routes}/>
     </Provider>,
     document.getElementById('app')
   );

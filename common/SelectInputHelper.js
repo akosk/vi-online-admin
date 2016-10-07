@@ -1,4 +1,5 @@
 import * as fieldTypes from './fieldTypes';
+import * as progressTypes from './progressTypes';
 export const ALTALANOSNAL_KEVESEBB = 'ALTALANOSNAL_KEVESEBB';
 export const ALTALANOS = 'ALTALANOS';
 export const ALTALANOS_OKJ = 'ALTALANOS_OKJ';
@@ -13,15 +14,29 @@ const allRelationOptions = [
   { value: '<', text: '<' },
   { value: '>', text: '>' },
   { value: '<=', text: '<=' },
-  { value: '>=', text: '>=' }
+  { value: '>=', text: '>=' },
+  { value: '<>', text: '<>' }
 ];
 
 export function relationOptions(type = '') {
-  return type === fieldTypes.STRING
-    ? [...allRelationOptions,
-    { value: 'LIKE', text: 'LIKE' },
-    { value: 'NOT LIKE', text: 'NOT LIKE' }]
-    : allRelationOptions;
+  switch (type) {
+    case fieldTypes.STRING:
+      return [...allRelationOptions,
+        { value: 'LIKE', text: 'LIKE' },
+        { value: 'NOT LIKE', text: 'NOT LIKE' }];
+
+    case fieldTypes.ENTRY:
+    case fieldTypes.MULTICHECKBOX:
+    case fieldTypes.RADIOGROUP:
+    case fieldTypes.SELECT:
+      return [
+        { value: '=', text: '=' },
+        { value: '<>', text: '<>' }
+      ];
+    default:
+      return allRelationOptions;
+  }
+
 }
 
 export function yesnoOptions(noExtraQuestion, yesExtraQuestion, yesExtraOptions) {
@@ -36,7 +51,7 @@ export function yesnoOptions(noExtraQuestion, yesExtraQuestion, yesExtraOptions)
       text: 'Igen',
       extraQuestion: yesExtraQuestion || undefined,
       extraOptions: {
-        numeric:true
+        numeric: true
       }
 
     }
@@ -111,6 +126,28 @@ export function alternativeKepzesiHelyszinOptions() {
       value: 'Szekszard',
       text: 'Igen, Szekszárdra át tudnék járni'
     }
+
+  ];
+}
+
+export function progressOptions() {
+  return [
+    {
+      text: "Jelentkezés elfogadva",
+      value: progressTypes.SIGNUP_COMPLETED
+    },
+    {
+      text: "Jelentkezés elutasítva",
+      value: progressTypes.SIGNUP_REJECTED
+    },
+    {
+      text: "Jelentkezés véglegesítve",
+      value: progressTypes.SIGNUP_FINALIZED
+    },
+    {
+      text: "Nyilatkozatok elfogadva",
+      value: progressTypes.SIGNUP_AGREEMENTS_ACCEPTED
+    },
 
   ];
 }

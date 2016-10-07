@@ -16,7 +16,7 @@ class ChangePasswordForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(onSave)}>
-        { oldPasswordVisible && <TextInput label="Jelenlegi jelszó" {...old_password} />        }
+        {oldPasswordVisible && <TextInput label="Jelenlegi jelszó" {...old_password} />}
         <TextInput type="password" label="Új jelszó" {...password} />
         <TextInput type="password" label="Új jelszó újra" {...password2} />
 

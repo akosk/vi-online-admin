@@ -243,7 +243,7 @@ export function updateUserLoginInfo(user, data) {
       first_access: rdb.now(),
       access_count: 0
     };
-    user.login.push(entry)
+    user.login.push(entry);
   }
 
   entry.last_access = rdb.now();

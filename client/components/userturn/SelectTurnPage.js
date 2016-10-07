@@ -44,7 +44,7 @@ class SelectTurnPage extends Component {
   componentDidMount() {
     this.props.getCurrentTurn(this.props.user.id).then((x)=> {
       return this.props.loadTurns();
-    })
+    });
 
   }
 
@@ -62,12 +62,12 @@ class SelectTurnPage extends Component {
           />
         )}
 
-        { this.props.currentTurn.id &&
+        {this.props.currentTurn.id &&
         <div className="text-center">
           <div className="alert alert-info">
             <h2>Ön már választott korábban képzést.</h2>
           </div>
-          <Link to=''>
+          <Link to="">
             <span className="btn btn-primary">Tovább a képzésemre</span>
           </Link>
         </div>

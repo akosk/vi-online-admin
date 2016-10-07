@@ -17,14 +17,12 @@ class FilterFormElement extends Component {
   };
 
 
-
-
   render() {
     const {item}=this.props;
 
     let valueInput, field;
-    if (item.table && item.field) {
-      field = filter.findField(item.table, item.field);
+    if (item.tableId && item.field) {
+      field = filter.findField(item.tableId, item.field);
       switch (field.type) {
         case fieldTypes.STRING:
           valueInput = (<TextInput
@@ -34,6 +32,8 @@ class FilterFormElement extends Component {
             onChange={this.onChange}
           />);
           break;
+        case fieldTypes.ENTRY:
+        case fieldTypes.RADIOGROUP:
         case fieldTypes.MULTICHECKBOX:
         case fieldTypes.SELECT:
 
@@ -64,18 +64,22 @@ class FilterFormElement extends Component {
       <div>
         <span className="pull-right"><a href="#" onClick={this.onRemove}><i className="fa fa-close"></i></a></span>
 
-        <SelectInput disabled={this.props.size>1} name="table" label="Tábla" onChange={this.onChange}
-                     value={item.table || ''}
-                     options={filter.getTablesAsOptions()}></SelectInput>
-        {item.table &&
+        <SelectInput
+          disabled={this.props.size>1}
+          name="tableId"
+          label="Tábla"
+          onChange={this.onChange}
+          value={item.tableId || ''}
+          options={filter.getTablesAsOptions()}></SelectInput>
+        {item.tableId &&
         <div>
           <SelectInput name="field" label="Mező" onChange={this.onChange}
-                       options={filter.getFieldsAsOptions(item.table)}>
+                       options={filter.getFieldsAsOptions(item.tableId)}>
           </SelectInput>
 
           {item.field &&
           <div className="row">
-            {field.type !== fieldTypes.SELECT &&
+
             <div className="col-sm-5">
               <SelectInput
                 name="rel"
@@ -83,7 +87,7 @@ class FilterFormElement extends Component {
                 onChange={this.onChange}
                 options={relationOptions(field.type)}></SelectInput>
             </div>
-            }
+
             <div className="col-sm-7">
               {valueInput}
             </div>

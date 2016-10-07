@@ -11,7 +11,7 @@ const TurnView = ({turn, signUpToTurn}) => {
   const handleOnClick=(e)=>{
     e.preventDefault();
     signUpToTurn(turn);
-  }
+  };
 
   return (
     <div  className="row">
@@ -39,6 +39,6 @@ const TurnView = ({turn, signUpToTurn}) => {
       </div>
     </div>
   );
-}
+};
 
 export default TurnView;

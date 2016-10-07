@@ -9,6 +9,6 @@ const Radio = ({name, label, value, onChange, checked=false}) => {
       </label>
     </div>
   );
-}
+};
 
 export default Radio;

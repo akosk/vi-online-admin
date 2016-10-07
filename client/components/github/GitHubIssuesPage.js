@@ -17,7 +17,7 @@ const itemView = (item)=> {
 
           <p><strong>#{item.number}</strong> {item.title}</p>
           <p>
-            {item.labels.map((l)=><Label style={{backgroundColor:`#${l.color}`,color:'white'}}>{l.name}</Label>)}
+            {item.labels.map((l)=><Label key={l.name} style={{backgroundColor:`#${l.color}`,color:'white'}}>{l.name}</Label>)}
           </p>
           <em className="pull-right">
             {item.closed_at ?

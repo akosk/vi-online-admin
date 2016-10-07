@@ -27,8 +27,8 @@ class FilterElement extends Component {
 
   render() {
     const {index, item, onRemove, operation}=this.props;
-    const table = filter.findTable(item.table);
-    const field = filter.findField(item.table, item.field);
+    const table = filter.findTable(item.tableId);
+    const field = filter.findField(item.tableId, item.field);
 
     if (Array.isArray(item)) {
       return (

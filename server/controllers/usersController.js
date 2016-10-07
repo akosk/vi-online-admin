@@ -28,7 +28,7 @@ class UsersController {
                }
              })
              .then(()=> {
-               return hash_password(user.password)
+               return hash_password(user.password);
              })
              .then((hash)=> {
                log.debug('new hash:', hash);

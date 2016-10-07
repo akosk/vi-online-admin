@@ -15,12 +15,17 @@ const addOrFilter = (filterContent, filter) => {
 };
 
 const appendFilter = (query, c, field) => {
-  log.debug('appendFilter ', c, field);
+
   switch (field.type) {
-    //case fieldTypes.MULTICHECKBOX:
-    //  console.log('MULTICHECKBOX>>> c.value>>>', c.value);
-    //  query = query(c.value)('checked').eq(`${c.value}`);
-    //  break;
+    case fieldTypes.ENTRY:
+      query = query.hasFields(c.value);
+      break;
+    case fieldTypes.RADIOGROUP:
+      query = query("value").eq(`${c.value}`);
+      break;
+    case fieldTypes.MULTICHECKBOX:
+      query = query(c.value)('checked').eq(true);
+      break;
     case fieldTypes.SELECT:
       query = query.eq(`${c.value}`);
       break;
@@ -33,6 +38,7 @@ const appendFilter = (query, c, field) => {
           query = query.match(`${c.value}`).not();
           break;
         case '=':
+        case '<>':
           query = query.eq(`${c.value}`);
           break;
         case '!=':
@@ -56,6 +62,7 @@ const appendFilter = (query, c, field) => {
     case fieldTypes.DATE:
       switch (c.rel) {
         case '=':
+        case '<>':
           query = query.eq(c.value);
           break;
         case '!=':
@@ -76,6 +83,10 @@ const appendFilter = (query, c, field) => {
       }
       break;
   }
+
+  if (c.rel=="<>"){
+    query=query.not();
+  }
   return query;
 };
 
@@ -87,10 +98,16 @@ const addFilter = (table, f) => {
     return Array.isArray(i) ? i[0].table : i.table;
   });
 
+  // Végigmegyünk az összes táblán
   _.keys(conditionsByTable).forEach((t) => {
+
+    //Index meghatázozása, ha ez a users tábla, akkor nem kell külön index.
     const index = t === 'users' ? {} : { index: 'user_id' };
-    log.debug(`${t} block with index: ${index}`);
+
+    // Felhasználó tábla joinolása
     table = table.eqJoin("user_id", rdb.table(t), index);
+
+    // Végigmegyünk a tábla összes feltételén
     conditionsByTable[t].forEach((condition)=> {
       let filterContent;
       let funfilterContent;
@@ -98,16 +115,17 @@ const addFilter = (table, f) => {
         condition = [condition];
       }
       condition.forEach((c)=> {
-        log.debug('c', c);
 
-        const field = filter.findField(c.table, c.field);
+        const field = filter.findField(c.tableId, c.field);
 
         let query;
 
+        // mi az a : ?
         let path = field.rname.split(":");
 
+
+
         if (path.length > 1) {
-          log.debug(': filter', path[0], path[1]);
 
           query = rdb.row('right')(path[0]).contains(
             function (q) {
@@ -134,6 +152,8 @@ const addFilter = (table, f) => {
       }
 
     });
+
+
     table = table.without('right').zip();
   });
 
@@ -308,7 +328,7 @@ export function setAgreementNoteById(userturn_id, note) {
               return rdb.table('userturns')
                         .get(userturn_id)
                         .update({
-                            agreement_note:note
+                            agreement_note: note
                           },
                           { return_changes: true }
                         )

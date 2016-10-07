@@ -54,18 +54,18 @@ class MailChimpController {
                     .then((data)=> {
                       let segment = data.segments.find((i)=> {
                         return i.name === filter_name;
-                      })
+                      });
                       if (segment) {
                         return MailChimp.deleteSegment(site.mailchimp.list_id, segment.id);
                       }
-                    })
+                    });
                 })
                 .then(()=> {
                   return MailChimp
                     .postSegment(site.mailchimp.list_id, { name: filter_name })
                     .then((segment)=> {
-                      newSegment = segment
-                    })
+                      newSegment = segment;
+                    });
                 })
                 .then(()=> {
                   log.debug('saving users to segment',users);
@@ -76,7 +76,7 @@ class MailChimpController {
                       {
                         email_address: u.email,
                         status: 'subscribed'
-                      })
+                      });
                   });
                   return Promise.all(segmentUserPromises);
                 })

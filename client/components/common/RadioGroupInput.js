@@ -16,7 +16,7 @@ const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpTe
           name={`${name}.value`}
           value={option.value}
         />
-        { checked && option.extraQuestion !== undefined &&
+        {checked && option.extraQuestion !== undefined &&
         <TextInput
           name={`${name}.extra.value`}
           label={option.extraQuestion}
@@ -45,7 +45,7 @@ const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpTe
       </label>
       <div className="field">
 
-        { optionItems }
+        {optionItems}
 
         {_.get(error,'error') && <div className="error">*{error.error}</div>}
       </div>
@@ -53,6 +53,6 @@ const RadioGroupInput = ({name, label, finalized, onChange, value, error, helpTe
 
     </div>
   );
-}
+};
 
 export default RadioGroupInput;

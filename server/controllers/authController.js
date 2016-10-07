@@ -1,14 +1,12 @@
-import {authenticate} from '../lib/auth';
+import {authenticate,hash_password} from '../lib/auth';
 import {generate,verify} from '../lib/token';
 import config from '../config';
 import _ from "lodash";
 import * as model from '../models/userModel';
 import log from '../lib/nodelogger';
 import uuid from 'uuid';
-import * as userModel from '../models/userModel';
 import rdb from 'rethinkdb';
-import nodemailer from 'nodemailer'
-import {hash_password} from '../lib/auth';
+import nodemailer from 'nodemailer';
 
 
 class AuthController {
@@ -37,8 +35,7 @@ class AuthController {
         return res.send({ error: 'A két jelszó nem egyezik.' });
       }
 
-
-      userModel.getUserByPasswordResetId(id)
+      model.getUserByPasswordResetId(id)
                .then((u)=> {
                  user = u;
                  return hash_password(password);
@@ -50,7 +47,7 @@ class AuthController {
                    user.password = hash;
 
                    //módosítjuk a jelszót
-                   return userModel.replaceUser(user);
+                   return model.replaceUser(user);
 
                  }
                  return null;
@@ -89,7 +86,7 @@ class AuthController {
 
 
       // beírás a db-be a user profiljához
-      userModel.getUserByEmail(email)
+      model.getUserByEmail(email)
                .then((user)=> {
                  if (user) {
                    user.password_reset = {
@@ -97,7 +94,7 @@ class AuthController {
                      created_at: rdb.now()
                    };
 
-                   return userModel.updateUser(user);
+                   return model.updateUser(user);
 
                  }
                  return null;
@@ -121,7 +118,7 @@ class AuthController {
                      `
                    }, (err, info)=> {
                      log.debug('Email sent.', info);
-                   })
+                   });
 
                  }
                  res.send('OK');
@@ -156,7 +153,7 @@ class AuthController {
       model.getUserByEmail(data.user.email)
            .then((u)=> {
              user = u;
-             return model.updateUserLoginInfo(user, { ip })
+             return model.updateUserLoginInfo(user, { ip });
            })
            .then(()=> {
              if (user.blocked) {
@@ -209,7 +206,7 @@ class AuthController {
                .then((a)=> {
                  authenticated = a;
                  if (authenticated) {
-                   return model.updateUserLoginInfo(user, { ip })
+                   return model.updateUserLoginInfo(user, { ip });
                  }
                })
                .then(()=> {

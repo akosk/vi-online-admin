@@ -61,7 +61,7 @@ class TurnMembersPage extends Component {
   }
 
   onSelectFilter = (id)=> {
-    var selectedFilter = _.find(this.props.filters, (i)=> {
+    let selectedFilter = _.find(this.props.filters, (i)=> {
       return i.id === id;
     });
     this.setState({
@@ -92,7 +92,7 @@ class TurnMembersPage extends Component {
         .catch((err)=> {
           log(err);
           toastr.error('Az exportálás a MailChimp felé sikertelen. ');
-        })
+        });
   };
 
   render() {

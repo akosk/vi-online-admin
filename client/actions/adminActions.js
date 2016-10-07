@@ -48,10 +48,10 @@ export function savePortalSettings(settings) {
     dispatch(beginAjaxCall());
     let promise;
     if (settings.id) {
-      promise = generalApi.update('site', settings)
+      promise = generalApi.update('site', settings);
     } else {
 
-      promise = generalApi.insert('site', { ...settings, id: '1' })
+      promise = generalApi.insert('site', { ...settings, id: '1' });
     }
 
     return promise

@@ -14,7 +14,7 @@ class LostPassword extends Component {
     this.props.fields.email.onChange('');
     return this.props.sendPasswordResetEmail(email)
                .then(()=> toastr.success('Az új jelszó igényléséhez egy emailt küldtünk Önnek!'))
-               .catch(err=>toastr.error('Az új jelszó igénylése nem sikerült.'))
+               .catch(err=>toastr.error('Az új jelszó igénylése nem sikerült.'));
   }
 
   render() {

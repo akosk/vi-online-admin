@@ -12,7 +12,7 @@ class MailChimp {
   static url(path) {
     log.debug(`MailChimp ${path}`);
     const dc = MailChimp.API_KEY.split('-')[1];
-    return `https://${dc}.api.mailchimp.com/3.0${path}`
+    return `https://${dc}.api.mailchimp.com/3.0${path}`;
   }
 
   static headers() {
@@ -62,7 +62,7 @@ class MailChimp {
           ...m,
           status: 'subscribed'
         })
-      }
+      };
     });
 
     log.debug('Operations', operations);

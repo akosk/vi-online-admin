@@ -61,7 +61,7 @@ class SignupData3Form extends Component {
           onChange={onChange}
           error={errors.piackutatast_vegzett}/>
 
-        { _.get(signupData, 'piackutatast_vegzett.value') == '1' &&
+        {_.get(signupData, 'piackutatast_vegzett.value') == '1' &&
         <TextAreaInput
           name="piackutatast_vegzett_bemutatas"
           label="Ha végzett piackutatást, mutassa be röviden (maximum 1000 karakterben) a piackutatás eredményét!"
@@ -119,7 +119,7 @@ class SignupData3Form extends Component {
           disabled={finalized}
           value={signupData.harmadik_evben_hany_alkalmazott_lesz || ''}
           helpText="Csak számot írjon, napi 8 órás munkaidőre számítva."
-          numeric={true}
+          numeric
           onChange={onChange}
           error={_.get(errors,'harmadik_evben_hany_alkalmazott_lesz.error')}/>
 

@@ -5,17 +5,18 @@ import _ from 'lodash';
 export const getTablesAsOptions = ()=> {
   return schema.map((i)=> {
     return {
-      value: i.rname,
+      value: i.id,
       text: i.name
     }
   })
 };
 
-export const getFieldsAsOptions = (tablename)=> {
+export const getFieldsAsOptions = (tableId)=> {
   const table = _.find(schema, (i)=> {
-    return i.rname === tablename
+    return i.id == tableId
   });
   if (!table) return;
+
 
   return table.fields.map((i)=> {
     return {
@@ -23,11 +24,12 @@ export const getFieldsAsOptions = (tablename)=> {
       text: i.name
     }
   })
+
 };
 
-export const findField = (tableName, fieldName) => {
+export const findField = (tableId, fieldName) => {
   const table = _.find(schema, (i)=> {
-    return i.rname === tableName
+    return i.id == tableId
   });
   if (!table) return;
   return _.find(table.fields, (i)=> {
@@ -35,23 +37,19 @@ export const findField = (tableName, fieldName) => {
   });
 }
 
-export const findTable = (tableName) => {
+export const findTable = (tableId) => {
   const table = _.find(schema, (i)=> {
-    return i.rname === tableName
+    return i.id == tableId
   });
   return table;
 }
 
-///r.db('vi_del_dunantul')
-//  .table("usertests")
-//  .filter(function (doc){
-//    return doc("questions").contains(function(q){
-//      return q("id").eq("q_0").and(q("value").eq("Miskolc"))
-//    }
+
 
 export const schema = [
 
   {
+    id: 1,
     rname: "users",
     name: "Felhasználók",
     "fields": [
@@ -75,6 +73,21 @@ export const schema = [
   },
 
   {
+    id: 2,
+    rname: "userturns",
+    name: "Felhasználó turnusadatai",
+    "fields": [
+      {
+        rname: "progress",
+        name: "Haladás",
+        type: types.ENTRY,
+        options: inputHelper.progressOptions()
+      },
+    ]
+  },
+
+  {
+    id: 3,
     rname: "signup_datas",
     name: "Alapinformáció, vállalkozási alapfeltétel",
     "fields": [
@@ -82,23 +95,77 @@ export const schema = [
         rname: "honnan_ertesult",
         name: "Honnan értesült",
         type: types.MULTICHECKBOX,
-        options:inputHelper.honnanErtesultOptions()
+        options: inputHelper.honnanErtesultOptions()
       },
       {
-        rname: "allaskeresokent_regisztralt",
-        name: "Álláskeresőként regisztrált",
-        type: types.SELECT,
+        rname: "tobbsegi_tulajdon_mas_vallalkozasban",
+        name: "Többségi tulajdonos más vállakozásban",
+        type: types.RADIOGROUP,
         options: inputHelper.yesnoOptions()
       },
       {
-        rname: "allaskeresokent_regisztralt_datuma",
-        name: "Álláskeresőként regisztrált dátuma",
-        type: types.DATE
+        rname: "vezeto_tisztsegviselo_mas_vallalkozasban",
+        name: "Vezető tisztségviselő más vállalkozásban",
+        type: types.RADIOGROUP,
+        options: inputHelper.yesnoOptions()
+      },
+
+      {
+        rname: "korabban_vallalkozo",
+        name: "Korábban vállalkozó",
+        type: types.RADIOGROUP,
+        options: inputHelper.yesnoOptions()
+      },
+
+      {
+        rname: "vallalkozas_szekhelye_megye",
+        name: "Vállalkozás székhelye (megye)",
+        type: types.SELECT,
+        options: inputHelper.megyekOptions()
+      },
+
+      {
+        rname: "vallalkozas_szekhelye_telepules",
+        name: "Vállalkozás székhelye (település)",
+        type: types.STRING,
       },
       {
-        rname: "birth_date",
-        name: "Születési idő",
-        type: types.DATE
+        rname: "kepzes_helye",
+        name: "Képzés helye",
+        type: types.RADIOGROUP,
+        options: inputHelper.kepzesiHelyszinOptions()
+      },
+      {
+        rname: "alternativ_kepzes_helye",
+        name: "Képzés helye (alternatív)",
+        type: types.RADIOGROUP,
+        options: inputHelper.alternativeKepzesiHelyszinOptions()
+      },
+      {
+        rname: "megfelelo_idopont",
+        name: "Megfelelő időpont",
+        type: types.RADIOGROUP,
+        options: inputHelper.megfeleloIdopontOptions()
+      },
+      {
+        rname: "vonatberlet",
+        name: "Vonatberlet",
+        type: types.RADIOGROUP,
+        options: inputHelper.vonatberletOptions()
+      },
+
+    ]
+  },
+
+  {
+    id: 4,
+    rname: "signup_datas",
+    name: "Személyes adatok",
+    "fields": [
+      {
+        rname: "name",
+        name: "Név",
+        type: types.STRING
       },
       {
         rname: "birth_name",
@@ -106,98 +173,180 @@ export const schema = [
         type: types.STRING
       },
       {
+        rname: "gender",
+        name: "Nem",
+        type: types.RADIOGROUP,
+        options: inputHelper.genderOptions()
+      },
+      {
+        rname: "birth_date",
+        name: "Születési idő",
+        type: types.DATE,
+      },
+      {
         rname: "birth_place",
-        name: "Születés helye",
-        type: types.STRING
-      },
-      {
-        rname: "created_at",
-        name: "Létrehozva",
-        type: types.DATE
-      },
-      {
-        rname: "email",
-        name: "Email",
-        type: types.STRING
-      },
-      {
-        rname: "kepzesi_helyszin",
-        name: "Képzési helyszín",
-        type: types.STRING
-      },
-      {
-        rname: "kisebbsegi_vagy_hatranyos",
-        name: "Kisebbségi vagy hátrányos",
-        type: types.SELECT,
-        options: inputHelper.yesnoOptions()
-      },
-      {
-        rname: "legmagasabb_iskolai_vegzettseg",
-        name: "Legmagasabb iskolai végzettség",
-        type: types.STRING
-      },
-      {
-        rname: "legmagasabb_iskolai_vegzettseg_eve",
-        name: "Legmagasabb iskolai végzettség éve",
-        type: types.STRING
+        name: "Születési hely",
+        type: types.STRING,
       },
       {
         rname: "mothers_name",
-        name: "Anyja neve",
-        type: types.STRING
+        name: "Anyja leánykori neve",
+        type: types.STRING,
       },
       {
-        rname: "name",
-        name: "Név",
-        type: types.STRING
+        rname: "permanent_address_zip",
+        name: "Állandó lakcím irányítószám",
+        type: types.STRING,
       },
       {
-        rname: "palyakezdo_allaskereso",
-        name: "Pályakezdő álláskereső",
-        type: types.SELECT,
-        options: inputHelper.yesnoOptions()
+        rname: "permanent_address_settlement",
+        name: "Állandó lakcím település",
+        type: types.STRING,
       },
       {
-        rname: "permanent_address",
-        name: "Állandó lakcím",
-        type: types.STRING
-      },
-      {
-        rname: "phone",
-        name: "Telefon",
-        type: types.STRING
-      },
-      {
-        rname: "postal_address",
-        name: "Postázási cím",
-        type: types.STRING
-      },
-      {
-        rname: "taj",
-        name: "Tajszám",
-        type: types.STRING
+        rname: "permanent_address_street",
+        name: "Állandó lakcím utca és házszám",
+        type: types.STRING,
       },
       {
         rname: "temporary_address",
         name: "Tartózkodási hely",
+        type: types.STRING,
+      },
+      {
+        rname: "postal_address",
+        name: "Postázási cím",
+        type: types.STRING,
+      },
+      {
+        rname: "phone",
+        name: "Elérhetőségek (telefonszám)",
+        type: types.STRING,
+      },
+      {
+        rname: "email",
+        name: "Elérhetőségek (e-mail cím)",
+        type: types.STRING,
+      },
+      {
+        rname: "legmagasabb_iskolai_vegzettseg",
+        name: "Legmagasabb iskolai végzettsége",
+        type: types.SELECT,
+        options: inputHelper.eduLevelOptions()
+      },
+      {
+        rname: "legmagasabb_iskolai_vegzettseg_eve",
+        name: "Legmagasabb iskolai végzettség éve",
+        type: types.STRING,
+      },
+      {
+        rname: "allaskeresokent_regisztralt",
+        name: "Regisztrált álláskereső",
+        type: types.RADIOGROUP,
+        options: inputHelper.allaskeresokentRegisztraltOptions()
+      },
+      {
+        rname: "allaskeresokent_regisztralt_datuma",
+        name: "Álláskeresés regisztrációjának ideje",
+        type: types.DATE,
+      },
+      {
+        rname: "allaskeresokent_regisztralt_telepules",
+        name: "Melyik településen regisztrált álláskeresőként",
+        type: types.STRING,
+      },
+      {
+        rname: "palyakezdo_allaskereso",
+        name: "Pályakezdő álláskereső",
+        type: types.RADIOGROUP,
+        options: inputHelper.allaskeresokentRegisztraltOptions()
+      },
+      {
+        rname: "adoazonosito_jel",
+        name: "Adóazonosító jel",
+        type: types.STRING,
+      },
+      {
+        rname: "taj",
+        name: "TAJ-szám",
+        type: types.STRING,
+      },
+      {
+        rname: "kisebbsegi_vagy_hatranyos",
+        name: "Kisebbségi vagy hátrányos",
+        type: types.MULTICHECKBOX,
+        options: inputHelper.kisebbsegiOptions()
+      },
+    ]
+  },
+
+  {
+    id: 5,
+    rname: "signup_datas",
+    name: "Vállalkozástervezés",
+    "fields": [
+      {
+        rname: "miert_szeretne_vallalkozast_inditani",
+        name: "Miért szeretne vállalkozást indítani",
         type: types.STRING
       },
       {
-        rname: "tobbsegi_tulajdon_mas_vallalkozasban",
-        name: "Többségi tulajdonos más vállakozásban",
-        type: types.SELECT,
+        rname: "mivel_foglalkozik_a_vallalkozas",
+        name: "Mivel foglalkozik majd a vállalkozása",
+        type: types.STRING
+      },
+      {
+        rname: "piackutatast_vegzett",
+        name: "Piackutatást végzett",
+        type: types.RADIOGROUP,
         options: inputHelper.yesnoOptions()
       },
       {
-        rname: "updated_at",
-        name: "Módosítva",
-        type: types.DATE
+        rname: "piackutatast_vegzett_bemutatas",
+        name: "Piackutatás bemutatása",
+        type: types.DATE,
       },
       {
-        rname: "vallalkozas_szekhelye",
-        name: "Vállalkozs székhelye",
+        rname: "vallalkozas_formaja",
+        name: "Vállalkozás formája",
+        type: types.RADIOGROUP,
+        options: inputHelper.vallalkozasFormajaOptions()
+      },
+      {
+        rname: "vallalkozas_szektora",
+        name: "Vállalkozás szektora",
+        type: types.RADIOGROUP,
+        options: inputHelper.vallalkozasSzektoraOptions()
+      },
+      {
+        rname: "kivel_vallalkozik",
+        name: "Kivel vállalkozik",
+        type: types.MULTICHECKBOX,
+        options: inputHelper.kivelVallalkozikOptions()
+      },
+      {
+        rname: "elso_12_honapban_alkalmazottat_vesz_fel",
+        name: "Első 12 hónapban alkalmazottat vesz fel",
+        type: types.RADIOGROUP,
+        options: inputHelper.yesnoOptions()
+      },
+      {
+        rname: "harmadik_evben_hany_alkalmazott_lesz",
+        name: "Harmadik évben hány alkalmazott lesz",
         type: types.STRING
       },
+      {
+        rname: "vallalkozast_legalabb_4_evig_fenntartja",
+        name: "Vállalkozást legalább 4 évig fenntartja",
+        type: types.RADIOGROUP,
+        options: inputHelper.yesnoOptions()
+      },
+      {
+        rname: "vallalkozast_legalább_4_evig_mukodteti",
+        name: "Vállalkozást legalább 4 évig mukodteti",
+        type: types.RADIOGROUP,
+        options: inputHelper.yesnoOptions()
+      },
     ]
-  }
+  },
 ];

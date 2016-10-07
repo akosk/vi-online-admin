@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "prestart": "babel-node server/startMessage.js",
-    "start": "npm-run-all --parallel test:watch open:client lint:watch",
+    "start": "npm-run-all --parallel open:client",
     "open:client": "babel-node server/srcServer.js",
     "start:prod": "npm-run-all --parallel open:server",
     "open:server": "babel-node server/distServer.js",

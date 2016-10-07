@@ -18,7 +18,7 @@ class SettingsPage extends Component {
   onSaveSettings = (values, dispatch)=> {
      return this.props.savePortalSettings({...this.props.settings,...values})
                 .then(()=> toastr.success('A beállítások mentése megtörtént'))
-                .catch(err=>toastr.error('A beállítások mentése sikertelen'))
+                .catch(err=>toastr.error('A beállítások mentése sikertelen'));
   };
 
   render() {
@@ -26,7 +26,7 @@ class SettingsPage extends Component {
       <Content category="Portál" title="Beállítások">
         <SettingsForm
           onSave={this.onSaveSettings}
-          onCancel={(e)=> {e.preventDefault()}}
+          onCancel={(e)=> {e.preventDefault();}}
           saving={false}
         />
 

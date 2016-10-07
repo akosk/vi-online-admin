@@ -49,7 +49,7 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.tobbsegi_tulajdon_mas_vallalkozasban}/>
 
-        { _.get(signupData, 'tobbsegi_tulajdon_mas_vallalkozasban.value') == 1 &&
+        {_.get(signupData, 'tobbsegi_tulajdon_mas_vallalkozasban.value') == 1 &&
         <div className="alert alert-danger" role="alert">
           Amennyiben a programba lépéskor (képzés megkezdésekor) egyéni vállalkozó, vagy más vállalkozásban többségi
           tulajdona van, az útmutató előírásai miatt nem vehet részt a programban.
@@ -66,7 +66,7 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.vezeto_tisztsegviselo_mas_vallalkozasban}/>
 
-        { _.get(signupData, 'vezeto_tisztsegviselo_mas_vallalkozasban.value') == 1 &&
+        {_.get(signupData, 'vezeto_tisztsegviselo_mas_vallalkozasban.value') == 1 &&
         <div className="alert alert-danger" role="alert">
           Amennyiben a programba lépéskor (képzés megkezdésekor) más vállalkozásban vezető tisztségviselői posztot
           betölt, az útmutató előírásai miatt nem vehet részt a programban.
@@ -95,12 +95,12 @@ class SignupData1Form extends Component {
           error={_.get(errors,'vallalkozas_szekhelye_megye.error')}
         />
 
-        { signupData.vallalkozas_szekhelye_megye != '' && _.indexOf(['BA', 'SO', 'TO'], signupData.vallalkozas_szekhelye_megye) === -1 &&
+        {signupData.vallalkozas_szekhelye_megye != '' && _.indexOf(['BA', 'SO', 'TO'], signupData.vallalkozas_szekhelye_megye) === -1 &&
         <div className="alert alert-danger" role="alert">
 
           A vállalkozásának székhelye nem a Dél-Dunántúl régióban (Baranya, Somogy, Tolna megye) lesz, más szervezethez
           kell jelentkeznie. Ebben az esetben kérjük
-          tanulmányozza a <a target='_blank' href="http://www.vallalkozz2016.hu" style={{color:'white'}}>www.vallalkozz2016.hu</a>
+          tanulmányozza a <a target="_blank" href="http://www.vallalkozz2016.hu" style={{color:'white'}}>www.vallalkozz2016.hu</a>
           oldalt.
         </div>
         }
@@ -123,7 +123,7 @@ class SignupData1Form extends Component {
           onChange={onChange}
           error={errors.kepzes_helye}/>
 
-        { signupData.kepzes_helye == '0' &&
+        {signupData.kepzes_helye == '0' &&
         <div className="alert alert-danger" role="alert">
           A 90 órás vállalkozói képzésen való személyes részvétel kötelező, maximálisan 10%-os hiányzás megengedett.
           Amennyiben előre látja, hogy nem tud részt venni a képzésen, és nem kap képzési tanúsítványt, nem tud pályázni

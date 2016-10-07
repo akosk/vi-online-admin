@@ -30,7 +30,7 @@ class ChangePasswordPage extends Component {
     return this.props.changePassword({ id, ...values })
                .then(()=> toastr.success('A jelszó módosítása megtörtént'))
                .then(()=> this.context.router.push('/'))
-               .catch(err=>toastr.error(err))
+               .catch(err=>toastr.error(err));
   };
 
   render() {

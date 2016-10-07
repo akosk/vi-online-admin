@@ -7,11 +7,11 @@ import TextInput from './TextInput';
 const MultiTextInput = ({name, label, onChange, values, error, helpText, items, disabled}) => {
 
   const inputItems = items.map((item)=> {
-    return <TextInput
+    return (<TextInput
       onChange={onChange}
       label={item.text}
       name={`${name}.${item.value}`}
-    />
+    />);
   });
 
   return (
@@ -27,7 +27,7 @@ const MultiTextInput = ({name, label, onChange, values, error, helpText, items, 
       </label>
       <div className="field">
 
-        { inputItems }
+        {inputItems}
 
         {error && <div className="alert alert-danger">{error}</div>}
       </div>
@@ -35,6 +35,6 @@ const MultiTextInput = ({name, label, onChange, values, error, helpText, items, 
 
     </div>
   );
-}
+};
 
 export default MultiTextInput;

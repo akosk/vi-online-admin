@@ -62,7 +62,7 @@ class SignupStatementPage extends Component {
             this.props.progress[progressTypes.SIGNUP_AGREEMENT2_ACCEPTED] &&
             this.props.progress[progressTypes.SIGNUP_AGREEMENT3_ACCEPTED]
           ) {
-            return this.props.acceptSignupStatements(this.props.userturn.id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED)
+            return this.props.acceptSignupStatements(this.props.userturn.id, progressTypes.SIGNUP_AGREEMENTS_ACCEPTED);
           }
 
         })

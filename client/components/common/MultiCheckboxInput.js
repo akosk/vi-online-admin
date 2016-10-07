@@ -21,7 +21,7 @@ const MultiCheckboxInput = ({name, label, finalized, onChange, values, error, he
           label={option.text}
           name={`${name}.${option.value}.checked`}
         />
-        { checked && option.extraQuestion!==undefined &&
+        {checked && option.extraQuestion!==undefined &&
         <TextInput
           name={`${name}.${option.value}.extra.value`}
           label={option.extraQuestion}
@@ -50,7 +50,7 @@ const MultiCheckboxInput = ({name, label, finalized, onChange, values, error, he
       </label>
       <div className="field">
 
-        { optionItems }
+        {optionItems}
 
         {error && error.error && <div className="error">*{error.error}</div>}
       </div>
@@ -60,6 +60,6 @@ const MultiCheckboxInput = ({name, label, finalized, onChange, values, error, he
 
     </div>
   );
-}
+};
 
 export default MultiCheckboxInput;

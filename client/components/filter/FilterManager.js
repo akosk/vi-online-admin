@@ -14,6 +14,7 @@ import * as actions from '../../actions/filterActions';
 import FilterFormElement from './FilterFormElement';
 import SelectFilterButton from './SelectFilterButton';
 
+
 const formInitialState = {
   table: '',
   field: '',
@@ -143,14 +144,14 @@ class FilterManager extends Component {
         case 'checkbox':
           form[index][field] = event.target.checked;
           break;
-        case 'select-one':
-          log('setting rel eq', form[index]);
-          form[index]['rel'] = '=';
-          form[index][field] = event.target.value;
-          break;
         default:
           form[index][field] = event.target.value;
       }
+      if (event.target.name=="tableId") {
+        const table = filter.findTable(event.target.value);
+        form[index]["table"] = table.rname;
+      }
+
     }
     return this.setState({ form });
   };
@@ -219,7 +220,6 @@ class FilterManager extends Component {
   }
 
   render() {
-    log('hajjaj',this.state);
 
     const sentence = this.state.filter.conditions
                          .map((item, index)=><FilterElement key={index} index={index} item={item}

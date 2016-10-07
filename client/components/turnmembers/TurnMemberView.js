@@ -14,7 +14,7 @@ class TurnMemberView extends Component {
     super(props, context);
     this.state = {
       showAvatar: false
-    }
+    };
   }
 
 
@@ -22,7 +22,7 @@ class TurnMemberView extends Component {
     this.props.loadUser(this.props.params.user_id).then(()=> {
         this.setState({
           showAvatar: true
-        })
+        });
       }
     );
   }
@@ -43,7 +43,7 @@ class TurnMemberView extends Component {
                 className={classnames({
                    "img-circle":true,
                    "hidden":!this.state.showAvatar
-                   }) }/>
+                   })}/>
 
               <h4> {this.props.displayName}</h4>
             </div>

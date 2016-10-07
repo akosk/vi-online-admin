@@ -109,7 +109,7 @@ export function find(tableName, id) {
                         .get(id)
                         .default({})
                         .coerceTo('object')
-                        .run(conn)
+                        .run(conn);
             })
             .error((err) => {
               log.debug('ERROR', err);
