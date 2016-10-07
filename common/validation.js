@@ -96,7 +96,7 @@ export const isSignup2HasErrors = function (signupData) {
     'taj'];
 
   requiredFields.forEach((i)=> {
-    if (!signupData[i]) {
+    if (!signupData[i] || (_.isObject(signupData[i])) && !signupData[i].value) {
       _.set(errors, `${i}.error`,
         'A mező kitöltése kötelező');
     }
