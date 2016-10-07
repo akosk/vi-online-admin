@@ -88,7 +88,7 @@ export const isSignup1HasErrors = function (signupData) {
 export const isSignup2HasErrors = function (signupData) {
   const errors = {};
 
-  const requiredFields = ['gender', 'birth_place', 'mothers_name',
+  const requiredFields = ['name','gender', 'birth_place', 'mothers_name',
     'permanent_address_zip', 'permanent_address_settlement', 'permanent_address_street',
     'phone', 'legmagasabb_iskolai_vegzettseg', 'legmagasabb_iskolai_vegzettseg_eve',
     'allaskeresokent_regisztralt',

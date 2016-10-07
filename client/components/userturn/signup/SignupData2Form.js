@@ -64,7 +64,7 @@ class SignupData2Form extends Component {
         <TextInput
           name="name"
           label="Jelentkező neve"
-          disabled
+          disabled={finalized}
           value={signupData.name || ''}
           onChange={onChange}
           error={_.get(errors,'name.error')}/>
