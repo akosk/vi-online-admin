@@ -35,9 +35,7 @@ class SignupData3Form extends Component {
           value={signupData.miert_szeretne_vallalkozast_inditani || ''}
           onChange={onChange}
           maxCharacters={1200}
-          error={_.get(errors,'miert_szeretne_vallalkozast_inditani.error')
-
-          }
+          error={_.get(errors,'miert_szeretne_vallalkozast_inditani.error') }
 
         />
 
@@ -164,6 +162,5 @@ class SignupData3Form extends Component {
     );
   }
 }
-
 
 export default SignupData3Form;

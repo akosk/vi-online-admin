@@ -50,6 +50,7 @@
     "morgan": "^1.7.0",
     "node-sass": "^3.8.0",
     "nodemailer": "^2.6.0",
+    "nw-react-slider": "^2.0.0",
     "outdated-browser-rework": "^1.0.0",
     "passport": "^0.3.2",
     "raven": "^0.12.1",

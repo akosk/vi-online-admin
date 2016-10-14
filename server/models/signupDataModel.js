@@ -21,7 +21,6 @@ export function updateSignupData(signupData) {
             .then((result)=> {
               return getSignupData(signupData.id)
                 .then((sd)=> {
-                  log.debug('get updated SignupData', sd);
                   return sd;
                 });
             })
@@ -47,7 +46,6 @@ export function insertSignupData(signupData) {
             .then((result)=> {
               return getSignupData(result.generated_keys[0])
                 .then((sd)=> {
-                  log.debug('get inserted SignupData', sd);
                   return sd;
                 });
             })

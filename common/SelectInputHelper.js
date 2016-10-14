@@ -1,5 +1,7 @@
 import * as fieldTypes from './fieldTypes';
 import * as progressTypes from './progressTypes';
+import * as validation from './validation';
+
 export const ALTALANOSNAL_KEVESEBB = 'ALTALANOSNAL_KEVESEBB';
 export const ALTALANOS = 'ALTALANOS';
 export const ALTALANOS_OKJ = 'ALTALANOS_OKJ';
@@ -84,6 +86,38 @@ export function genderOptions() {
   ];
 }
 
+export const TURN_USER_UNDER_18 = "TURN_USER_UNDER_18";
+export const TURN_USER_ALMOST_18 = "TURN_USER_ALMOST_18";
+export const TURN_USER_18_25 = "TURN_USER_18_25";
+export const TURN_USER_25_30 = "TURN_USER_25_30";
+export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
+
+export function birthCategoriesOptions() {
+  return [
+    {
+      value: validation.TURN_USER_UNDER_18,
+      text: '17 év alatti'
+    },
+    {
+      value: validation.TURN_USER_ALMOST_18,
+      text: 'Majdnem 18 éves'
+    },
+
+    {
+      value: validation.TURN_USER_18_25,
+      text: '18 és 25 év közötti'
+    },
+    {
+      value: validation.TURN_USER_25_30,
+      text: '25 és 30 év közötti'
+    },
+    {
+      value: validation.TURN_USER_OVERAGE,
+      text: 'Túlkoros, 30 feletti'
+    }
+
+  ];
+}
 export function kepzesiHelyszinOptions() {
   return [
     {
@@ -106,7 +140,6 @@ export function kepzesiHelyszinOptions() {
 
   ];
 }
-
 export function alternativeKepzesiHelyszinOptions() {
   return [
     {

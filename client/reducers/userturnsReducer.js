@@ -72,6 +72,16 @@ export default function userturns(state = initialState.userturns, action) {
           ...action.userturn
         }
       };
+
+    case types.SET_SIGNUPDATA_SCORE:
+    {
+      const signupData = _.cloneDeep(state.signupData);
+      _.set(signupData, `ratings.${action.key}`, action.score);
+      return {
+        ...state,
+        signupData
+      };
+    }
     default:
       return state;
   }

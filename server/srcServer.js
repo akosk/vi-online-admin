@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import express from 'express';
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
@@ -12,6 +11,9 @@ import {attachRaven} from './sentry';
 
 import router from './router';
 import log from './lib/nodelogger';
+
+
+
 const port = 4000;
 const app = express();
 const compiler = webpack(config);
@@ -36,3 +38,4 @@ app.listen(port, function (err) {
     open(`http://localhost:${port}`);
   }
 });
+

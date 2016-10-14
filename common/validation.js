@@ -2,6 +2,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import * as progressTypes from '../common/progressTypes';
 
+export const TURN_USER_UNDER_18 = "TURN_USER_UNDER_18";
+export const TURN_USER_ALMOST_18 = "TURN_USER_ALMOST_18";
+export const TURN_USER_18_25 = "TURN_USER_18_25";
+export const TURN_USER_25_30 = "TURN_USER_25_30";
+export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
+
 
 export const isTestValid = function (usertest) {
   const emptyItem = _.find(usertest.questions, (item)=> {
@@ -210,12 +216,6 @@ export const validateSignupFinalize = function (progress) {
   return errors;
 };
 
-export const TURN_USER_UNDER_18 = "TURN_USER_UNDER_18";
-export const TURN_USER_ALMOST_18 = "TURN_USER_ALMOST_18";
-export const TURN_USER_18_25 = "TURN_USER_18_25";
-export const TURN_USER_25_30 = "TURN_USER_25_30";
-export const TURN_USER_OVERAGE = "TURN_USER_OVERAGE";
-
 export const getTurnUserData = (turn, birthdate)=> {
   var mBirthDate = moment(birthdate);
 
@@ -232,22 +232,4 @@ export const getTurnUserData = (turn, birthdate)=> {
 
   return TURN_USER_OVERAGE
 }
-
-//export const isSignupHasErrors = function (signupData) {
-//  const errors=[];
-//  if (!signupData.adoazonosito_jel) {
-//    errors.push('Az adóazonosító jel megadása kötelező');
-//  }
-//  if (!signupData.taj) {
-//    errors.push('A TAJ szám megadása kötelező');
-//  }
-//  if (!signupData.birth_date) {
-//    errors.push('Az születés dátumának megadása kötelező');
-//  }
-//  if (!signupData.vallalkozas_szekhelye) {
-//    errors.push('A vállalkozás székhelyének megadása kötelező');
-//  }
-//  return errors;
-//};
-
 

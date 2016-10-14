@@ -1,38 +1,21 @@
 import React, { Component } from 'react';
+import SignupDataViewBase from './SignupDataViewBase';
 import { connect } from 'react-redux';
-import SignupData1Form from '../userturn/signup/SignupData1Form';
 import * as actions from '../../actions';
-import _ from 'lodash';
 
-import ContentTitle from '../common/ContentTitle';
+class SignupData1View extends SignupDataViewBase {
 
-class SignupData1View extends Component {
-
-  componentDidMount() {
-    this.props.getSignupDataByUserId(this.props.params.user_id);
+  constructor(props, context) {
+    super(props, context);
+    this.title = "Alapinformáció, vállalkozási alapfeltétel";
+    this.schemaId = 3;
   }
 
-  render() {
-    return (
-      <div>
-        <ContentTitle title="Alapinformáció, vállalkozási alapfeltétel"/>
-
-        <SignupData1Form
-          onChange={()=>{}}
-          onSave={()=>{}}
-          signupData={this.props.signupData}
-          finalized
-          errors={{}}
-          saving={false}
-        />
-      </div>
-    );
-  }
 }
 
 const mapStateToProps = (state)=>({
-  signupData: _.get(state, 'userturns.signupData', {}),
+  signupData: _.cloneDeep(_.get(state, 'userturns.signupData', {})),
 });
 
-
 export default connect(mapStateToProps, actions)(SignupData1View);
+

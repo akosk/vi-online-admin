@@ -5,6 +5,7 @@ import * as actions from '../../actions';
 import _ from 'lodash';
 import {Checkbox} from 'react-bootstrap';
 import ContentTitle from '../common/ContentTitle';
+import Content from '../common/Content';
 import toastr from 'toastr';
 import * as progressTypes from '../../../common/progressTypes';
 
@@ -16,6 +17,10 @@ class SignupFinalizeView extends Component {
     super(props, context);
     this.state = { checked: false };
     this.onAcceptClick = this.onAcceptClick.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getSignupDataByUserId(this.props.params.user_id);
   }
 
   componentDidMount() {
@@ -81,11 +86,13 @@ class SignupFinalizeView extends Component {
 
 
         <ContentTitle title="Véglegesítés"/>
+
+
         {this.props.progress[progressTypes.SIGNUP_FINALIZED] &&
-        < div >
+        <div>
           < div className="alert alert-success">
             <strong >A jelentkezési kérelem
-              {this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]?' elfogadva': ' elküldve'}.
+              {this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED] ? ' elfogadva' : ' elküldve'}.
 
             </strong>
           </div>
@@ -98,6 +105,26 @@ class SignupFinalizeView extends Component {
         </div>
         }
 
+        {!this.props.progress[progressTypes.SIGNUP_FINALIZED] &&
+
+        <div>
+          <div className="alert alert-success">
+            <strong>A felhasználó még nem véglegesítette a jelentkezését.</strong>
+          </div>
+        </div>
+        }
+
+
+        <div className="text-left">
+          <h5><strong>
+            Kockázati pontszám
+          </strong>
+          </h5>
+          <h5>
+            {_.get(this.props, 'signupData.rating', "-")}
+          </h5>
+        </div>
+
 
       </div>
     );
@@ -108,6 +135,7 @@ const mapStateToProps = (state)=>({
   currentTurn: _.get(state, 'admin.turn', {}),
   userturn: _.get(state, 'userturns.userturn', {}),
   progress: _.get(state, 'userturns.userturn.progress', {}),
+  signupData: _.get(state, 'userturns.signupData', {}),
   user: _.get(state, 'userturns.user', {}),
 });
 

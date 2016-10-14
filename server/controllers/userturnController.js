@@ -114,7 +114,7 @@ class UserturnController {
   static validateSignup(user_id, turn_id) {
     return model.getUserTurn(user_id, turn_id)
                 .then((userturn)=> {
-                  return validateSignupFinalize(userturn.progress);
+                  return (userturn.progress);
                 });
   }
 
