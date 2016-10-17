@@ -7,6 +7,7 @@ import  FilterManager from '../filter/FilterManager';
 import FilterElement from '../filter/FilterElement';
 import toastr from 'toastr';
 import axios from 'axios';
+import config from '../../../server/config';
 
 import log from '../../utils/logger';
 
@@ -57,7 +58,7 @@ class TurnMembersPage extends Component {
   }
 
   onExcelClick = (e)=> {
-    axios.get('http://localhost:4000/signup-datas',
+    axios.get(`${config.rootUrl}/signup-datas`,
       { headers: { 'x-api-token': localStorage.getItem('token') } })
          .then((res)=> {
            this.setState({ showExportModal: true, exportFileName: res.data });
