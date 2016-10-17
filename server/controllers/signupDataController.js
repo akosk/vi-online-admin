@@ -1,6 +1,9 @@
 import rdb from 'rethinkdb';
 import config from '../config';
+import path from 'path';
 
+import moment from "moment";
+import xl from 'excel4node';
 import * as model from '../models/signupDataModel';
 import * as userturnModel from '../models/userturnModel';
 import * as progressTypes from '../../common/progressTypes';
@@ -71,6 +74,68 @@ const validatorPromise = (signupData, validator, status)=> {
 };
 
 class SignupDataController {
+
+
+  static exportSignupData(req, res) {
+
+    const wb = new xl.Workbook();
+
+    var ws = wb.addWorksheet('Jelentkezők');
+
+    var style = wb.createStyle({
+      font: {
+        color: '#000000',
+        size: 12
+      },
+      numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+
+    // A fejlécet beírjuk az első sorba
+    let col = 0;
+    let row = 1;
+    [3, 4, 5].forEach((id)=> {
+      const signupDataSchema = findTable(id);
+      signupDataSchema.fields.forEach((field)=> {
+        col++;
+        ws.cell(row, col).string(field.name).style(style);
+      });
+    });
+
+
+    model.findAllSignupDatas()
+         .then((signupDatas)=> {
+           signupDatas.forEach((data)=> {
+             row++;
+             col = 0;
+             [3, 4, 5].forEach((id)=> {
+               const signupDataSchema = findTable(id);
+               signupDataSchema.fields.forEach((field)=> {
+                 col++;
+                 let val = getStringValue(field, data[field.rname]) || '';
+                 console.log(field.rname, val);
+                 ws.cell(row, col).string(val).style(style);
+               });
+             });
+
+           });
+
+           const filename = `jelentkezok_${moment().format("YYMMDD_x")}.xlsx`;
+           wb.write(path.join(__dirname, '../../client/files/export/') + filename);
+           res.send(filename);
+         })
+         .catch((err)=> {
+           res.status(500);
+           res.send(e);
+         });
+
+    //ws.cell(1, 1).number(100).style(style);
+    //ws.cell(1, 2).number(200).style(style);
+    //ws.cell(1, 3).formula('A1 + B1').style(style);
+    //ws.cell(2, 1).string('string').style(style);
+    //ws.cell(3, 1).bool(true).style(style).style({ font: { size: 14 } });
+
+
+  }
 
   static getSignupDataByUserId(req, res) {
 
@@ -163,6 +228,60 @@ class SignupDataController {
 
 
 }
+
+const getStringValue = (field, value)=> {
+  let valueView;
+  switch (field.type) {
+    case  types.STRING:
+    {
+      valueView = value;
+      break;
+    }
+    case  types.DATETIME:
+    case  types.DATE:
+    {
+      valueView = moment(value).format('YYYY-MM-DD');
+      break;
+    }
+    case  types.SELECT:
+    {
+      let op = _.find(field.options, (i)=> {
+          return i.value == value
+        }
+      );
+      valueView = op && op.text;
+      break;
+    }
+    case  types.RADIOGROUP:
+    {
+      let v = value && value.value;
+      const op = _.find(field.options, (i)=> {
+          return i.value == v
+        }
+      );
+
+      valueView = op && op.text;
+      break;
+    }
+    case  types.MULTICHECKBOX:
+    {
+      valueView = _.keys(value).map((k)=> {
+        if (value[k].checked) {
+          const op = _.find(field.options, (i)=> {
+              return i.value == k
+            }
+          );
+          return op && op.text;
+        }
+      });
+      valueView = valueView.join(',');
+      break;
+    }
+
+
+  }
+  return valueView;
+};
 
 
 export default SignupDataController;

@@ -6,6 +6,7 @@ import {Modal, Panel, Badge, Button} from 'react-bootstrap';
 import  FilterManager from '../filter/FilterManager';
 import FilterElement from '../filter/FilterElement';
 import toastr from 'toastr';
+import axios from 'axios';
 
 import log from '../../utils/logger';
 
@@ -18,10 +19,9 @@ class TurnMembersPage extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.onFilterClick = this.onFilterClick.bind(this);
-    this.onFilterClose = this.onFilterClose.bind(this);
     this.state = {
       showFilterModal: false,
+      showExportModal: false,
       filter: {}
     };
   }
@@ -51,12 +51,29 @@ class TurnMembersPage extends Component {
     };
   }
 
-  onFilterClick(e) {
+  onFilterClick = (e)=> {
     e.preventDefault();
     this.setState({ showFilterModal: true });
   }
 
-  onFilterClose(e) {
+  onExcelClick = (e)=> {
+    axios.get('http://localhost:4000/signup-datas',
+      { headers: { 'x-api-token': localStorage.getItem('token') } })
+         .then((res)=> {
+           this.setState({ showExportModal: true, exportFileName: res.data });
+         })
+         .catch((err)=> {
+           console.log(err);
+           toastr.error('Az exportálás sikertelen. ');
+         });
+  }
+
+  onExportClose = (e)=> {
+    if (e) e.preventDefault();
+    this.setState({ showExportModal: false });
+  }
+
+  onFilterClose = (e)=> {
     if (e) e.preventDefault();
     this.setState({ showFilterModal: false });
   }
@@ -85,8 +102,8 @@ class TurnMembersPage extends Component {
   onMailChimpExportClick = (e)=> {
     e.preventDefault;
     this.props.mailChimpExport(this.props.users.map((u)=> {
-      return {id:u.id, name:u.name, email:u.email};
-    }),this.state.filter.name)
+          return { id: u.id, name: u.name, email: u.email };
+        }), this.state.filter.name)
         .then((res)=> {
           toastr.success('Az exportálás a MailChimp felé megtörtént.');
         })
@@ -101,11 +118,13 @@ class TurnMembersPage extends Component {
 
     const toolButtons = [
       { icon: 'fa fa-filter', onClick: this.onFilterClick },
+      { icon: 'fa fa-file-excel-o', onClick: this.onExcelClick },
     ];
 
     if (this.state.filter.id) {
       toolButtons.push({ img: '/images/freddie_wink.svg', onClick: this.onMailChimpExportClick });
     }
+
 
     return (
       <Content category="Turnus" title="Turnus felhasználói" badge={users.length}
@@ -153,9 +172,27 @@ class TurnMembersPage extends Component {
             <Button onClick={this.onFilterClose}>Bezár</Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal show={this.state.showExportModal} onHide={this.onExportClose} dialogClassName="wide-modal">
+          <Modal.Header closeButton>
+            <Modal.Title>Excel export</Modal.Title>
+          </Modal.Header>
+          <Modal.Body >
+
+            <div>Kattintson az alábbi linkre a generált Excel fájl letöltéséhez:</div>
+
+
+                <a className="btn btn-primary" href={`/files/export/${this.state.exportFileName}`}>{this.state.exportFileName}</a>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.onExportClose}>Bezár</Button>
+          </Modal.Footer>
+        </Modal>
       </Content>
     );
   }
+
 }
 
 

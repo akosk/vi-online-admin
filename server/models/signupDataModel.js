@@ -79,6 +79,28 @@ export function getSignupData(id) {
             });
 }
 
+export function findAllSignupDatas(filter) {
+  let conn = null;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('signup_datas')
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((signupDatas)=> {
+              return signupDatas;
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
+}
+
 export function getSignupDataByUserId(user_id) {
   log.debug('getSignupDataByUserId', user_id);
 

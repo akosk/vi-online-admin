@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SignupDataViewBase from './SignupDataViewBase';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import _  from 'lodash';
 
 class SignupData3View extends SignupDataViewBase {
   constructor(props,context) {
