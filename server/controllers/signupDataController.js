@@ -112,7 +112,6 @@ class SignupDataController {
                signupDataSchema.fields.forEach((field)=> {
                  col++;
                  let val = getStringValue(field, data[field.rname]) || '';
-                 console.log(field.rname, val);
                  ws.cell(row, col).string(val).style(style);
                });
              });
@@ -125,7 +124,7 @@ class SignupDataController {
          })
          .catch((err)=> {
            res.status(500);
-           res.send(e);
+           res.send(err);
          });
 
     //ws.cell(1, 1).number(100).style(style);
