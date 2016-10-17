@@ -58,7 +58,7 @@ class TurnMembersPage extends Component {
   }
 
   onExcelClick = (e)=> {
-    axios.get(`${config.rootUrl}/signup-datas`,
+    axios.get(`${config.rootUrl}signup-datas`,
       { headers: { 'x-api-token': localStorage.getItem('token') } })
          .then((res)=> {
            this.setState({ showExportModal: true, exportFileName: res.data });
