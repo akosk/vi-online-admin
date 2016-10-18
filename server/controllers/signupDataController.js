@@ -105,7 +105,7 @@ class SignupDataController {
     });
 
 
-    model.findAllSignupDatas(turn_id)
+    model.findTurnSignupDatas(turn_id)
          .then((signupDatas)=> {
            signupDatas.forEach((data)=> {
              row++;

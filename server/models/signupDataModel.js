@@ -101,7 +101,7 @@ export function findAllSignupDatas(filter) {
 
 }
 
-export function findTurnsSignupDatas(turn_id, filter) {
+export function findTurnSignupDatas(turn_id, filter) {
   let conn = null;
 
   //r.db('vi_del_dunantul').table('users')
