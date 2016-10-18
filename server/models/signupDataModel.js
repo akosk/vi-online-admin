@@ -101,6 +101,44 @@ export function findAllSignupDatas(filter) {
 
 }
 
+export function findTurnsSignupDatas(turn_id, filter) {
+  let conn = null;
+
+  //r.db('vi_del_dunantul').table('users')
+  // .eqJoin('id',r.db('vi_del_dunantul').table('userturns'),{index:'user_id'})
+  // .zip()
+  // .filter({'turn_id':'4f01f5ed-6ff8-4772-8ff2-a54902ea5540'})
+  // .eqJoin('user_id',r.db('vi_del_dunantul').table('signup_datas'),{index:'user_id'})
+  // .zip()
+  // .filter({'turn_id':'4f01f5ed-6ff8-4772-8ff2-a54902ea5540'})
+
+
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('users')
+                        .eqJoin('id',rdb.table('userturns'),{index:'user_id'})
+                        .zip()
+                        .filter({turn_id})
+                        .eqJoin('user_id',rdb.table('signup_datas'),{index:'user_id'})
+                        .zip()
+                        .filter({turn_id})
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((signupDatas)=> {
+              return signupDatas;
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+
+}
+
 export function getSignupDataByUserId(user_id) {
   log.debug('getSignupDataByUserId', user_id);
 

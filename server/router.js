@@ -39,7 +39,7 @@ const router = (app, mode = 'dev')=> {
   app.put('/userturns', authorize, blocked, UserturnController.signUpToTurn);
 
   app.get('/get-signup-data/:user_id', authorize, blocked, SignupDataController.getSignupDataByUserId);
-  app.get('/signup-datas', authorize, blocked, SignupDataController.exportSignupData);
+  app.get('/signup-datas/:turn_id', authorize, blocked, SignupDataController.exportSignupData);
   app.post('/signup-datas', authorize, blocked, SignupDataController.saveSignupData);
   app.post('/signup-datas/:signup_data_id', authorize, blocked, SignupDataController.saveSignupData);
 

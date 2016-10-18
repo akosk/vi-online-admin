@@ -78,6 +78,9 @@ class SignupDataController {
 
   static exportSignupData(req, res) {
 
+
+    const {turn_id}=req.params;
+
     const wb = new xl.Workbook();
 
     var ws = wb.addWorksheet('Jelentkezők');
@@ -102,7 +105,7 @@ class SignupDataController {
     });
 
 
-    model.findAllSignupDatas()
+    model.findAllSignupDatas(turn_id)
          .then((signupDatas)=> {
            signupDatas.forEach((data)=> {
              row++;
