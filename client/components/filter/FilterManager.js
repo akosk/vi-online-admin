@@ -197,6 +197,7 @@ class FilterManager extends Component {
 
   options() {
     return {
+      sizePerPage: 300,
       'sortName': 'name',
       'sortOrder': 'asc',
       'defaultSortName': 'name',
