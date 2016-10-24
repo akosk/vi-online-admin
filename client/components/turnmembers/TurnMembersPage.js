@@ -45,8 +45,31 @@ class TurnMembersPage extends Component {
     </Link>);
   }
 
+  sizePerPageListChange=(sizePerPage) =>{
+    alert(`sizePerPage: ${sizePerPage}`);
+  }
+
   options() {
     return {
+      sizePerPage: 300,
+      onSizePerPageList: this.sizePerPageListChange,
+      sizePerPageList: [
+        {
+          text: '10', value: 10
+        },
+        {
+          text: '50', value: 50
+        },
+        {
+          text: '100', value: 100
+        },
+        {
+          text: '300', value: 300
+        },
+        {
+          text: '500', value: 500
+        }
+      ],
       insertText: 'Hozzáad',
       deleteText: 'Töröl',
     };
@@ -183,7 +206,8 @@ class TurnMembersPage extends Component {
             <div>Kattintson az alábbi linkre a generált Excel fájl letöltéséhez:</div>
 
 
-                <a className="btn btn-primary" href={`/files/export/${this.state.exportFileName}`}>{this.state.exportFileName}</a>
+            <a className="btn btn-primary"
+               href={`/files/export/${this.state.exportFileName}`}>{this.state.exportFileName}</a>
 
           </Modal.Body>
           <Modal.Footer>

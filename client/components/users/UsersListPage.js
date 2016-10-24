@@ -17,7 +17,8 @@ class UsersListPage extends Component {
       afterDeleteRow: (rowKeys)=> {
         this.props.deleteSelectedUsers(rowKeys);
       },
-      sizePerPageList: [10, 20, 50, 100],
+      sizePerPage: 300,
+      sizePerPageList: [10, 20, 50, 100,300],
       insertText: 'Hozzáad',
       deleteText: 'Töröl',
     };
