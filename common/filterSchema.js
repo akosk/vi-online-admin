@@ -388,7 +388,7 @@ export const schema = [
         rname: "piackutatast_vegzett_bemutatas",
         name: "Piackutatás bemutatása",
         longName:"Ha végzett piackutatást, mutassa be röviden (maximum 1000 karakterben) a piackutatás eredményét!",
-        type: types.DATE,
+        type: types.STRING,
       },
       {
         rname: "vallalkozas_formaja",
