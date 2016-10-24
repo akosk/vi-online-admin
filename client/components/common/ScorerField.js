@@ -1,5 +1,6 @@
 import React from 'react';
 import * as types from '../../../common/fieldTypes';
+import moment from 'moment';
 import  _ from 'lodash';
 import Slider from 'nw-react-slider';
 import 'nw-react-slider/dist/nw-react-slider.css';
@@ -11,20 +12,20 @@ import {Label} from 'react-bootstrap';
 const getValueView = (value, field)=> {
 
   if (!value) {
-    return "Nincs kitöltve";
+    return <div className="text-warning"><i className="fa fa-question-circle-o" aria-hidden="true"></i> Nincs kitöltve</div> ;
   }
 
   let valueView;
   switch (field.type) {
     case  types.STRING:
     {
-      valueView = value;
+      valueView = <input className="form-control" type="text" value={value}/>;
       break;
     }
     case  types.DATETIME:
     case  types.DATE:
     {
-      valueView = value;
+      valueView = <input className="form-control" type="text" value={moment(value).format('YYYY-MM-DD')}/>;
       break;
     }
     case  types.SELECT:
@@ -35,7 +36,7 @@ const getValueView = (value, field)=> {
       );
 
       valueView = <div>
-        {op && op.text}
+        {op && <input className="form-control" type="text" value={op.text}/>}
         {op && op.extraQuestion &&
         <ExtraView question={op.extraQuestion} value={value.extra.value}/>
         }
@@ -51,7 +52,7 @@ const getValueView = (value, field)=> {
       );
 
       valueView = <div>
-        {op && op.text}
+        {op && <input className="form-control" type="text" value={op.text}/>}
         {op && op.extraQuestion &&
         <ExtraView question={op.extraQuestion} value={value.extra.value}/>
         }
@@ -67,14 +68,15 @@ const getValueView = (value, field)=> {
               return i.value == k
             }
           );
-          return <li key={k}>{op.text}
+          return <div key={k}>
+            <input className="form-control" type="text" value={op.text}/>
             {op.extraQuestion &&
             <ExtraView question={op.extraQuestion} value={value[k].extra.value}/>
             }
-          </li>;
+          </div>;
         }
       });
-      valueView = <ul>{valueView}</ul>;
+      valueView = <div>{valueView}</div>;
       break;
     }
 
