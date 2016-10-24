@@ -147,7 +147,7 @@ class FilterManager extends Component {
         default:
           form[index][field] = event.target.value;
       }
-      if (event.target.name=="tableId") {
+      if (event.target.name == "tableId") {
         const table = filter.findTable(event.target.value);
         form[index]["table"] = table.rname;
       }
@@ -196,7 +196,12 @@ class FilterManager extends Component {
 
 
   options() {
-    return {};
+    return {
+      'sortName': 'name',
+      'sortOrder': 'asc',
+      'defaultSortName': 'name',
+      'defaultSortOrder ': 'asc'
+    };
   }
 
   selectRowProp() {
@@ -206,7 +211,7 @@ class FilterManager extends Component {
       bgColor: "rgb(238, 193, 213)",
       onSelect: (row, isSelected)=> {
         this.setState({
-          filter: isSelected ? {...row} : { ...filterInitialState }
+          filter: isSelected ? { ...row } : { ...filterInitialState }
         });
       },
       onSelectAll: (isSelected)=> {
@@ -305,7 +310,7 @@ class FilterManager extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    filters: _.cloneDeep( _.get(state, 'filters', []))
+    filters: _.cloneDeep(_.get(state, 'filters', []))
   };
 };
 
