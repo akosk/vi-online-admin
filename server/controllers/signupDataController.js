@@ -34,7 +34,9 @@ export const getScore = (field, signupData)=> {
       }
     }
     if (optionValue) {
-      score = field.ratings[optionValue];
+      score = field.ratings[optionValue] || 0;
+    } else {
+      score=0;
     }
   }
   return score;
