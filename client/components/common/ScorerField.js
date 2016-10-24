@@ -28,6 +28,7 @@ const getValueView = (value, field)=> {
       valueView = <input className="form-control" type="text" value={moment(value).format('YYYY-MM-DD')}/>;
       break;
     }
+    case  types.ENTRY:
     case  types.SELECT:
     {
       let op = _.find(field.options, (i)=> {

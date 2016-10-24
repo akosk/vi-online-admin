@@ -224,6 +224,13 @@ export const schema = [
       {
         rname: "birth_category",
         name: "Születési kategória",
+        type: types.ENTRY,
+        options: inputHelper.birthCategoriesOptions()
+      },
+
+      {
+        rname: "birth_category",
+        name: "Születési kategória",
         calculated: true,
         type: types.SELECT,
         rating: RATING_TYPE_AUTO,
