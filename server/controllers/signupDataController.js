@@ -6,10 +6,11 @@ import moment from "moment";
 import xl from 'excel4node';
 import * as model from '../models/signupDataModel';
 import * as userturnModel from '../models/userturnModel';
+import * as turnModel from '../models/turnModel';
 import * as progressTypes from '../../common/progressTypes';
 import * as types from '../../common/fieldTypes';
 import _ from 'lodash';
-import {isSignup1HasErrors, isSignup2HasErrors, isSignup3HasErrors} from '../../common/validation';
+import {isSignup1HasErrors, isSignup2HasErrors, isSignup3HasErrors, getTurnUserData} from '../../common/validation';
 import log from '../lib/nodelogger';
 import {schema, findTable, RATING_TYPE_AUTO, RATING_TYPE_MANUAL} from '../../common/filterSchema';
 
@@ -36,7 +37,7 @@ export const getScore = (field, signupData)=> {
     if (optionValue) {
       score = field.ratings[optionValue] || 0;
     } else {
-      score=0;
+      score = 0;
     }
   }
   return score;
@@ -172,14 +173,28 @@ class SignupDataController {
     log.debug("saveSignupData");
 
     signupData = calculateScore(signupData);
-    let promise = null;
-    if (signupData.id) {
-      promise = model.updateSignupData(signupData);
-    } else {
-      signupData.user_id = req.token.user.id;
-      promise = model.insertSignupData(signupData);
-    }
-    promise
+
+    let turnPromise = userturnModel.getUserTurn(signupData.user_id, signupData.turn_id)
+                                   .then((userturn)=> {
+                                     return turnModel.getTurn(userturn.turn_id);
+
+                                   })
+                                   .then((turn)=> {
+                                     signupData.birth_category = getTurnUserData(turn.training_start_at, signupData.birth_date);
+                                     return signupData;
+                                   });
+
+
+
+    turnPromise
+      .then((signupData)=> {
+        if (signupData.id) {
+          return model.updateSignupData(signupData);
+        } else {
+          signupData.user_id = req.token.user.id;
+          return model.insertSignupData(signupData);
+        }
+      })
       .then((signupData)=> {
         if (signupData.honnan_ertesult !== undefined) {
           return userturnModel.setProgress(signupData.user_id, signupData.turn_id, progressTypes.SIGNUP_DATA1_SAVED)
