@@ -172,6 +172,12 @@ class SignupDataController {
     let signupData = req.body;
     log.debug("saveSignupData");
 
+    if (!signupData.user_id){
+      signupData.user_id=req.token.user.id;
+    };
+
+
+
     signupData = calculateScore(signupData);
 
     let turnPromise = userturnModel.getUserTurn(signupData.user_id, signupData.turn_id)
