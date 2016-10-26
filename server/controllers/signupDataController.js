@@ -174,7 +174,7 @@ class SignupDataController {
 
     if (!signupData.user_id){
       signupData.user_id=req.token.user.id;
-    };
+    }
 
 
 
