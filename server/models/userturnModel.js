@@ -29,6 +29,7 @@ const appendFilter = (query, c, field) => {
     case fieldTypes.SELECT:
       query = query.eq(`${c.value}`);
       break;
+    case fieldTypes.TEXT:
     case fieldTypes.STRING:
       switch (c.rel) {
         case 'LIKE':

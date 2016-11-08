@@ -374,14 +374,14 @@ export const schema = [
         name: "Miért szeretne vállalkozást indítani",
         longName:"Miért szeretne vállalkozást indítani? Mi motiválja, hogy vállalkozó legyen, vannak-e jó példák Ön előtt, van-e már valamilyen vállalkozási tapasztalata? Foglalja össze röviden, (maximum 1200 karakterben)!",
         rating: RATING_TYPE_MANUAL,
-        type: types.STRING
+        type: types.TEXT
       },
       {
         rname: "mivel_foglalkozik_a_vallalkozas",
         name: "Mivel foglalkozik majd a vállalkozása",
         longName:"Írja le röviden (maximum 1000 karakterben), mivel foglalkozik majd a vállalkozása, milyen terméket, szolgáltatást kínál, kik lesznek a vevői, ügyfelei?",
         rating: RATING_TYPE_MANUAL,
-        type: types.STRING
+        type: types.TEXT
       },
       {
         rname: "piackutatast_vegzett",
@@ -395,7 +395,7 @@ export const schema = [
         rname: "piackutatast_vegzett_bemutatas",
         name: "Piackutatás bemutatása",
         longName:"Ha végzett piackutatást, mutassa be röviden (maximum 1000 karakterben) a piackutatás eredményét!",
-        type: types.STRING,
+        type: types.TEXT,
       },
       {
         rname: "vallalkozas_formaja",

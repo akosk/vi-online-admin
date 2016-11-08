@@ -1,4 +1,5 @@
 export const STRING = "STRING";
+export const TEXT = "TEXT";
 export const DATE = "DATE";
 export const DATETIME = "DATETIME";
 export const SELECT = "SELECT";

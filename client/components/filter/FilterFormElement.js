@@ -24,6 +24,7 @@ class FilterFormElement extends Component {
     if (item.tableId && item.field) {
       field = filter.findField(item.tableId, item.field);
       switch (field.type) {
+        case fieldTypes.TEXT:
         case fieldTypes.STRING:
           valueInput = (<TextInput
             name="value"

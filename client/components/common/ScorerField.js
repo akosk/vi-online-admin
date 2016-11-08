@@ -22,6 +22,16 @@ const getValueView = (value, field)=> {
       valueView = <input className="form-control" type="text" value={value}/>;
       break;
     }
+    case  types.TEXT:
+    {
+      valueView = (<textarea
+        type="text"
+        className="form-control"
+        value={value}
+        rows="5">
+          </textarea>);
+      break;
+    }
     case  types.DATETIME:
     case  types.DATE:
     {

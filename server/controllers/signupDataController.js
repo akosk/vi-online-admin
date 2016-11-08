@@ -257,6 +257,7 @@ class SignupDataController {
 const getStringValue = (field, value)=> {
   let valueView;
   switch (field.type) {
+    case  types.TEXT:
     case  types.STRING:
     {
       valueView = value;
