@@ -81,7 +81,7 @@ class AuthController {
       const {email}=req.body;
 
       const id = uuid.v1();
-      const url = `${config.rootUrl}/change-password/${id}`;
+      const url = `${config.rootUrl}change-password/${id}`;
       const link = `<a href='${url}'>${url}</a>`;
 
 
