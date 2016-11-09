@@ -248,6 +248,32 @@ export function getUserTurn(user_id, turn_id) {
 
 }
 
+export function getUserTurnById(userturn_id) {
+  let conn;
+  return rdb.connect(config.db)
+            .then((c)=> {
+              conn = c;
+              return rdb.table('userturns')
+                        .get(userturn_id)
+                        .coerceTo('array')
+                        .run(conn);
+            })
+            .then((userturns)=> {
+              if (userturns.length == 0) {
+                return null;
+              }
+              const userturn = userturns[0];
+              return userturn;
+            })
+            .error(function (err) {
+              log.debug(err);
+            })
+            .finally(function () {
+              if (conn) conn.close();
+            });
+
+}
+
 export function setProgress(user_id, turn_id, progressName) {
 
   log.debug('setProgress', user_id, turn_id, progressName);

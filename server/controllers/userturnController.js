@@ -5,20 +5,22 @@ import * as model from '../models/userturnModel';
 import * as turnModel from '../models/turnModel';
 import * as usertestModel from '../models/usertestModel';
 import * as signupDataModel from '../models/signupDataModel';
+import * as userModel from '../models/userModel';
 import * as progressTypes from '../../common/progressTypes';
 import {validateSignupFinalize} from '../../common/validation';
 import log from '../lib/nodelogger';
+import nodemailer from 'nodemailer';
 
 class UserturnController {
 
 
   static getTurnMembers(req, res) {
-    const {turn_id} =req.params;
-    const {filter}=req.body;
+    const { turn_id } =req.params;
+    const { filter }=req.body;
 
     log.debug(`getTurnMembers ${turn_id} ${filter}`);
 
-    model.getTurnMembers(turn_id,filter)
+    model.getTurnMembers(turn_id, filter)
          .then((users)=> {
            return res.send(users);
          })
@@ -37,13 +39,42 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {userturn_id} =req.params;
-    const {progress} = req.body;
+    const { userturn_id } =req.params;
+    const { progress } = req.body;
     log.debug(`setProgress ${userturn_id} ${progress}`);
 
+    let userturn = null;
     return model.setProgressById(userturn_id, progress)
-                .then((userturn)=> {
+                .then((ut)=> {
+                  userturn = ut;
                   log.debug('UserturnController/setProgressById', userturn);
+                  return userModel.getUser(userturn.user_id);
+                })
+                .then((user)=> {
+                  if (progress === progressTypes.SIGNUP_COMPLETED) {
+                    const transporter = nodemailer.createTransport(config.smtp);
+                    transporter.sendMail({
+                      from: 'admin@vallalkozzitthon.hu',
+                      to: user.email,
+                      subject: 'Jelentkezés elfogadása',
+                      html: `
+                     Tisztelt Vállalkozó!<br/>
+                     <br/>
+                     Örömmel értesítjük, hogy jelentkezése elfogadásra került.<br/>
+                     <br/>
+                     Gratulálunk!                     
+                     <br/>
+                     <br/>
+                     Üdvözlettel:<br/>
+                     Vállalkozz Itthon
+
+                     `
+                    }, (err, info)=> {
+                      log.debug('Email sent.', info);
+                    });
+                  }
+                })
+                .then(()=> {
                   res.send(userturn);
                 })
                 .catch((err)=> {
@@ -64,8 +95,8 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {userturn_id} =req.params;
-    const {note} = req.body;
+    const { userturn_id } =req.params;
+    const { note } = req.body;
     log.debug(`setAgreementNote ${userturn_id} ${note}`);
 
     return model.setAgreementNoteById(userturn_id, note)
@@ -89,8 +120,8 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {userturn_id} =req.params;
-    const {progress} = req.body;
+    const { userturn_id } =req.params;
+    const { progress } = req.body;
     log.debug(`removeProgress ${userturn_id} ${progress}`);
 
     return model.removeProgressById(userturn_id, progress)
@@ -125,7 +156,7 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {user_id, turn_id} = req.body;
+    const { user_id, turn_id } = req.body;
     log.debug(`finalizeSignup ${user_id} ${turn_id}`);
 
 
@@ -137,7 +168,7 @@ class UserturnController {
                           return model.setProgress(user_id, turn_id, progressTypes.SIGNUP_FINALIZED);
                         }
                       )
-                      .then((userturn)=>{
+                      .then((userturn)=> {
                         return model.removeProgress(user_id, turn_id, progressTypes.SIGNUP_REJECTED);
                       })
 
@@ -165,7 +196,7 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {user_id}=req.params;
+    const { user_id }=req.params;
     log.debug(`getCurrentTurn for ${user_id}`);
 
 
@@ -189,7 +220,7 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {user_id, turn_id}=req.params;
+    const { user_id, turn_id }=req.params;
 
     log.debug(`getUserTurn for ${user_id} ${turn_id}`);
 
@@ -214,7 +245,7 @@ class UserturnController {
       return res.send('Bad request.');
     }
 
-    const {user_id, turn_id}=req.body;
+    const { user_id, turn_id }=req.body;
 
     model.insertUserturn(user_id, turn_id)
          .then(()=> {
