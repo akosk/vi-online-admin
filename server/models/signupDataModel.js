@@ -104,13 +104,6 @@ export function findAllSignupDatas(filter) {
 export function findTurnSignupDatas(turn_id, filter) {
   let conn = null;
 
-  //r.db('vi_del_dunantul').table('users')
-  // .eqJoin('id',r.db('vi_del_dunantul').table('userturns'),{index:'user_id'})
-  // .zip()
-  // .filter({'turn_id':'4f01f5ed-6ff8-4772-8ff2-a54902ea5540'})
-  // .eqJoin('user_id',r.db('vi_del_dunantul').table('signup_datas'),{index:'user_id'})
-  // .zip()
-  // .filter({'turn_id':'4f01f5ed-6ff8-4772-8ff2-a54902ea5540'})
 
 
   return rdb.connect(config.db)
@@ -120,7 +113,12 @@ export function findTurnSignupDatas(turn_id, filter) {
                         .eqJoin('id',rdb.table('userturns'),{index:'user_id'})
                         .zip()
                         .filter({turn_id})
-                        .eqJoin('user_id',rdb.table('signup_datas'),{index:'user_id'})
+                        // .eqJoin('user_id',rdb.table('signup_datas'),{index:'user_id'})
+                        .outerJoin(rdb.table("signup_datas"),
+                          function (user, signup_data) {
+                            return signup_data("user_id").eq(user("user_id"));
+                          }
+                        )
                         .zip()
                         .filter({turn_id})
                         .coerceTo('array')
