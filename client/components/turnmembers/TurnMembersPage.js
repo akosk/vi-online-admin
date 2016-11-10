@@ -125,9 +125,12 @@ class TurnMembersPage extends Component {
 
   onMailChimpExportClick = (e)=> {
     e.preventDefault;
+
+    const listName=this.state.filter.id ? this.state.filter.name : "Turnus összes tagja";
+
     this.props.mailChimpExport(this.props.users.map((u)=> {
           return { id: u.id, name: u.name, email: u.email };
-        }), this.state.filter.name)
+        }), listName)
         .then((res)=> {
           toastr.success('Az exportálás a MailChimp felé megtörtént.');
         })
@@ -143,12 +146,8 @@ class TurnMembersPage extends Component {
     const toolButtons = [
       { icon: 'fa fa-filter', onClick: this.onFilterClick },
       { icon: 'fa fa-file-excel-o', onClick: this.onExcelClick },
+      { img: '/images/freddie_wink.svg', onClick: this.onMailChimpExportClick }
     ];
-
-    if (this.state.filter.id) {
-      toolButtons.push({ img: '/images/freddie_wink.svg', onClick: this.onMailChimpExportClick });
-    }
-
 
     return (
       <Content category="Turnus" title="Turnus felhasználói" badge={users.length}
