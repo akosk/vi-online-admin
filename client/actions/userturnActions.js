@@ -151,13 +151,25 @@ export function loadUser(user_id) {
   };
 }
 
+export function sendMessage(data){
+  return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
+    return userturnApi.sendMessage(data).then((result) => {
+      dispatch(sendMessageSuccess(result.data));
+      return true;
+    }).catch(resp => {
+      throw(resp.data.error);
+    });
+  };
+}
+
 
 function setProgressSuccess(data) {
   return { type: types.SET_PROGRESS_SUCCESS, data };
 }
 
-function setAgreementNoteSuccess(note) {
-  return { type: types.SET_AGREEMENT_NOTE_SUCCESS, note };
+function sendMessageSuccess(data) {
+  return { type: types.SEND_MESSAGE_SUCCESS, userturn:data };
 }
 
 function loadUserSuccess(user) {

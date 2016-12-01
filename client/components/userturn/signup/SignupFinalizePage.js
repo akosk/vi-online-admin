@@ -6,9 +6,11 @@ import toastr from 'toastr';
 import _ from 'lodash';
 import Content from '../../common/Content';
 import classnames from 'classnames';
+import ListMessages from '../../messages/ListMessages';
 
 import * as progressTypes from '../../../../common/progressTypes';
 import {validateSignupFinalize} from '../../../../common/validation';
+
 
 import * as actions from '../../../actions';
 
@@ -127,6 +129,10 @@ class SignupFinalizePage extends Component {
         </Alert>
         }
 
+        <div className="text-center">
+        <ListMessages messages={this.props.messages}/>
+        </div>
+
       </Content>
     );
   }
@@ -136,6 +142,7 @@ const mapStateToProps = (state)=>({
   user: state.auth.user,
   currentTurn: _.get(state, 'userturns.currentTurn', {}),
   userturn: _.get(state, 'userturns.userturn', null),
+  messages: _.get(state, 'userturns.userturn.messages', []),
   progress: _.get(state, 'userturns.userturn.progress', {}),
   signupRejected: _.get(state, 'userturns.userturn.progress.SIGNUP_REJECTED', null),
   signupFinalized: _.get(state, 'userturns.userturn.progress.SIGNUP_FINALIZED', null),

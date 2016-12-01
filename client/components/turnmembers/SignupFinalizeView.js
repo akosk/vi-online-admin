@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import TestFiller from '../test/TestFiller';
 import * as actions from '../../actions';
+
 import _ from 'lodash';
 import {Checkbox} from 'react-bootstrap';
 import ContentTitle from '../common/ContentTitle';
 import Content from '../common/Content';
 import toastr from 'toastr';
 import * as progressTypes from '../../../common/progressTypes';
+import * as messageTypes from '../../../common/messageTypes';
+import SendMessage  from '../../components/messages/SendMessage';
+import ListMessages  from '../../components/messages/ListMessages';
+
 
 import log from '../../utils/logger';
 
@@ -123,6 +128,19 @@ class SignupFinalizeView extends Component {
           <h5>
             {_.get(this.props, 'signupData.rating', "-")}
           </h5>
+        </div>
+
+        <ContentTitle title="Üzenetek"/>
+
+        <div>
+          <SendMessage
+            category={messageTypes.SIGNUP_COMPLETION}
+            userturn={this.props.userturn}
+          />
+        </div>
+
+        <div>
+          <ListMessages messages={this.props.userturn.messages}/>
         </div>
 
 

@@ -141,6 +141,30 @@ class UserturnController {
 
   }
 
+  static sendMessage(req, res) {
+    if (!req.body) {
+      res.status(400);
+      return res.send('Bad request.');
+    }
+
+    const { userturn_id, category, message, from } =req.body;
+    log.debug(`sendMessage ${userturn_id} ${message}`);
+
+    return model.sendMessage(userturn_id, {category,message,from})
+                .then((userturn)=> {
+                  res.send(userturn);
+                })
+                .catch((err)=> {
+                  if (err.errors) {
+                    return res.send({ errors: err.errors });
+                  }
+                  log.debug(err);
+                  res.status(500);
+
+                  return res.send(err);
+                });
+
+  }
 
   static validateSignup(user_id, turn_id) {
     return model.getUserTurn(user_id, turn_id)

@@ -66,6 +66,7 @@ const router = (app, mode = 'dev')=> {
   app.post('/set-progress/:userturn_id', authorize, blocked, UserturnController.setProgress);
   app.post('/set-agreement-note/:userturn_id', authorize, blocked, UserturnController.setAgreementNote);
   app.post('/remove-progress/:userturn_id', authorize, blocked, UserturnController.removeProgress);
+  app.post('/send-message', authorize, blocked, UserturnController.sendMessage);
 
   app.post('/get-turn-members/:turn_id', authorize, blocked, UserturnController.getTurnMembers);
 

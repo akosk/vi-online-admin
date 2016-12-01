@@ -221,12 +221,6 @@ export const schema = [
         name: "Születési idő",
         type: types.DATE,
       },
-      {
-        rname: "birth_category",
-        name: "Születési kategória",
-        type: types.ENTRY,
-        options: inputHelper.birthCategoriesOptions()
-      },
 
       {
         rname: "birth_category",

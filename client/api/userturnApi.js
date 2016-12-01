@@ -25,6 +25,13 @@ class UserturnApi {
     );
   }
 
+  static sendMessage(data) {
+    return axios.post(`/send-message`,
+      { ...data },
+      { headers: { 'x-api-token': localStorage.getItem('token') } }
+    );
+  }
+
   static setAgreementNote(userturn_id, note) {
     return axios.post(`/set-agreement-note/${userturn_id}`,
       { note },

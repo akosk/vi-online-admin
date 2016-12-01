@@ -66,6 +66,7 @@ export default function userturns(state = initialState.userturns, action) {
     case types.ACCEPT_SIGNUP_STATEMENTS_SUCCESS:
     case types.FINALIZE_SIGNUP_SUCCESS:
     case types.GET_USER_TURN_SUCCESS:
+    case types.SEND_MESSAGE_SUCCESS:
       return {
         ...state,
         userturn: {
