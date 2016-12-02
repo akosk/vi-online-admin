@@ -389,15 +389,15 @@ export function megfeleloIdopontOptions() {
       value: 'nem_tudok_bejarni'
     },
     {
-      text: '2016. októbere vagy novembere',
+      text: '2016. december - 2017. január',
       value: '2016_okt_nov'
     },
     {
-      text: '2017. február vagy március',
+      text: '2017. március - április',
       value: '2017_feb_mar'
     },
     {
-      text: '2017. szeptember vagy október',
+      text: '2017. szeptember - október',
       value: '2017_szep_okt'
     }
   ];
