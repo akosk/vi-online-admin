@@ -1,0 +1,95 @@
+@message-content-arrow-outer-width: 12px;
+@message-content-arrow-width: 12px;
+@message-content-arrow-outer-color: #ccc;
+@message-content-arrow-color: white;
+@message-content-max-width: 400px;
+@real-border-size: 2px;
+
+.message-container {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  justify-content: center;
+  min-height: 150px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .message-avatar {
+
+    display: flex;
+    align-items: center;
+    text-align: right;
+
+    p {
+      text-align:center;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+
+    }
+
+  }
+
+}
+
+.message-content {
+
+  position: relative;
+  text-align:justify;
+  z-index: 1064;
+  max-width: @message-content-max-width;
+  padding: 10px;
+  min-width:300px;
+
+  background-color: @message-content-arrow-color;
+  background-clip: padding-box;
+  border: @real-border-size solid @message-content-arrow-outer-color;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+
+  &.message-right {
+    margin-left: @message-content-arrow-width;
+  }
+}
+
+.message-content > .message-arrow {
+  &,
+  &:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+
+.message-content > .message-arrow {
+  border-width: @message-content-arrow-outer-width;
+}
+
+.message-content > .message-arrow:after {
+  border-width: @message-content-arrow-width;
+  content: "";
+}
+
+.message-content {
+
+  &.message-right > .message-arrow {
+    top: 50%;
+    left: -@message-content-arrow-outer-width;
+    margin-top: -@message-content-arrow-outer-width;
+    border-left-width: 0;
+    border-right-color: @message-content-arrow-outer-color;
+    &:after {
+      content: " ";
+      left: @real-border-size+1;
+      bottom: -@message-content-arrow-width;
+      border-left-width: 0;
+      border-right-color: @message-content-arrow-color;
+    }
+  }
+
+}
