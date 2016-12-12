@@ -117,7 +117,7 @@ class SignupFinalizePage extends Component {
 
         {(this.props.signupRejected) &&
         <Alert bsStyle="danger">
-          A jelentkezését az adminisztrátor elutasította! Az űrlapok módosítása után újra véglegesítheti a jelentkezését.
+          A jelentkezésedet az adminisztrátor módosításra visszaküldte! Kérjük mielőbb módosítsd az alábbiakban kért részt ügyelve a helyesírásra, és minden adat ellenőrzését vagy pontosítását követően újra véglegesítsd a jelentkezésedet!
         </Alert>
         }
 
