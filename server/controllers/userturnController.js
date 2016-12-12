@@ -58,15 +58,19 @@ class UserturnController {
                       to: user.email,
                       subject: 'Jelentkezés elfogadása',
                       html: `
-                     Tisztelt Vállalkozó!<br/>
+                     Kedves Jelentkező!<br/>
                      <br/>
-                     Örömmel értesítjük, hogy jelentkezése elfogadásra került.<br/>
-                     <br/>
-                     Gratulálunk!                     
-                     <br/>
-                     <br/>
-                     Üdvözlettel:<br/>
-                     Vállalkozz Itthon
+                     A Vállalkozz Itthon Junior (GINOP-5.2.2.) programra történő jelentkezésedet örömmel fogadtuk.<br/>
+                     <br/> 
+Kérjük, kísérd figyelemmel a www.vallalkozzitthonjunior.hu oldalunkat, illetve figyeld a megadott e-mail címedet!
+Előfordulhat, hogy leveleink a Spam/Levélszemét mappába érkeznek.<br/>
+<br/>
+Ha kérdésed van, írj az ugyfelszolgalat@vallalkozzitthon.hu e-mail címre, vagy hívd a korlátozottan elérhető 1-794-4545-ös telefonszámot!<br/>
+<br/> 
+Bízunk benne, hogy rövidesen személyesen találkozunk a vállalkozói képzésen!<br/>
+<br/>
+Üdvözlettel:<br/>
+Vállalkozz Itthon Junior projekt csapata
 
                      `
                     }, (err, info)=> {
