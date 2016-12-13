@@ -4,7 +4,7 @@ import TestFiller from '../test/TestFiller';
 import * as actions from '../../actions';
 
 import _ from 'lodash';
-import {Checkbox} from 'react-bootstrap';
+import {Checkbox, Button} from 'react-bootstrap';
 import ContentTitle from '../common/ContentTitle';
 import Content from '../common/Content';
 import toastr from 'toastr';
@@ -20,8 +20,6 @@ class SignupFinalizeView extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = { checked: false };
-    this.onAcceptClick = this.onAcceptClick.bind(this);
   }
 
   componentWillMount() {
@@ -32,9 +30,9 @@ class SignupFinalizeView extends Component {
     if (this.props.currentTurn.id) {
       this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id)
           .then((turn)=> {
-            this.setState({
-              checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
-            });
+            // this.setState({
+            //   checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
+            // });
           });
     }
   }
@@ -44,45 +42,42 @@ class SignupFinalizeView extends Component {
     if (nextProps.currentTurn.id !== this.props.currentTurn.id) {
       this.props.getUserTurn(this.props.params.user_id, nextProps.currentTurn.id)
           .then((turn)=> {
-            this.setState({
-              checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
-            });
+            // this.setState({
+            //   checked: this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED]
+            // });
           });
 
 
     }
   }
 
-  onAcceptClick(e) {
+  onAcceptClick=(e) =>{
+    this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
+        .then(()=> {
+          return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
+        })
+        .then(()=> {
+          toastr.success('A jelentkezés elfogadva.');
+        })
+        .then(()=> {
+          this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id);
+        });
+  }
 
-    if (e.target.checked) {
-      this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
-          .then(()=> {
-            return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
-          })
-          .then(()=> {
-            toastr.success('A jelentkezés elfogadva.');
-          })
-          .then(()=> {
-            this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id);
-          });
-      this.setState({ checked: true });
-    } else {
-      this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
-          .then(()=> {
-            return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_FINALIZED);
-          })
-          .then(()=> {
-            return this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
-          })
-          .then(()=> {
-            toastr.success('A nyilatkozat elutasítva.');
-          })
-          .then(()=> {
-            this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id);
-          });
-      this.setState({ checked: false });
-    }
+  onDenyClick=(e) => {
+    this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_COMPLETED)
+        .then(()=> {
+          return this.props.removeProgress(this.props.userturn.id, progressTypes.SIGNUP_FINALIZED);
+        })
+        .then(()=> {
+          return this.props.setProgress(this.props.userturn.id, progressTypes.SIGNUP_REJECTED);
+        })
+        .then(()=> {
+          toastr.success('A nyilatkozat elutasítva.');
+        })
+        .then(()=> {
+          this.props.getUserTurn(this.props.params.user_id, this.props.currentTurn.id);
+        });
   }
 
   render() {
@@ -98,14 +93,17 @@ class SignupFinalizeView extends Component {
           < div className="alert alert-success">
             <strong >A jelentkezési kérelem
               {this.props.userturn.progress[progressTypes.SIGNUP_COMPLETED] ? ' elfogadva' : ' elküldve'}.
-
             </strong>
           </div>
           <br/>
-          <div>
-            <Checkbox onClick={this.onAcceptClick} checked={this.state.checked}>
-              Jelentkezés elfogadva
-            </Checkbox>
+
+          <div className="row">
+            <Button bsStyle="success" onClick={this.onAcceptClick}
+                    disabled={this.props.progress[progressTypes.SIGNUP_COMPLETED]}><i className="fa fa-check"></i>
+              &nbsp;Jelentkezés elfogadása</Button>
+            <Button bsStyle="danger" onClick={this.onDenyClick}
+                    disabled={this.props.progress[progressTypes.SIGNUP_REJECTED]}><i className="fa fa-reply"></i>
+              &nbsp;Visszaküldés módosításra</Button>
           </div>
         </div>
         }
@@ -115,6 +113,15 @@ class SignupFinalizeView extends Component {
         <div>
           <div className="alert alert-success">
             <strong>A felhasználó még nem véglegesítette a jelentkezését.</strong>
+          </div>
+        </div>
+        }
+
+        {this.props.progress[progressTypes.SIGNUP_REJECTED] &&
+
+        <div>
+          <div className="alert alert-warning">
+            <strong>A jelentkezés vissza lett küldve módosításra.</strong>
           </div>
         </div>
         }
