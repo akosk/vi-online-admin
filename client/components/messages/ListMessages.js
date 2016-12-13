@@ -30,7 +30,14 @@ const ListMessages = ({ messages }) => {
             <div className="message-content message-right">
               <div className="message-arrow"></div>
               <div style={{marginTop:24}}>
-                {message.message}
+                {message.message && message.message.split('\n').map(function(item) {
+                  return (
+                  <span>
+                  {item}
+                  <br/>
+                  </span>
+                  )
+                })}
               </div>
               <div style={{
                 position:'absolute',
