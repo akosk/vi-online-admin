@@ -11,6 +11,39 @@ import {validateSignupFinalize} from '../../common/validation';
 import log from '../lib/nodelogger';
 import nodemailer from 'nodemailer';
 
+
+const emailSignupCompleted=`
+                     Kedves Jelentkező!<br/>
+                     <br/>
+                     A Vállalkozz Itthon Junior (GINOP-5.2.2.) programra történő jelentkezésedet örömmel fogadtuk.<br/>
+                     <br/> 
+Kérjük, kísérd figyelemmel a www.vallalkozzitthonjunior.hu oldalunkat, illetve figyeld a megadott e-mail címedet!
+Előfordulhat, hogy leveleink a Spam/Levélszemét mappába érkeznek.<br/>
+<br/>
+Ha kérdésed van, írj az ugyfelszolgalat@vallalkozzitthon.hu e-mail címre, vagy hívd a korlátozottan elérhető 1-794-4545-ös telefonszámot!<br/>
+<br/> 
+Bízunk benne, hogy rövidesen személyesen találkozunk a vállalkozói képzésen!<br/>
+<br/>
+Üdvözlettel:<br/>
+Vállalkozz Itthon Junior projekt csapata
+
+                     `;
+
+const emailSignupRejected=`
+Kedves Jelentkező!<br/>
+<br/>
+A Vállalkozz Itthon Junior (GINOP-5.2.2.) programra történő jelentkezési lapodon mielőbbi módosítást kérünk!<br/>
+A http://ginop522.vallalkozzitthon.hu oldalon Bejelentkezés után kattints a bal oldalon a Véglegesítés menüpontra, majd végezd el az oldal alján kért módosításokat!<br/>
+Ezt követően ellenőrizd az összes megadott adatodat, ha szükséges, pontosítsd azokat ügyelve a helyesírásra, majd a Jelentkezés véglegesítése gombra kattintva véglegesítsd újra a jelentkezésed!<br/>
+Ha kérdésed van, írj az ugyfelszolgalat@vallalkozzitthon.hu e-mail címre, vagy hívd a korlátozottan elérhető 1-794-4545-ös telefonszámot!<br/>
+<br/> 
+Várjuk mielőbb jelentkezésed véglegesítését!<br/> 
+<br/>
+<br/>
+Üdvözlettel:<br/>
+Vállalkozz Itthon Junior projekt csapata<br/>
+                     `;
+
 class UserturnController {
 
 
@@ -57,22 +90,18 @@ class UserturnController {
                       from: 'admin@vallalkozzitthon.hu',
                       to: user.email,
                       subject: 'Jelentkezés elfogadása',
-                      html: `
-                     Kedves Jelentkező!<br/>
-                     <br/>
-                     A Vállalkozz Itthon Junior (GINOP-5.2.2.) programra történő jelentkezésedet örömmel fogadtuk.<br/>
-                     <br/> 
-Kérjük, kísérd figyelemmel a www.vallalkozzitthonjunior.hu oldalunkat, illetve figyeld a megadott e-mail címedet!
-Előfordulhat, hogy leveleink a Spam/Levélszemét mappába érkeznek.<br/>
-<br/>
-Ha kérdésed van, írj az ugyfelszolgalat@vallalkozzitthon.hu e-mail címre, vagy hívd a korlátozottan elérhető 1-794-4545-ös telefonszámot!<br/>
-<br/> 
-Bízunk benne, hogy rövidesen személyesen találkozunk a vállalkozói képzésen!<br/>
-<br/>
-Üdvözlettel:<br/>
-Vállalkozz Itthon Junior projekt csapata
-
-                     `
+                      html: emailSignupCompleted
+                    }, (err, info)=> {
+                      log.debug('Email sent.', info);
+                    });
+                  }
+                  if (progress === progressTypes.SIGNUP_REJECTED) {
+                    const transporter = nodemailer.createTransport(config.smtp);
+                    transporter.sendMail({
+                      from: 'admin@vallalkozzitthon.hu',
+                      to: user.email,
+                      subject: 'Jelentkezés módosítási kérelem',
+                      html: emailSignupRejected
                     }, (err, info)=> {
                       log.debug('Email sent.', info);
                     });
